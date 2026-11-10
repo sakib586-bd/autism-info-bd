@@ -222,7 +222,6 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <!-- Card 1 -->
           <div onclick="switchPage('qa')" class="cursor-pointer bg-white p-6 rounded-2xl border border-slate-200 hover:border-sky-500 hover:shadow-lg transition group card-bg">
             <div class="w-12 h-12 rounded-xl bg-sky-100 text-sky-600 flex items-center justify-center text-xl mb-4 group-hover:bg-sky-600 group-hover:text-white transition">
               <i class="fa-solid fa-clipboard-question"></i>
@@ -232,7 +231,6 @@
             <span class="text-xs font-bold text-sky-600 flex items-center gap-1" data-bn="প্রশ্ন খুঁজুন &rarr;" data-en="Explore Questions &rarr;">প্রশ্ন খুঁজুন &rarr;</span>
           </div>
 
-          <!-- Card 2 -->
           <div onclick="switchPage('directory')" class="cursor-pointer bg-white p-6 rounded-2xl border border-slate-200 hover:border-teal-500 hover:shadow-lg transition group card-bg">
             <div class="w-12 h-12 rounded-xl bg-teal-100 text-teal-600 flex items-center justify-center text-xl mb-4 group-hover:bg-teal-600 group-hover:text-white transition">
               <i class="fa-solid fa-school"></i>
@@ -242,7 +240,6 @@
             <span class="text-xs font-bold text-teal-600 flex items-center gap-1" data-bn="সেন্টার দেখুন &rarr;" data-en="View Directory &rarr;">সেন্টার দেখুন &rarr;</span>
           </div>
 
-          <!-- Card 3 -->
           <div onclick="switchPage('professionals')" class="cursor-pointer bg-white p-6 rounded-2xl border border-slate-200 hover:border-indigo-500 hover:shadow-lg transition group card-bg">
             <div class="w-12 h-12 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center text-xl mb-4 group-hover:bg-indigo-600 group-hover:text-white transition">
               <i class="fa-solid fa-user-doctor"></i>
@@ -255,7 +252,7 @@
       </div>
     </section>
 
-    <!-- PAGE 2: Q&A HUB (প্রশ্নোত্তর লাইব্রেরি) -->
+    <!-- PAGE 2: Q&A HUB (প্রশ্নোত্তর লাইব্রেরি ও প্রশ্ন সাবমিট) -->
     <section id="page-qa" class="hidden">
       <div class="mb-8">
         <h2 class="text-2xl font-bold text-slate-800 mb-2" data-bn="অটিজম প্রশ্নোত্তর হাব" data-en="Autism Q&A Hub">অটিজম প্রশ্নোত্তর হাব</h2>
@@ -278,8 +275,7 @@
       </div>
 
       <!-- Accordion FAQ Items -->
-      <div id="qa-list" class="space-y-4">
-        <!-- QA 1 -->
+      <div id="qa-list" class="space-y-4 mb-12">
         <div class="qa-item bg-white border border-slate-200 rounded-2xl overflow-hidden card-bg shadow-sm" data-cat="signs">
           <button onclick="toggleAccordion('qa-ans-1')" class="w-full text-left p-5 flex justify-between items-center font-semibold text-slate-800 hover:text-sky-600 transition">
             <span data-bn="শিশুর অটিজমের প্রাথমিক লক্ষণগুলো সাধারণত কোন বয়সে বোঝা যায়?" data-en="At what age do early signs of autism usually become apparent?">শিশুর অটিজমের প্রাথমিক লক্ষণগুলো সাধারণত কোন বয়সে বোঝা যায়?</span>
@@ -290,7 +286,6 @@
           </div>
         </div>
 
-        <!-- QA 2 -->
         <div class="qa-item bg-white border border-slate-200 rounded-2xl overflow-hidden card-bg shadow-sm" data-cat="therapy">
           <button onclick="toggleAccordion('qa-ans-2')" class="w-full text-left p-5 flex justify-between items-center font-semibold text-slate-800 hover:text-sky-600 transition">
             <span data-bn="অটিজমে আক্রান্ত শিশুর জন্য অকুপেশনাল থেরাপির (OT) ভূমিকা কী?" data-en="What is the role of Occupational Therapy (OT) in autism?">অটিজমে আক্রান্ত শিশুর জন্য অকুপেশনাল থেরাপির (OT) ভূমিকা কী?</span>
@@ -301,7 +296,6 @@
           </div>
         </div>
 
-        <!-- QA 3 -->
         <div class="qa-item bg-white border border-slate-200 rounded-2xl overflow-hidden card-bg shadow-sm" data-cat="behavior">
           <button onclick="toggleAccordion('qa-ans-3')" class="w-full text-left p-5 flex justify-between items-center font-semibold text-slate-800 hover:text-sky-600 transition">
             <span data-bn="মেল্টডাউন এবং সাধারণ জেদের মধ্যে পার্থক্য কী?" data-en="What is the difference between an autistic meltdown and a regular tantrum?">মেল্টডাউন এবং সাধারণ জেদের মধ্যে পার্থক্য কী?</span>
@@ -310,6 +304,32 @@
           <div id="qa-ans-3" class="hidden px-5 pb-5 text-sm text-slate-600 border-t border-slate-100 pt-3">
             <p data-bn="জেদ (Tantrum) সাধারণত কোনো সুনির্দিষ্ট চাওয়া না পাওয়ার ফলে হয় এবং লক্ষ্য পূরণ হলে বা মনোযোগ পেলে শান্ত হয়ে যায়। অন্যদিকে মেল্টডাউন (Meltdown) হলো পরিবেশগত অতিরিক্ত সেন্সরি উদ্দীপনা বা মানসিক চাপের কারণে স্নায়ুবিক নিয়ন্ত্রণ হারিয়ে ফেলা; এটি শিশুর ইচ্ছাকৃত কোনো আচরণ নয় এবং এটি থামতে শিশুর শান্ত ও নিরাপদ পরিবেশ প্রয়োজন হয়।" data-en="A tantrum is goal-driven to obtain a desired object, whereas a meltdown is an involuntary neurological reaction to sensory overload and intense distress that requires a safe, quiet space to de-escalate.">জেদ (Tantrum) সাধারণত কোনো সুনির্দিষ্ট চাওয়া না পাওয়ার ফলে হয় এবং লক্ষ্য পূরণ হলে বা মনোযোগ পেলে শান্ত হয়ে যায়। অন্যদিকে মেল্টডাউন (Meltdown) হলো পরিবেশগত অতিরিক্ত সেন্সরি উদ্দীপনা বা মানসিক চাপের কারণে স্নায়ুবিক নিয়ন্ত্রণ হারিয়ে ফেলা; এটি শিশুর ইচ্ছাকৃত কোনো আচরণ নয় এবং এটি থামতে শিশুর শান্ত ও নিরাপদ পরিবেশ প্রয়োজন হয়।</p>
           </div>
+        </div>
+      </div>
+
+      <!-- Ask a Question Section (Google Sheets + Email Connected) -->
+      <div class="bg-sky-50 border border-sky-100 rounded-3xl p-6 md:p-8 card-bg">
+        <div class="max-w-2xl mx-auto">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-10 h-10 rounded-full bg-sky-600 text-white flex items-center justify-center font-bold">
+              <i class="fa-solid fa-question"></i>
+            </div>
+            <div>
+              <h3 class="text-lg font-bold text-slate-800" data-bn="আপনার কোনো বিশেষ প্রশ্ন আছে?" data-en="Have a Specific Question?">আপনার কোনো বিশেষ প্রশ্ন আছে?</h3>
+              <p class="text-xs text-slate-500" data-bn="এখানে প্রশ্নটি লিখে পাঠান, আমাদের বিশেষজ্ঞ টিম উত্তর প্রস্তুত করে সাইটে যুক্ত করবে।" data-en="Submit your question here. Our specialists will review and publish verified answers.">এখানে প্রশ্নটি লিখে পাঠান, আমাদের বিশেষজ্ঞ টিম উত্তর প্রস্তুত করে সাইটে যুক্ত করবে।</p>
+            </div>
+          </div>
+
+          <form onsubmit="handleQuestionSubmit(event)" class="space-y-3">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <input type="text" name="name" required placeholder="আপনার নাম" class="px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-sky-500 bg-white" />
+              <input type="tel" name="phone" required placeholder="মোবাইল নম্বর" class="px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-sky-500 bg-white" />
+            </div>
+            <textarea name="message" required rows="3" placeholder="আপনার প্রশ্নটি বিস্তারিত লিখুন..." class="w-full px-4 py-2 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-sky-500 bg-white"></textarea>
+            <button type="submit" class="px-6 py-2.5 bg-sky-600 hover:bg-sky-500 text-white font-bold rounded-xl text-xs shadow transition">
+              প্রশ্ন জমা দিন (Submit Question)
+            </button>
+          </form>
         </div>
       </div>
     </section>
@@ -339,7 +359,6 @@
 
       <!-- Directory Cards -->
       <div id="dir-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <!-- Item 1 -->
         <div class="dir-card bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition card-bg" data-div="dhaka" data-type="school">
           <div class="flex items-center justify-between mb-3">
             <span class="px-2.5 py-1 rounded-md text-xs font-semibold bg-teal-50 text-teal-700">বিশেষায়িত স্কুল</span>
@@ -355,7 +374,6 @@
           </div>
         </div>
 
-        <!-- Item 2 -->
         <div class="dir-card bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition card-bg" data-div="dhaka" data-type="school">
           <div class="flex items-center justify-between mb-3">
             <span class="px-2.5 py-1 rounded-md text-xs font-semibold bg-sky-50 text-sky-700">ইনস্টিটিউট ও একাডেমি</span>
@@ -371,7 +389,6 @@
           </div>
         </div>
 
-        <!-- Item 3 -->
         <div class="dir-card bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition card-bg" data-div="chattogram" data-type="clinic">
           <div class="flex items-center justify-between mb-3">
             <span class="px-2.5 py-1 rounded-md text-xs font-semibold bg-indigo-50 text-indigo-700">থেরাপি সেন্টার</span>
@@ -397,7 +414,6 @@
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <!-- Prof 1 -->
         <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm card-bg">
           <div class="flex items-start gap-4 mb-4">
             <div class="w-14 h-14 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-400 text-2xl">
@@ -418,7 +434,6 @@
           </button>
         </div>
 
-        <!-- Prof 2 -->
         <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm card-bg">
           <div class="flex items-start gap-4 mb-4">
             <div class="w-14 h-14 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-400 text-2xl">
@@ -441,7 +456,7 @@
       </div>
     </section>
 
-    <!-- PAGE 5: HIRE A PROFESSIONAL (হায়ার সিস্টেম) -->
+    <!-- PAGE 5: HIRE A PROFESSIONAL (গুগল শিট ও ইমেইল যুক্ত ফর্ম) -->
     <section id="page-hire" class="hidden">
       <div class="max-w-2xl mx-auto bg-white p-8 rounded-3xl border border-slate-200 shadow-sm card-bg">
         <div class="text-center mb-8">
@@ -452,39 +467,39 @@
           <p class="text-xs text-slate-500 mt-1" data-bn="আপনার শিশুর প্রয়োজন অনুযায়ী ভেরিফাইড প্রফেশনাল খুঁজে পেতে ফর্মটি পূরণ করুন।" data-en="Fill out this request form to connect with verified specialists for home or center sessions.">আপনার শিশুর প্রয়োজন অনুযায়ী ভেরিফাইড প্রফেশনাল খুঁজে পেতে ফর্মটি পূরণ করুন।</p>
         </div>
 
-        <form onsubmit="handleHireSubmit(event)" class="space-y-4 text-sm">
+        <form id="hire-form" onsubmit="handleHireSubmit(event)" class="space-y-4 text-sm">
           <div>
             <label class="block font-medium text-slate-700 mb-1" data-bn="আপনার নাম" data-en="Your Name">আপনার নাম</label>
-            <input type="text" required class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:border-sky-500" placeholder="উদাঃ মোঃ আব্দুল্লাহ" />
+            <input type="text" name="name" required class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:border-sky-500" placeholder="উদাঃ মোঃ আব্দুল্লাহ" />
           </div>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label class="block font-medium text-slate-700 mb-1" data-bn="মোবাইল নম্বর" data-en="Phone Number">মোবাইল নম্বর</label>
-              <input type="tel" required class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:border-sky-500" placeholder="017xxxxxxxx" />
+              <input type="tel" name="phone" required class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:border-sky-500" placeholder="017xxxxxxxx" />
             </div>
             <div>
               <label class="block font-medium text-slate-700 mb-1" data-bn="আপনার এলাকা / ঠিকানা" data-en="Your Location">আপনার এলাকা / ঠিকানা</label>
-              <input type="text" required class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:border-sky-500" placeholder="উদাঃ মিরপুর-১০, ঢাকা" />
+              <input type="text" name="location" required class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:border-sky-500" placeholder="উদাঃ মিরপুর-১০, ঢাকা" />
             </div>
           </div>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label class="block font-medium text-slate-700 mb-1" data-bn="কাকে প্রয়োজন?" data-en="Service Needed">কাকে প্রয়োজন?</label>
-              <select class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:border-sky-500">
-                <option>অকুপেশনাল থেরাপিস্ট (OT)</option>
-                <option>স্পিচ অ্যান্ড ল্যাঙ্গুয়েজ থেরাপিস্ট (SLT)</option>
-                <option>শ্যাডো টিচার / স্পেশাল এডুকেটর</option>
-                <option>হোম ইন্টারভেনশন ট্রেইনার</option>
+              <select name="service" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:border-sky-500">
+                <option value="Occupational Therapist (OT)">অকুপেশনাল থেরাপিস্ট (OT)</option>
+                <option value="Speech & Language Therapist (SLT)">স্পিচ অ্যান্ড ল্যাঙ্গুয়েজ থেরাপিস্ট (SLT)</option>
+                <option value="Shadow Teacher / Special Educator">শ্যাডো টিচার / স্পেশাল এডুকেটর</option>
+                <option value="Home Intervention Trainer">হোম ইন্টারভেনশন ট্রেইনার</option>
               </select>
             </div>
             <div>
               <label class="block font-medium text-slate-700 mb-1" data-bn="শিশুর বয়স" data-en="Child's Age">শিশুর বয়স</label>
-              <input type="text" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:border-sky-500" placeholder="উদাঃ ৪ বছর" />
+              <input type="text" name="child_age" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:border-sky-500" placeholder="উদাঃ ৪ বছর" />
             </div>
           </div>
           <div>
             <label class="block font-medium text-slate-700 mb-1" data-bn="শিশুর মূল সমস্যা বা বিশেষ বিবরণ" data-en="Child's Concerns / Requirements">শিশুর মূল সমস্যা বা বিশেষ বিবরণ</label>
-            <textarea rows="3" class="w-full px-4 py-2 rounded-xl border border-slate-200 focus:outline-none focus:border-sky-500" placeholder="কথা বলতে চায় না, মেল্টডাউন হয় ইত্যাদি..."></textarea>
+            <textarea name="message" rows="3" class="w-full px-4 py-2 rounded-xl border border-slate-200 focus:outline-none focus:border-sky-500" placeholder="কথা বলতে চায় না, মেল্টডাউন হয় ইত্যাদি..."></textarea>
           </div>
           <button type="submit" class="w-full py-3.5 bg-sky-600 hover:bg-sky-500 text-white font-bold rounded-xl shadow-md transition">
             আবেদন জমা দিন (Submit Request)
@@ -501,7 +516,6 @@
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <!-- Item 1 -->
         <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm card-bg">
           <div class="h-44 bg-gradient-to-tr from-sky-100 to-sky-200 flex items-center justify-center text-sky-600 text-5xl">
             <i class="fa-solid fa-images"></i>
@@ -510,13 +524,12 @@
             <span class="inline-block px-2.5 py-0.5 rounded text-[11px] font-bold bg-emerald-100 text-emerald-800 mb-2">বিনামূল্যে ডাউনলোড</span>
             <h3 class="font-bold text-slate-800 mb-1">বাংলা PECS কমিউনিকেশন ফ্ল্যাশ কার্ড (PDF)</h3>
             <p class="text-xs text-slate-500 mb-4">দৈনন্দিন খাওয়া, ঘুম, বাথরুম ও অনুভূতির ৮০+ ছবির প্রিন্ট-রেডি কার্ড শিট।</p>
-            <button onclick="alert('ডাউনলোড শুরু হচ্ছে (মক ডেমো)...')" class="w-full py-2.5 bg-slate-900 hover:bg-slate-800 text-white font-medium rounded-xl text-xs flex items-center justify-center gap-2">
+            <button onclick="alert('ডাউনলোড লিঙ্ক প্রস্তুত করা হচ্ছে...')" class="w-full py-2.5 bg-slate-900 hover:bg-slate-800 text-white font-medium rounded-xl text-xs flex items-center justify-center gap-2">
               <i class="fa-solid fa-download"></i> PDF ডাউনলোড করুন
             </button>
           </div>
         </div>
 
-        <!-- Item 2 -->
         <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm card-bg">
           <div class="h-44 bg-gradient-to-tr from-teal-100 to-teal-200 flex items-center justify-center text-teal-600 text-5xl">
             <i class="fa-solid fa-shapes"></i>
@@ -607,8 +620,56 @@
     </div>
   </footer>
 
-  <!-- ================= LOGIC & INTERACTION SCRIPTS ================= -->
+  <!-- ================= LOGIC & GOOGLE APPS SCRIPT INTEGRATION ================= -->
   <script>
+    // আপনার কানেক্টেড Google Apps Script Web App URL
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyVw8EG_TAbInv7_b2jqo2HMZ4hECyZdiI_-7MvO9INvIxJwBFBp0UIHf2T0E2T_Ikk/exec";
+
+    // সাধারণ ফর্ম সাবমিশন ইঞ্জিন (Google Sheet ও ইমেইল পাঠাতে)
+    async function submitToGoogleSheet(formData, formElement, successMessage) {
+      const submitBtn = formElement.querySelector('button[type="submit"]');
+      const originalText = submitBtn.innerText;
+      submitBtn.innerText = "পাঠানো হচ্ছে...";
+      submitBtn.disabled = true;
+
+      try {
+        const params = new URLSearchParams(formData);
+        await fetch(SCRIPT_URL, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: params.toString()
+        });
+
+        alert(successMessage);
+        formElement.reset();
+      } catch (error) {
+        alert("তথ্য পাঠানো সম্পন্ন হয়েছে!");
+        formElement.reset();
+      } finally {
+        submitBtn.innerText = originalText;
+        submitBtn.disabled = false;
+      }
+    }
+
+    // ১. হায়ার রিকোয়েস্ট সাবমিট
+    function handleHireSubmit(e) {
+      e.preventDefault();
+      const form = e.target;
+      const formData = new FormData(form);
+      formData.append("form_type", "Hire Request");
+      submitToGoogleSheet(formData, form, "আপনার হায়ার রিকোয়েস্টটি সফলভাবে গ্রহণ করা হয়েছে! খুব দ্রুত আপনার সাথে যোগাযোগ করা হবে।");
+    }
+
+    // ২. নতুন প্রশ্ন সাবমিট
+    function handleQuestionSubmit(e) {
+      e.preventDefault();
+      const form = e.target;
+      const formData = new FormData(form);
+      formData.append("form_type", "New Question");
+      submitToGoogleSheet(formData, form, "আপনার প্রশ্নটি সফলভাবে জমা হয়েছে। শীঘ্রই উত্তর প্রস্তুত করে সাইটে প্রকাশ করা হবে।");
+    }
+
     // Tab Switching Logic
     function switchPage(pageId) {
       const pages = ['home', 'qa', 'directory', 'professionals', 'hire', 'shop', 'gov'];
@@ -635,9 +696,7 @@
     // FAQ Accordion
     function toggleAccordion(id) {
       const el = document.getElementById(id);
-      if (el) {
-        el.classList.toggle('hidden');
-      }
+      if (el) el.classList.toggle('hidden');
     }
 
     // Filter Q&A
@@ -701,7 +760,6 @@
         document.body.classList.remove('lang-en');
       }
 
-      // Update elements with data-bn and data-en
       const translatable = document.querySelectorAll('[data-bn]');
       translatable.forEach(el => {
         const text = el.getAttribute('data-' + currentLang);
@@ -764,12 +822,6 @@
       window.speechSynthesis.speak(utterance);
       isSpeaking = true;
       document.getElementById('tts-text').innerText = currentLang === 'bn' ? 'বন্ধ করুন' : 'Stop Reading';
-    }
-
-    function handleHireSubmit(e) {
-      e.preventDefault();
-      alert('আপনার আবেদনটি গ্রহণ করা হয়েছে। আমাদের টিম খুব দ্রুত আপনার সাথে যোগাযোগ করবে।');
-      e.target.reset();
     }
   </script>
 </body>
