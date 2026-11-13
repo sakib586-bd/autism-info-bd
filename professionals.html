@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ডাক্তার ও থেরাপিস্ট ডিরেক্টরি | Autism.info.bd</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>body { font-family: 'Hind Siliguri', sans-serif; }</style>
+</head>
+<body class="bg-gray-50 text-gray-800 antialiased min-h-screen flex flex-col">
+
+    <!-- হেডার -->
+    <header class="bg-white border-b border-gray-100 shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <a href="/" class="flex items-center gap-3">
+                    <div class="w-11 h-11 bg-gradient-to-tr from-teal-500 to-emerald-600 rounded-xl flex items-center justify-center text-white text-xl font-bold shadow-md">👨‍⚕️</div>
+                    <div>
+                        <span class="text-xl font-black text-slate-900 block leading-none">Autism<span class="text-teal-600">.info.bd</span></span>
+                        <span class="text-[11px] text-slate-500 mt-1 block">ডাক্তার ও থেরাপিস্ট হাব</span>
+                    </div>
+                </a>
+                <a href="/admin.html" target="_blank" class="text-xs bg-teal-50 text-teal-700 font-bold px-3 py-1.5 rounded-lg border border-teal-100 transition hover:bg-teal-100">+ প্রোফাইল যোগ করুন</a>
+            </div>
+
+            <!-- মেনু লিংকসমূহ -->
+            <nav class="flex items-center gap-1 sm:gap-6 overflow-x-auto py-2.5 border-t border-gray-100 text-sm font-semibold text-gray-600 whitespace-nowrap scrollbar-none">
+                <a href="/" class="hover:text-blue-600 transition px-2 py-1">হোম</a>
+                <a href="/qa.html" class="hover:text-blue-600 transition px-2 py-1">প্রশ্নোত্তর হাব</a>
+                <a href="/directory.html" class="hover:text-blue-600 transition px-2 py-1">প্রতিষ্ঠান ও স্কুল</a>
+                <a href="/professionals.html" class="text-teal-600 pb-1 border-b-2 border-teal-600 px-2 py-1">ডাক্তার ও থেরাপিস্ট</a>
+                <a href="/hire.html" class="hover:text-blue-600 transition px-2 py-1">হায়ার করুন</a>
+                <a href="/shop.html" class="hover:text-blue-600 transition px-2 py-1">বই ও রিসোর্স শপ</a>
+                <a href="/suborno.html" class="hover:text-blue-600 transition px-2 py-1">সুবর্ণ কার্ড গাইড</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full">
+        <div class="bg-white p-6 sm:p-8 rounded-3xl border border-gray-200 shadow-sm mb-8">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                    <span class="text-xs font-bold px-3 py-1 bg-teal-50 text-teal-700 rounded-md">প্রফেশনাল ডিরেক্টরি</span>
+                    <h1 class="text-2xl md:text-3xl font-black text-gray-900 mt-2">বিশেষজ্ঞ ডাক্তার ও সার্টিফাইড থেরাপিস্টগণ</h1>
+                    <p class="text-xs text-gray-500 mt-1">সরাসরি যোগাযোগের ঠিকানা ও অ্যাপয়েন্টমেন্ট তথ্য</p>
+                </div>
+                <div class="flex flex-col sm:flex-row gap-3">
+                    <input type="text" id="proSearch" oninput="handleProSearch()" placeholder="নাম, জেলা বা পদবী দিয়ে খুঁজুন..." class="px-4 py-2 border border-gray-200 rounded-xl text-xs focus:outline-none focus:border-teal-600">
+                    <select id="proRoleFilter" onchange="handleProSearch()" class="px-3 py-2 border border-gray-200 rounded-xl text-xs bg-white focus:outline-none">
+                        <option value="All">সকল স্পেশালিটি</option>
+                        <option value="Occupational Therapist">Occupational Therapist (OT)</option>
+                        <option value="Speech Therapist">Speech Therapist (SLT)</option>
+                        <option value="Child Psychiatrist">Child Psychiatrist</option>
+                        <option value="Child Neurologist">Child Neurologist</option>
+                        <option value="Special Educator">Special Educator</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div id="professionals-cards" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <p class="col-span-full text-center py-12 text-gray-400 text-sm">তথ্য লোড হচ্ছে...</p>
+        </div>
+    </main>
+
+    <footer class="bg-slate-950 text-slate-400 py-8 text-xs text-center border-t border-slate-900 mt-auto">
+        <p>© 2026 সর্বস্বত্ব সংরক্ষিত | autism.info.bd</p>
+    </footer>
+
+    <script>
+        const SUPABASE_URL = 'https://nemgvzmhyidnbdxwqrvi.supabase.co';
+        const SUPABASE_KEY = 'sb_publishable_PrhWBDkEc7WyIL25SF66uQ_8DGUUhJ_';
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        let proList = [];
+
+        async function loadProfessionals() {
+            const container = document.getElementById('professionals-cards');
+            try {
+                const { data, error } = await supabaseClient.from('professionals').select('*').order('created_at', { ascending: false });
+                if (error) throw error;
+                proList = data || [];
+                renderPro(proList);
+            } catch (err) {
+                container.innerHTML = '<p class="col-span-full text-center py-8 text-red-500 text-sm">তথ্য লোড করা যায়নি।</p>';
+            }
+        }
+
+        function renderPro(items) {
+            const container = document.getElementById('professionals-cards');
+            if (!container) return;
+            if (items.length === 0) {
+                container.innerHTML = '<p class="col-span-full text-center py-12 text-gray-400 text-sm">কোনো প্রফেশনাল পাওয়া যায়নি।</p>';
+                return;
+            }
+
+            container.innerHTML = items.map(pro => `
+                <div class="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition duration-300 flex flex-col justify-between">
+                    <div>
+                        <span class="text-xs font-bold px-3 py-1 rounded-full bg-teal-50 text-teal-700 border border-teal-100">${pro.role}</span>
+                        <h3 class="text-lg font-bold text-gray-900 mt-3 mb-1">${pro.name}</h3>
+                        <p class="text-xs text-teal-700 font-medium mb-3">${pro.qualifications || ''}</p>
+                        
+                        <div class="space-y-1.5 text-xs text-gray-600 mb-6">
+                            <p><strong>বর্তমান প্রতিষ্ঠান:</strong> ${pro.workplace || 'ব্যক্তিগত চেম্বার'}</p>
+                            ${pro.chamber_address ? `<p><strong>চেম্বার:</strong> ${pro.chamber_address}</p>` : ''}
+                        </div>
+                    </div>
+                    <div class="pt-4 border-t border-gray-100 flex items-center justify-between mt-auto">
+                        <span class="text-xs text-gray-400">${pro.district}</span>
+                        <a href="tel:${pro.phone}" class="text-xs font-bold text-teal-600 hover:text-teal-700">📞 কল দিন (${pro.phone})</a>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function handleProSearch() {
+            const query = document.getElementById('proSearch').value.trim().toLowerCase();
+            const role = document.getElementById('proRoleFilter').value;
+
+            let filtered = proList;
+            if (role !== 'All') filtered = filtered.filter(p => p.role === role);
+            if (query) {
+                filtered = filtered.filter(p => 
+                    (p.name && p.name.toLowerCase().includes(query)) ||
+                    (p.district && p.district.toLowerCase().includes(query)) ||
+                    (p.workplace && p.workplace.toLowerCase().includes(query))
+                );
+            }
+            renderPro(filtered);
+        }
+
+        document.addEventListener('DOMContentLoaded', loadProfessionals);
+    </script>
+</body>
+</html>
