@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Autism.info.bd | সেন্ট্রাল অ্যাডমিন পোর্টাল</title>
+    <title>Autism.info.bd | সেন্ট্রাল অ্যাডমিন প্যানেল</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -11,14 +11,14 @@
 </head>
 <body class="bg-slate-100 text-slate-800 antialiased min-h-screen">
 
-    <!-- সিক্রেট লগইন স্ক্রিন -->
+    <!-- সিক্রেট লগইন পিন স্ক্রিন -->
     <div id="login-modal" class="fixed inset-0 bg-slate-900/90 backdrop-blur-sm flex items-center justify-center p-4 z-50">
         <div class="bg-white rounded-3xl p-8 max-w-sm w-full text-center shadow-2xl border border-slate-100">
             <div class="w-14 h-14 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-4 border border-blue-100">🔐</div>
             <h2 class="text-xl font-bold text-slate-900 mb-1">অ্যাডমিন প্রবেশদ্বার</h2>
-            <p class="text-xs text-slate-500 mb-6">সেন্ট্রাল কন্ট্রোল প্যানেলে প্রবেশ করতে পাসওয়ার্ড দিন</p>
+            <p class="text-xs text-slate-500 mb-6">কন্ট্রোল প্যানেলে প্রবেশ করতে পাসওয়ার্ড দিন</p>
             <input type="password" id="admin-pin" placeholder="••••••••" class="w-full px-4 py-3 border border-slate-200 rounded-xl text-center text-xl font-bold tracking-widest focus:outline-none focus:border-blue-600 mb-4 bg-slate-50">
-            <button onclick="checkAccess()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl transition shadow-md shadow-blue-500/20 text-sm">ড্যাশবোর্ডে প্রবেশ করুন</button>
+            <button onclick="checkAccess()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl transition shadow-md shadow-blue-500/20 text-sm">প্রবেশ করুন</button>
             <p id="error-msg" class="text-xs text-red-500 mt-3 hidden font-medium">ভুল পাসওয়ার্ড! আবার চেষ্টা করুন।</p>
         </div>
     </div>
@@ -32,7 +32,7 @@
                     <span class="text-2xl">🧩</span>
                     <div>
                         <h1 class="text-sm font-bold tracking-tight">Autism.info.bd <span class="text-blue-400">Master Admin</span></h1>
-                        <p class="text-[10px] text-slate-400">সকল পেজ ও ডিরেক্টরি ডেটা ম্যানেজমেন্ট</p>
+                        <p class="text-[10px] text-slate-400">সকল পেজ ও ডিরেক্টরি ম্যানেজমেন্ট (এন্ট্রি ও ডিলিট)</p>
                     </div>
                 </div>
                 <div class="flex items-center gap-3">
@@ -44,10 +44,10 @@
 
         <div class="max-w-7xl mx-auto px-4 py-8 flex-1 w-full grid grid-cols-1 md:grid-cols-4 gap-6">
             
-            <!-- সাইডবার মেনু / ক্যাটাগরি সুইচ -->
+            <!-- সাইডবার মেনু -->
             <aside class="md:col-span-1 space-y-2">
                 <div class="bg-white p-3 rounded-2xl border border-slate-200 shadow-sm space-y-1">
-                    <div class="px-3 py-2 text-[11px] font-extrabold uppercase tracking-wider text-slate-400">ক্যাটাগরি নির্বাচন করুন</div>
+                    <div class="px-3 py-2 text-[11px] font-extrabold uppercase tracking-wider text-slate-400">মডিউল নির্বাচন করুন</div>
                     
                     <button onclick="switchTab('tab-dir')" id="btn-tab-dir" class="tab-btn w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-bold transition flex items-center gap-2.5 bg-blue-50 text-blue-700 border border-blue-100">
                         <span>🏫</span> প্রতিষ্ঠান ও স্কুল ডিরেক্টরি
@@ -66,28 +66,27 @@
                     </button>
                 </div>
 
-                <!-- কুইক স্ট্যাটাস -->
                 <div class="bg-blue-900 text-blue-100 p-4 rounded-2xl shadow-sm text-xs space-y-2">
-                    <p class="font-bold text-white flex items-center gap-1.5">⚡ রিয়েল-টাইম কানেক্টেড</p>
-                    <p class="text-blue-200/80 leading-relaxed">এখানে সাবমিট করার সাথে সাথেই ডেটা সুপাবেসে জমা হবে এবং সাইটে ভিজিটররা দেখতে পাবেন।</p>
+                    <p class="font-bold text-white flex items-center gap-1.5">⚡ রিয়েল-টাইম সিন্ক</p>
+                    <p class="text-blue-200/80 leading-relaxed">এখানে সাবমিট বা ডিলিট করার সাথে সাথেই ডেটাবেজ ও মূল সাইট স্বয়ংক্রিয়ভাবে আপডেট হয়ে যাবে।</p>
                 </div>
             </aside>
 
-            <!-- ফর্ম ও কনটেন্ট এরিয়া -->
+            <!-- মূল কনটেন্ট এরিয়া -->
             <main class="md:col-span-3">
 
-                <!-- ১. প্রতিষ্ঠান / স্কুল ডিরেক্টরি ফর্ম -->
+                <!-- ১. প্রতিষ্ঠান / স্কুল ডিরেক্টরি -->
                 <div id="tab-dir" class="tab-content bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm">
                     <div class="border-b border-slate-100 pb-4 mb-6">
                         <span class="text-xs font-bold text-blue-600 bg-blue-50 px-2.5 py-1 rounded-md">মডিউল ১</span>
-                        <h2 class="text-lg font-bold text-slate-900 mt-2">প্রতিষ্ঠান, স্কুল বা থেরাপি সেন্টার এন্ট্রি</h2>
-                        <p class="text-xs text-slate-500">দেশজুড়ে বিশেষায়িত প্রতিষ্ঠানসমূহের প্রোফাইল যুক্ত করুন।</p>
+                        <h2 class="text-lg font-bold text-slate-900 mt-2">নতুন প্রতিষ্ঠান বা সেন্টার এন্ট্রি</h2>
+                        <p class="text-xs text-slate-500">বিশেষায়িত স্কুল বা সেন্টারের তথ্য সরাসরি ডাটাবেজে যুক্ত করুন।</p>
                     </div>
 
                     <form onsubmit="handleDirectorySubmit(event)" class="space-y-4">
                         <div>
                             <label class="block text-xs font-bold text-slate-700 mb-1">প্রতিষ্ঠানের পূর্ণ নাম *</label>
-                            <input type="text" id="dir_title" required placeholder="যেমন: প্রয়াস বিশেষায়িত শিক্ষা প্রতিষ্ঠান" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-600">
+                            <input type="text" id="dir_title" required placeholder="যেমন: সি এস কেয়ার প্রায়োরিটি স্কুল" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-600">
                         </div>
 
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -109,7 +108,7 @@
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-xs font-bold text-slate-700 mb-1">এলাকা / থানা *</label>
-                                <input type="text" id="dir_area" required placeholder="যেমন: মিরপুর, উত্তরা, ঢাকা সেনানিবাস" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-600">
+                                <input type="text" id="dir_area" required placeholder="যেমন: মিরপুর-১১, উত্তরা" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-600">
                             </div>
                             <div>
                                 <label class="block text-xs font-bold text-slate-700 mb-1">যোগাযোগ নম্বর *</label>
@@ -124,21 +123,32 @@
 
                         <div class="flex items-center gap-2 pt-2">
                             <input type="checkbox" id="dir_verified" checked class="w-4 h-4 text-blue-600 rounded">
-                            <label for="dir_verified" class="text-xs font-medium text-slate-700">যাচাইকৃত প্রতিষ্ঠান (Verified Badge দেখাবে)</label>
+                            <label for="dir_verified" class="text-xs font-medium text-slate-700">ভেরিফাইড ব্যাজ (Verified Badge দেখাবে)</label>
                         </div>
 
                         <button type="submit" id="dir_btn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl transition shadow-md shadow-blue-500/10 text-sm">
                             পাবলিশ করুন
                         </button>
                     </form>
+
+                    <!-- লাইভ তালিকা ও ডিলিট সেকশন -->
+                    <div class="mt-10 border-t border-slate-100 pt-6">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-sm font-bold text-slate-900">বর্তমানে সাইটে থাকা প্রতিষ্ঠানসমূহ</h3>
+                            <button onclick="loadAdminDirectories()" class="text-xs text-blue-600 font-bold hover:underline">🔄 রিফ্রেশ</button>
+                        </div>
+                        <div id="admin-dir-list" class="space-y-2.5">
+                            <p class="text-xs text-slate-400 py-3">লোড হচ্ছে...</p>
+                        </div>
+                    </div>
                 </div>
 
-                <!-- ২. থেরাপিস্ট ও ডাক্তার প্রোফাইল ফর্ম -->
+                <!-- ২. থেরাপিস্ট ও ডাক্তার প্রোফাইল -->
                 <div id="tab-pro" class="tab-content hidden bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm">
                     <div class="border-b border-slate-100 pb-4 mb-6">
                         <span class="text-xs font-bold text-teal-600 bg-teal-50 px-2.5 py-1 rounded-md">মডিউল ২</span>
-                        <h2 class="text-lg font-bold text-slate-900 mt-2">থেরাপিস্ট, ডাক্তার ও প্রফেশনাল এন্ট্রি</h2>
-                        <p class="text-xs text-slate-500">বিশেষজ্ঞ চিকিৎসক ও থেরাপিস্টদের প্রোফাইল যুক্ত করুন।</p>
+                        <h2 class="text-lg font-bold text-slate-900 mt-2">থেরাপিস্ট ও ডাক্তার এন্ট্রি</h2>
+                        <p class="text-xs text-slate-500">বিশেষজ্ঞ থেরাপিস্ট ও চিকিৎসকদের প্রোফাইল যুক্ত করুন।</p>
                     </div>
 
                     <form onsubmit="handleProfessionalSubmit(event)" class="space-y-4">
@@ -161,13 +171,13 @@
 
                         <div>
                             <label class="block text-xs font-bold text-slate-700 mb-1">শিক্ষাগত যোগ্যতা ও ডিগ্রি *</label>
-                            <input type="text" id="pro_qualifications" required placeholder="যেমন: BSc in Occupational Therapy (DU), RBT Certified" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-teal-600">
+                            <input type="text" id="pro_qualifications" required placeholder="যেমন: BSc in OT (DU), RBT Certified" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-teal-600">
                         </div>
 
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div>
-                                <label class="block text-xs font-bold text-slate-700 mb-1">বর্তমান কর্মক্ষেত্র / প্রতিষ্ঠান</label>
-                                <input type="text" id="pro_workplace" placeholder="যেমন: ঢাকা মেডিকেল / সি এস কেয়ার" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-teal-600">
+                                <label class="block text-xs font-bold text-slate-700 mb-1">বর্তমান কর্মক্ষেত্র</label>
+                                <input type="text" id="pro_workplace" placeholder="যেমন: সি এস কেয়ার / ঢাকা মেডিকেল" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-teal-600">
                             </div>
                             <div>
                                 <label class="block text-xs font-bold text-slate-700 mb-1">জেলা *</label>
@@ -177,7 +187,7 @@
 
                         <div>
                             <label class="block text-xs font-bold text-slate-700 mb-1">চেম্বার ঠিকানা ও রোগী দেখার সময়</label>
-                            <input type="text" id="pro_chamber" placeholder="যেমন: চেম্বার- মিরপুর ১০, শনি-বুধ বিকাল ৫টা - রাত ৮টা" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-teal-600">
+                            <input type="text" id="pro_chamber" placeholder="যেমন: মিরপুর ১০, শনি-বুধ বিকাল ৫টা - রাত ৮টা" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-teal-600">
                         </div>
 
                         <div>
@@ -189,20 +199,31 @@
                             প্রোফাইল লাইভ সেভ করুন
                         </button>
                     </form>
+
+                    <!-- লাইভ তালিকা ও ডিলিট সেকশন -->
+                    <div class="mt-10 border-t border-slate-100 pt-6">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-sm font-bold text-slate-900">বর্তমানে সাইটে থাকা প্রফেশনালগণ</h3>
+                            <button onclick="loadAdminProfessionals()" class="text-xs text-teal-600 font-bold hover:underline">🔄 রিফ্রেশ</button>
+                        </div>
+                        <div id="admin-pro-list" class="space-y-2.5">
+                            <p class="text-xs text-slate-400 py-3">লোড হচ্ছে...</p>
+                        </div>
+                    </div>
                 </div>
 
-                <!-- ৩. প্রশ্নোত্তর লাইব্রেরি ফর্ম -->
+                <!-- ৩. প্রশ্নোত্তর লাইব্রেরি -->
                 <div id="tab-qa" class="tab-content hidden bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm">
                     <div class="border-b border-slate-100 pb-4 mb-6">
                         <span class="text-xs font-bold text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-md">মডিউল ৩</span>
                         <h2 class="text-lg font-bold text-slate-900 mt-2">প্রশ্নোত্তর জ্ঞানভাণ্ডার এন্ট্রি</h2>
-                        <p class="text-xs text-slate-500">অভিভাবকদের জন্য নির্ভরযোগ্য প্রশ্ন ও উত্তর যুক্ত করুন।</p>
+                        <p class="text-xs text-slate-500">অভিভাবকদের প্রয়োজনীয় প্রশ্নোত্তর যুক্ত ও ম্যানেজ করুন।</p>
                     </div>
 
                     <form onsubmit="handleQASubmit(event)" class="space-y-4">
                         <div>
                             <label class="block text-xs font-bold text-slate-700 mb-1">প্রশ্ন *</label>
-                            <input type="text" id="qa_question" required placeholder="যেমন: সেন্সরি ওভারলোড হলে বাচ্চার আচরণ কেমন হয়?" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-indigo-600">
+                            <input type="text" id="qa_question" required placeholder="যেমন: অটিজমের প্রাথমিক লক্ষণ কী কী?" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-indigo-600">
                         </div>
 
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -218,7 +239,7 @@
                             </div>
                             <div>
                                 <label class="block text-xs font-bold text-slate-700 mb-1">ট্যাগ (কমা দিয়ে লিখুন)</label>
-                                <input type="text" id="qa_tags" placeholder="যেমন: সেন্সরি, মেল্টডাউন, থেরাপি" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-indigo-600">
+                                <input type="text" id="qa_tags" placeholder="যেমন: লক্ষণ, বয়স, রেড ফ্ল্যাগ" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-indigo-600">
                             </div>
                         </div>
 
@@ -231,21 +252,32 @@
                             প্রশ্নোত্তর পাবলিশ করুন
                         </button>
                     </form>
+
+                    <!-- লাইভ তালিকা ও ডিলিট সেকশন -->
+                    <div class="mt-10 border-t border-slate-100 pt-6">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-sm font-bold text-slate-900">বর্তমানে থাকা প্রশ্নোত্তরসমূহ</h3>
+                            <button onclick="loadAdminQA()" class="text-xs text-indigo-600 font-bold hover:underline">🔄 রিফ্রেশ</button>
+                        </div>
+                        <div id="admin-qa-list" class="space-y-2.5">
+                            <p class="text-xs text-slate-400 py-3">লোড হচ্ছে...</p>
+                        </div>
+                    </div>
                 </div>
 
-                <!-- ৪. অভিভাবকদের হায়ার রিকোয়েস্ট ভিউয়ার -->
+                <!-- ৪. অভিভাবকদের হায়ার রিকোয়েস্ট -->
                 <div id="tab-hire" class="tab-content hidden bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm">
                     <div class="border-b border-slate-100 pb-4 mb-6 flex justify-between items-center">
                         <div>
                             <span class="text-xs font-bold text-amber-600 bg-amber-50 px-2.5 py-1 rounded-md">মডিউল ৪</span>
                             <h2 class="text-lg font-bold text-slate-900 mt-2">অভিভাবকদের হায়ার আবেদনসমূহ</h2>
-                            <p class="text-xs text-slate-500">হোম থেরাপিস্ট বা শ্যাডো টিচারের জন্য জমা পড়া রিকোয়েস্ট তালিকা।</p>
+                            <p class="text-xs text-slate-500">হোম থেরাপিস্ট বা শ্যাডো টিচারের জন্য জমা পড়া রিকোয়েস্ট।</p>
                         </div>
                         <button onclick="loadHireRequests()" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-lg font-bold transition">🔄 রিফ্রেশ</button>
                     </div>
 
                     <div id="hire-list-container" class="space-y-3">
-                        <p class="text-center text-sm text-slate-400 py-6">তথ্য লোড হচ্ছে...</p>
+                        <p class="text-center text-xs text-slate-400 py-6">তথ্য লোড হচ্ছে...</p>
                     </div>
                 </div>
 
@@ -259,6 +291,7 @@
         const SUPABASE_KEY = 'sb_publishable_PrhWBDkEc7WyIL25SF66uQ_8DGUUhJ_';
         const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+        // লগইন যাচাই
         function checkAccess() {
             if (document.getElementById('admin-pin').value === ADMIN_SECRET) {
                 sessionStorage.setItem('isAdminLoggedIn', 'true');
@@ -271,6 +304,7 @@
         function showDashboard() {
             document.getElementById('login-modal').classList.add('hidden');
             document.getElementById('admin-panel').classList.remove('hidden');
+            loadAdminDirectories();
         }
 
         function logout() {
@@ -282,6 +316,7 @@
             showDashboard();
         }
 
+        // ট্যাব পরিবর্তন
         function switchTab(tabId) {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
             document.getElementById(tabId).classList.remove('hidden');
@@ -291,10 +326,13 @@
             });
             document.getElementById('btn-' + tabId).className = 'tab-btn w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-bold transition flex items-center gap-2.5 bg-blue-50 text-blue-700 border border-blue-100';
 
+            if (tabId === 'tab-dir') loadAdminDirectories();
+            if (tabId === 'tab-pro') loadAdminProfessionals();
+            if (tabId === 'tab-qa') loadAdminQA();
             if (tabId === 'tab-hire') loadHireRequests();
         }
 
-        // ১. ডিরেক্টরি সাবমিট
+        // ১. প্রতিষ্ঠান সাবমিট
         async function handleDirectorySubmit(e) {
             e.preventDefault();
             const btn = document.getElementById('dir_btn');
@@ -313,13 +351,42 @@
             };
 
             const { error } = await supabaseClient.from('directories').insert([payload]);
-            if (error) alert('ত্রুটি: ' + error.message);
-            else { alert('প্রতিষ্ঠান সফলভাবে ডাটাবেজে যুক্ত হয়েছে!'); e.target.reset(); }
+            if (error) {
+                alert('ত্রুটি: ' + error.message);
+            } else { 
+                alert('প্রতিষ্ঠান সফলভাবে ডাটাবেজে যুক্ত হয়েছে!'); 
+                e.target.reset(); 
+                loadAdminDirectories();
+            }
             btn.innerText = 'পাবলিশ করুন';
             btn.disabled = false;
         }
 
-        // ২. প্রফেশনাল ও থেরাপিস্ট সাবমিট
+        // প্রতিষ্ঠান তালিকা লোড
+        async function loadAdminDirectories() {
+            const list = document.getElementById('admin-dir-list');
+            list.innerHTML = '<p class="text-xs text-slate-400 py-3">লোড হচ্ছে...</p>';
+
+            const { data, error } = await supabaseClient.from('directories').select('*').order('created_at', { ascending: false });
+            if (error || !data || data.length === 0) {
+                list.innerHTML = '<p class="text-xs text-slate-500 py-3">কোনো প্রতিষ্ঠান পাওয়া যায়নি।</p>';
+                return;
+            }
+
+            list.innerHTML = data.map(item => `
+                <div class="flex items-center justify-between p-3.5 bg-slate-50 rounded-2xl border border-slate-200/80">
+                    <div>
+                        <p class="text-xs font-bold text-slate-900">${item.title}</p>
+                        <p class="text-[11px] text-slate-500 mt-0.5">${item.category} • ${item.area || item.district} • ${item.phone || 'ফোন নেই'}</p>
+                    </div>
+                    <button onclick="deleteRecord('directories', '${item.id}')" class="text-xs bg-red-50 hover:bg-red-100 text-red-600 font-bold px-3 py-1.5 rounded-xl border border-red-200 transition">
+                        🗑️ মুছুন
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        // ২. প্রফেশনাল সাবমিট
         async function handleProfessionalSubmit(e) {
             e.preventDefault();
             const btn = document.getElementById('pro_btn');
@@ -338,10 +405,39 @@
             };
 
             const { error } = await supabaseClient.from('professionals').insert([payload]);
-            if (error) alert('ত্রুটি: ' + error.message);
-            else { alert('প্রফেশনাল প্রোফাইল সফলভাবে তৈরি হয়েছে!'); e.target.reset(); }
+            if (error) {
+                alert('ত্রুটি: ' + error.message);
+            } else { 
+                alert('প্রফেশনাল প্রোফাইল সফলভাবে তৈরি হয়েছে!'); 
+                e.target.reset(); 
+                loadAdminProfessionals();
+            }
             btn.innerText = 'প্রোফাইল লাইভ সেভ করুন';
             btn.disabled = false;
+        }
+
+        // প্রফেশনাল তালিকা লোড
+        async function loadAdminProfessionals() {
+            const list = document.getElementById('admin-pro-list');
+            list.innerHTML = '<p class="text-xs text-slate-400 py-3">লোড হচ্ছে...</p>';
+
+            const { data, error } = await supabaseClient.from('professionals').select('*').order('created_at', { ascending: false });
+            if (error || !data || data.length === 0) {
+                list.innerHTML = '<p class="text-xs text-slate-500 py-3">কোনো প্রফেশনাল পাওয়া যায়নি।</p>';
+                return;
+            }
+
+            list.innerHTML = data.map(item => `
+                <div class="flex items-center justify-between p-3.5 bg-slate-50 rounded-2xl border border-slate-200/80">
+                    <div>
+                        <p class="text-xs font-bold text-slate-900">${item.name}</p>
+                        <p class="text-[11px] text-slate-500 mt-0.5">${item.role} • ${item.district} • ${item.phone}</p>
+                    </div>
+                    <button onclick="deleteRecord('professionals', '${item.id}')" class="text-xs bg-red-50 hover:bg-red-100 text-red-600 font-bold px-3 py-1.5 rounded-xl border border-red-200 transition">
+                        🗑️ মুছুন
+                    </button>
+                </div>
+            `).join('');
         }
 
         // ৩. প্রশ্নোত্তর সাবমিট
@@ -360,20 +456,49 @@
             };
 
             const { error } = await supabaseClient.from('qa_library').insert([payload]);
-            if (error) alert('ত্রুটি: ' + error.message);
-            else { alert('প্রশ্নোত্তর সফলভাবে পাবলিশ হয়েছে!'); e.target.reset(); }
+            if (error) {
+                alert('ত্রুটি: ' + error.message);
+            } else { 
+                alert('প্রশ্নোত্তর সফলভাবে পাবলিশ হয়েছে!'); 
+                e.target.reset(); 
+                loadAdminQA();
+            }
             btn.innerText = 'প্রশ্নোত্তর পাবলিশ করুন';
             btn.disabled = false;
         }
 
-        // ৪. হায়ার রিকোয়েস্ট লোড করা
+        // প্রশ্নোত্তর তালিকা লোড
+        async function loadAdminQA() {
+            const list = document.getElementById('admin-qa-list');
+            list.innerHTML = '<p class="text-xs text-slate-400 py-3">লোড হচ্ছে...</p>';
+
+            const { data, error } = await supabaseClient.from('qa_library').select('*').order('created_at', { ascending: false });
+            if (error || !data || data.length === 0) {
+                list.innerHTML = '<p class="text-xs text-slate-500 py-3">কোনো প্রশ্নোত্তর পাওয়া যায়নি।</p>';
+                return;
+            }
+
+            list.innerHTML = data.map(item => `
+                <div class="flex items-center justify-between p-3.5 bg-slate-50 rounded-2xl border border-slate-200/80">
+                    <div class="pr-4">
+                        <p class="text-xs font-bold text-slate-900">${item.question}</p>
+                        <p class="text-[11px] text-indigo-600 font-medium mt-0.5">${item.category}</p>
+                    </div>
+                    <button onclick="deleteRecord('qa_library', '${item.id}')" class="text-xs bg-red-50 hover:bg-red-100 text-red-600 font-bold px-3 py-1.5 rounded-xl border border-red-200 transition shrink-0">
+                        🗑️ মুছুন
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        // ৪. হায়ার রিকোয়েস্ট লোড
         async function loadHireRequests() {
             const container = document.getElementById('hire-list-container');
             container.innerHTML = '<p class="text-center text-xs text-slate-400 py-4">তথ্য আনা হচ্ছে...</p>';
 
             const { data, error } = await supabaseClient.from('hire_requests').select('*').order('created_at', { ascending: false });
             if (error || !data || data.length === 0) {
-                container.innerHTML = '<p class="text-center text-xs text-slate-500 py-6">বর্তমানে কোনো নতুন আবেদন জমা নেই।</p>';
+                container.innerHTML = '<p class="text-center text-xs text-slate-500 py-6">বর্তমানে কোনো আবেদন জমা নেই।</p>';
                 return;
             }
 
@@ -384,14 +509,37 @@
                             <span class="text-xs font-bold text-slate-900">${item.parent_name}</span>
                             <span class="text-[10px] font-semibold bg-amber-100 text-amber-800 px-2 py-0.5 rounded">${item.service_needed}</span>
                         </div>
-                        <p class="text-xs text-slate-600">এলাকা: <strong>${item.location_area}</strong> | শিশুর বয়স: ${item.child_age || '-'} বছর</p>
+                        <p class="text-xs text-slate-600">এলাকা: <strong>${item.location_area}</strong> | বয়স: ${item.child_age || '-'} বছর</p>
                         ${item.child_concerns ? `<p class="text-xs text-slate-500 mt-1 italic">"${item.child_concerns}"</p>` : ''}
                     </div>
-                    <a href="tel:${item.phone}" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold px-3 py-2 rounded-xl transition shrink-0 flex items-center gap-1">
-                        📞 কল দিন (${item.phone})
-                    </a>
+                    <div class="flex items-center gap-2 shrink-0">
+                        <a href="tel:${item.phone}" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold px-3 py-2 rounded-xl transition flex items-center gap-1">
+                            📞 ${item.phone}
+                        </a>
+                        <button onclick="deleteRecord('hire_requests', '${item.id}')" class="text-xs bg-red-50 hover:bg-red-100 text-red-600 font-bold px-3 py-2 rounded-xl border border-red-200 transition">
+                            🗑️
+                        </button>
+                    </div>
                 </div>
             `).join('');
+        }
+
+        // ডিলিট একশন
+        async function deleteRecord(tableName, id) {
+            const ok = confirm('আপনি কি নিশ্চিত যে এই তথ্যটি মুছে ফেলতে চান? এটি মুছে দিলে মূল ওয়েবসাইট থেকেও তাৎক্ষণিকভাবে মুছে যাবে।');
+            if (!ok) return;
+
+            const { error } = await supabaseClient.from(tableName).delete().eq('id', id);
+
+            if (error) {
+                alert('মুছতে সমস্যা হয়েছে: ' + error.message);
+            } else {
+                alert('সফলভাবে মুছে ফেলা হয়েছে!');
+                if (tableName === 'directories') loadAdminDirectories();
+                if (tableName === 'professionals') loadAdminProfessionals();
+                if (tableName === 'qa_library') loadAdminQA();
+                if (tableName === 'hire_requests') loadHireRequests();
+            }
         }
     </script>
 </body>
