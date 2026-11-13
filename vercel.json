@@ -1,7 +1,17 @@
 {
   "rewrites": [
     {
-      "source": "/:path*",
+      "source": "/",
+      "has": [
+        {
+          "type": "host",
+          "value": "shop.autism.info.bd"
+        }
+      ],
+      "destination": "/shop.html"
+    },
+    {
+      "source": "/:match*",
       "has": [
         {
           "type": "host",
