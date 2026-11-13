@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Autism.info.bd | অ্যাডমিন ড্যাশবোর্ড</title>
+    <title>Autism.info.bd | সেন্ট্রাল অ্যাডমিন পোর্টাল</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -11,155 +11,256 @@
 </head>
 <body class="bg-slate-100 text-slate-800 antialiased min-h-screen">
 
-    <!-- সিক্রেট পিন/পাসওয়ার্ড স্ক্রিন -->
-    <div id="login-modal" class="fixed inset-0 bg-slate-900 flex items-center justify-center p-4 z-50">
-        <div class="bg-white rounded-2xl p-8 max-w-sm w-full text-center shadow-2xl">
-            <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center text-2xl mx-auto mb-4">🔐</div>
-            <h2 class="text-xl font-bold text-slate-900 mb-1">অ্যাডমিন অ্যাক্সেস</h2>
-            <p class="text-xs text-slate-500 mb-5">ড্যাশবোর্ডে প্রবেশ করতে আপনার সিক্রেট কোড দিন</p>
-            <input type="password" id="admin-pin" placeholder="পাসওয়ার্ড দিন" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-center text-lg font-bold tracking-widest focus:outline-none focus:border-blue-600 mb-4">
-            <button onclick="checkAccess()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 rounded-xl transition">প্রবেশ করুন</button>
-            <p id="error-msg" class="text-xs text-red-500 mt-3 hidden">ভুল পাসওয়ার্ড! আবার চেষ্টা করুন।</p>
+    <!-- সিক্রেট লগইন স্ক্রিন -->
+    <div id="login-modal" class="fixed inset-0 bg-slate-900/90 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-3xl p-8 max-w-sm w-full text-center shadow-2xl border border-slate-100">
+            <div class="w-14 h-14 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-4 border border-blue-100">🔐</div>
+            <h2 class="text-xl font-bold text-slate-900 mb-1">অ্যাডমিন প্রবেশদ্বার</h2>
+            <p class="text-xs text-slate-500 mb-6">সেন্ট্রাল কন্ট্রোল প্যানেলে প্রবেশ করতে পাসওয়ার্ড দিন</p>
+            <input type="password" id="admin-pin" placeholder="••••••••" class="w-full px-4 py-3 border border-slate-200 rounded-xl text-center text-xl font-bold tracking-widest focus:outline-none focus:border-blue-600 mb-4 bg-slate-50">
+            <button onclick="checkAccess()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl transition shadow-md shadow-blue-500/20 text-sm">ড্যাশবোর্ডে প্রবেশ করুন</button>
+            <p id="error-msg" class="text-xs text-red-500 mt-3 hidden font-medium">ভুল পাসওয়ার্ড! আবার চেষ্টা করুন।</p>
         </div>
     </div>
 
-    <!-- মূল অ্যাডমিন প্যানেল -->
-    <div id="admin-panel" class="hidden">
+    <!-- মূল অ্যাডমিন ইন্টারফেস -->
+    <div id="admin-panel" class="hidden min-h-screen flex flex-col">
         <!-- টপবার -->
-        <header class="bg-slate-900 text-white border-b border-slate-800 sticky top-0 z-30 shadow-sm">
-            <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+        <header class="bg-slate-900 text-white border-b border-slate-800 sticky top-0 z-40">
+            <div class="max-w-7xl mx-auto px-4 py-3.5 flex justify-between items-center">
                 <div class="flex items-center gap-3">
                     <span class="text-2xl">🧩</span>
                     <div>
-                        <h1 class="text-base font-bold">Autism.info.bd অ্যাডমিন</h1>
-                        <p class="text-[11px] text-slate-400">কনটেন্ট ও ডিরেক্টরি ম্যানেজমেন্ট</p>
+                        <h1 class="text-sm font-bold tracking-tight">Autism.info.bd <span class="text-blue-400">Master Admin</span></h1>
+                        <p class="text-[10px] text-slate-400">সকল পেজ ও ডিরেক্টরি ডেটা ম্যানেজমেন্ট</p>
                     </div>
                 </div>
                 <div class="flex items-center gap-3">
-                    <a href="/" target="_blank" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 px-3 py-1.5 rounded-lg border border-slate-700 transition">লাইভ সাইট দেখুন ↗</a>
+                    <a href="/" target="_blank" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 px-3.5 py-1.5 rounded-lg border border-slate-700 transition">লাইভ সাইট দেখুন ↗</a>
                     <button onclick="logout()" class="text-xs text-red-400 hover:text-red-300 font-bold px-2 py-1">লগআউট</button>
                 </div>
             </div>
         </header>
 
-        <main class="max-w-4xl mx-auto px-4 py-10">
-            <!-- ট্যাব বাটন -->
-            <div class="flex gap-2 p-1 bg-slate-200 rounded-xl max-w-md mx-auto mb-8 shadow-inner">
-                <button id="tab-dir-btn" onclick="switchTab('dir')" class="flex-1 py-2 text-xs font-bold rounded-lg bg-white text-blue-700 shadow-sm transition">প্রতিষ্ঠান / স্কুল এন্ট্রি</button>
-                <button id="tab-qa-btn" onclick="switchTab('qa')" class="flex-1 py-2 text-xs font-bold rounded-lg text-slate-600 hover:text-slate-900 transition">প্রশ্নোত্তর এন্ট্রি</button>
-            </div>
-
-            <!-- ফর্ম ১: প্রতিষ্ঠান / স্কুল ডিরেক্টরি এন্ট্রি -->
-            <div id="tab-dir" class="bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-slate-200">
-                <div class="border-b border-slate-100 pb-4 mb-6">
-                    <h2 class="text-lg font-bold text-slate-900">নতুন প্রতিষ্ঠান বা সেন্টার যুক্ত করুন</h2>
-                    <p class="text-xs text-slate-500 mt-0.5">তথ্য সাবমিট করলেই স্বয়ংক্রিয়ভাবে লাইভ সাইটের ডিরেক্টরি কার্ডে যুক্ত হবে।</p>
+        <div class="max-w-7xl mx-auto px-4 py-8 flex-1 w-full grid grid-cols-1 md:grid-cols-4 gap-6">
+            
+            <!-- সাইডবার মেনু / ক্যাটাগরি সুইচ -->
+            <aside class="md:col-span-1 space-y-2">
+                <div class="bg-white p-3 rounded-2xl border border-slate-200 shadow-sm space-y-1">
+                    <div class="px-3 py-2 text-[11px] font-extrabold uppercase tracking-wider text-slate-400">ক্যাটাগরি নির্বাচন করুন</div>
+                    
+                    <button onclick="switchTab('tab-dir')" id="btn-tab-dir" class="tab-btn w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-bold transition flex items-center gap-2.5 bg-blue-50 text-blue-700 border border-blue-100">
+                        <span>🏫</span> প্রতিষ্ঠান ও স্কুল ডিরেক্টরি
+                    </button>
+                    
+                    <button onclick="switchTab('tab-pro')" id="btn-tab-pro" class="tab-btn w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-bold transition flex items-center gap-2.5 text-slate-600 hover:bg-slate-50">
+                        <span>👨‍⚕️</span> থেরাপিস্ট ও ডাক্তার
+                    </button>
+                    
+                    <button onclick="switchTab('tab-qa')" id="btn-tab-qa" class="tab-btn w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-bold transition flex items-center gap-2.5 text-slate-600 hover:bg-slate-50">
+                        <span>💡</span> প্রশ্নোত্তর জ্ঞানভাণ্ডার
+                    </button>
+                    
+                    <button onclick="switchTab('tab-hire')" id="btn-tab-hire" class="tab-btn w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-bold transition flex items-center gap-2.5 text-slate-600 hover:bg-slate-50">
+                        <span>📋</span> অভিভাবকদের হায়ার রিকোয়েস্ট
+                    </button>
                 </div>
 
-                <form onsubmit="handleDirectorySubmit(event)" class="space-y-4">
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1">প্রতিষ্ঠানের নাম *</label>
-                        <input type="text" id="dir_title" required placeholder="যেমন: সি এস কেয়ার প্রায়োরিটি স্কুল" class="w-full px-4 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-600">
+                <!-- কুইক স্ট্যাটাস -->
+                <div class="bg-blue-900 text-blue-100 p-4 rounded-2xl shadow-sm text-xs space-y-2">
+                    <p class="font-bold text-white flex items-center gap-1.5">⚡ রিয়েল-টাইম কানেক্টেড</p>
+                    <p class="text-blue-200/80 leading-relaxed">এখানে সাবমিট করার সাথে সাথেই ডেটা সুপাবেসে জমা হবে এবং সাইটে ভিজিটররা দেখতে পাবেন।</p>
+                </div>
+            </aside>
+
+            <!-- ফর্ম ও কনটেন্ট এরিয়া -->
+            <main class="md:col-span-3">
+
+                <!-- ১. প্রতিষ্ঠান / স্কুল ডিরেক্টরি ফর্ম -->
+                <div id="tab-dir" class="tab-content bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm">
+                    <div class="border-b border-slate-100 pb-4 mb-6">
+                        <span class="text-xs font-bold text-blue-600 bg-blue-50 px-2.5 py-1 rounded-md">মডিউল ১</span>
+                        <h2 class="text-lg font-bold text-slate-900 mt-2">প্রতিষ্ঠান, স্কুল বা থেরাপি সেন্টার এন্ট্রি</h2>
+                        <p class="text-xs text-slate-500">দেশজুড়ে বিশেষায়িত প্রতিষ্ঠানসমূহের প্রোফাইল যুক্ত করুন।</p>
                     </div>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <form onsubmit="handleDirectorySubmit(event)" class="space-y-4">
                         <div>
-                            <label class="block text-xs font-bold text-slate-700 mb-1">ক্যাটাগরি *</label>
-                            <select id="dir_category" class="w-full px-4 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-600 bg-white">
-                                <option value="School">School (বিশেষ স্কুল)</option>
-                                <option value="Therapy Center">Therapy Center (থেরাপি সেন্টার)</option>
-                                <option value="Hospital">Hospital / Foundation (ফাউন্ডেশন/হাসপাতাল)</option>
-                                <option value="Daycare">Daycare (ডে-কেয়ার)</option>
-                            </select>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">প্রতিষ্ঠানের পূর্ণ নাম *</label>
+                            <input type="text" id="dir_title" required placeholder="যেমন: প্রয়াস বিশেষায়িত শিক্ষা প্রতিষ্ঠান" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-600">
                         </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">ধরণ / ক্যাটাগরি *</label>
+                                <select id="dir_category" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-600 bg-white">
+                                    <option value="School">School (বিশেষ স্কুল)</option>
+                                    <option value="Therapy Center">Therapy Center (থেরাপি সেন্টার)</option>
+                                    <option value="Hospital">Hospital / Foundation (ফাউন্ডেশন/হাসপাতাল)</option>
+                                    <option value="Daycare">Daycare (ডে-কেয়ার)</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">জেলা *</label>
+                                <input type="text" id="dir_district" required value="ঢাকা" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-600">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">এলাকা / থানা *</label>
+                                <input type="text" id="dir_area" required placeholder="যেমন: মিরপুর, উত্তরা, ঢাকা সেনানিবাস" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-600">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">যোগাযোগ নম্বর *</label>
+                                <input type="text" id="dir_phone" required placeholder="যেমন: ০১৯XXXXXXXX" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-600">
+                            </div>
+                        </div>
+
                         <div>
-                            <label class="block text-xs font-bold text-slate-700 mb-1">জেলা *</label>
-                            <input type="text" id="dir_district" required value="ঢাকা" class="w-full px-4 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-600">
+                            <label class="block text-xs font-bold text-slate-700 mb-1">বিস্তারিত ঠিকানা</label>
+                            <input type="text" id="dir_address" placeholder="রোড, বাড়ি নম্বর বা স্পষ্ট ল্যান্ডমার্ক..." class="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-600">
                         </div>
-                    </div>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-xs font-bold text-slate-700 mb-1">এলাকা / থানা</label>
-                            <input type="text" id="dir_area" placeholder="যেমন: মিরপুর-১১, উত্তরা, ধানমন্ডি" class="w-full px-4 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-600">
+                        <div class="flex items-center gap-2 pt-2">
+                            <input type="checkbox" id="dir_verified" checked class="w-4 h-4 text-blue-600 rounded">
+                            <label for="dir_verified" class="text-xs font-medium text-slate-700">যাচাইকৃত প্রতিষ্ঠান (Verified Badge দেখাবে)</label>
                         </div>
-                        <div>
-                            <label class="block text-xs font-bold text-slate-700 mb-1">যোগাযোগের ফোন নম্বর *</label>
-                            <input type="text" id="dir_phone" required placeholder="যেমন: ০১৯৫৯৪৯৪৩১৫" class="w-full px-4 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-600">
-                        </div>
-                    </div>
 
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1">সম্পূর্ণ ঠিকানা</label>
-                        <input type="text" id="dir_address" placeholder="রোড নম্বর, ব্লক, বাড়ির নম্বর..." class="w-full px-4 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-600">
-                    </div>
-
-                    <div class="flex items-center gap-2 pt-2">
-                        <input type="checkbox" id="dir_verified" checked class="w-4 h-4 text-blue-600 rounded">
-                        <label for="dir_verified" class="text-xs font-medium text-slate-700">ভেরিফাইড ব্যাজ (Verified Badge) দেখাবে</label>
-                    </div>
-
-                    <button type="submit" id="dir_btn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 rounded-xl transition shadow-sm mt-4 text-sm">
-                        সেভ ও লাইভ পাবলিশ করুন
-                    </button>
-                </form>
-            </div>
-
-            <!-- ফর্ম ২: প্রশ্নোত্তর (Q&A) এন্ট্রি -->
-            <div id="tab-qa" class="hidden bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-slate-200">
-                <div class="border-b border-slate-100 pb-4 mb-6">
-                    <h2 class="text-lg font-bold text-slate-900">নতুন প্রশ্নোত্তর যোগ করুন</h2>
-                    <p class="text-xs text-slate-500 mt-0.5">অভিভাবকদের জন্য প্রশ্নোত্তর হাবে সরাসরি প্রদর্শিত হবে।</p>
+                        <button type="submit" id="dir_btn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl transition shadow-md shadow-blue-500/10 text-sm">
+                            পাবলিশ করুন
+                        </button>
+                    </form>
                 </div>
 
-                <form onsubmit="handleQASubmit(event)" class="space-y-4">
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1">প্রশ্ন *</label>
-                        <input type="text" id="qa_question" required placeholder="যেমন: অটিজমের প্রাথমিক লক্ষণ কী কী?" class="w-full px-4 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-600">
+                <!-- ২. থেরাপিস্ট ও ডাক্তার প্রোফাইল ফর্ম -->
+                <div id="tab-pro" class="tab-content hidden bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm">
+                    <div class="border-b border-slate-100 pb-4 mb-6">
+                        <span class="text-xs font-bold text-teal-600 bg-teal-50 px-2.5 py-1 rounded-md">মডিউল ২</span>
+                        <h2 class="text-lg font-bold text-slate-900 mt-2">থেরাপিস্ট, ডাক্তার ও প্রফেশনাল এন্ট্রি</h2>
+                        <p class="text-xs text-slate-500">বিশেষজ্ঞ চিকিৎসক ও থেরাপিস্টদের প্রোফাইল যুক্ত করুন।</p>
                     </div>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-xs font-bold text-slate-700 mb-1">ক্যাটাগরি *</label>
-                            <select id="qa_category" class="w-full px-4 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-600 bg-white">
-                                <option value="লক্ষণ">লক্ষণ</option>
-                                <option value="থেরাপি">থেরাপি</option>
-                                <option value="আচরণ">আচরণ</option>
-                                <option value="ডায়েট">ডায়েট</option>
-                                <option value="সরকারি সেবা">সরকারি সেবা</option>
-                            </select>
+                    <form onsubmit="handleProfessionalSubmit(event)" class="space-y-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">প্রফেশনালের নাম *</label>
+                                <input type="text" id="pro_name" required placeholder="যেমন: ডাঃ মোহাম্মদ..." class="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-teal-600">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">পদবী / স্পেশালাইজেশন *</label>
+                                <select id="pro_role" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-teal-600 bg-white">
+                                    <option value="Occupational Therapist">Occupational Therapist (OT)</option>
+                                    <option value="Speech Therapist">Speech & Language Therapist (SLT)</option>
+                                    <option value="Child Psychiatrist">Child Psychiatrist (শিশু মানসিক রোগ বিশেষজ্ঞ)</option>
+                                    <option value="Child Neurologist">Child Neurologist (শিশু নিউরোলজিস্ট)</option>
+                                    <option value="Special Educator">Special Educator (বিশেষ শিক্ষক)</option>
+                                </select>
+                            </div>
                         </div>
+
                         <div>
-                            <label class="block text-xs font-bold text-slate-700 mb-1">ট্যাগসমূহ (কমা দিয়ে আলাদা করুন)</label>
-                            <input type="text" id="qa_tags" placeholder="যেমন: লক্ষণ, বয়স, স্ক্রিনিং" class="w-full px-4 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-600">
+                            <label class="block text-xs font-bold text-slate-700 mb-1">শিক্ষাগত যোগ্যতা ও ডিগ্রি *</label>
+                            <input type="text" id="pro_qualifications" required placeholder="যেমন: BSc in Occupational Therapy (DU), RBT Certified" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-teal-600">
                         </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">বর্তমান কর্মক্ষেত্র / প্রতিষ্ঠান</label>
+                                <input type="text" id="pro_workplace" placeholder="যেমন: ঢাকা মেডিকেল / সি এস কেয়ার" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-teal-600">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">জেলা *</label>
+                                <input type="text" id="pro_district" required value="ঢাকা" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-teal-600">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">চেম্বার ঠিকানা ও রোগী দেখার সময়</label>
+                            <input type="text" id="pro_chamber" placeholder="যেমন: চেম্বার- মিরপুর ১০, শনি-বুধ বিকাল ৫টা - রাত ৮টা" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-teal-600">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">সিরিয়াল বা যোগাযোগের নম্বর *</label>
+                            <input type="text" id="pro_phone" required placeholder="যেমন: ০১XXXXXXXXX" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-teal-600">
+                        </div>
+
+                        <button type="submit" id="pro_btn" class="w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 rounded-xl transition shadow-md shadow-teal-500/10 text-sm">
+                            প্রোফাইল লাইভ সেভ করুন
+                        </button>
+                    </form>
+                </div>
+
+                <!-- ৩. প্রশ্নোত্তর লাইব্রেরি ফর্ম -->
+                <div id="tab-qa" class="tab-content hidden bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm">
+                    <div class="border-b border-slate-100 pb-4 mb-6">
+                        <span class="text-xs font-bold text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-md">মডিউল ৩</span>
+                        <h2 class="text-lg font-bold text-slate-900 mt-2">প্রশ্নোত্তর জ্ঞানভাণ্ডার এন্ট্রি</h2>
+                        <p class="text-xs text-slate-500">অভিভাবকদের জন্য নির্ভরযোগ্য প্রশ্ন ও উত্তর যুক্ত করুন।</p>
                     </div>
 
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1">বিস্তারিত উত্তর *</label>
-                        <textarea id="qa_answer" required rows="4" placeholder="সহজ ভাষায় বৈজ্ঞানিক উত্তরটি লিখুন..." class="w-full px-4 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-600"></textarea>
+                    <form onsubmit="handleQASubmit(event)" class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">প্রশ্ন *</label>
+                            <input type="text" id="qa_question" required placeholder="যেমন: সেন্সরি ওভারলোড হলে বাচ্চার আচরণ কেমন হয়?" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-indigo-600">
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">ক্যাটাগরি *</label>
+                                <select id="qa_category" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-indigo-600 bg-white">
+                                    <option value="লক্ষণ">লক্ষণ</option>
+                                    <option value="থেরাপি">থেরাপি</option>
+                                    <option value="আচরণ">আচরণ</option>
+                                    <option value="ডায়েট">ডায়েট</option>
+                                    <option value="সরকারি সেবা">সরকারি সেবা</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">ট্যাগ (কমা দিয়ে লিখুন)</label>
+                                <input type="text" id="qa_tags" placeholder="যেমন: সেন্সরি, মেল্টডাউন, থেরাপি" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-indigo-600">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">সহজ ও বৈজ্ঞানিক উত্তর *</label>
+                            <textarea id="qa_answer" required rows="4" placeholder="অভিভাবকদের বোধগম্য ভাষায় সমাধান লিখুন..." class="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-indigo-600"></textarea>
+                        </div>
+
+                        <button type="submit" id="qa_btn" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-xl transition shadow-md shadow-indigo-500/10 text-sm">
+                            প্রশ্নোত্তর পাবলিশ করুন
+                        </button>
+                    </form>
+                </div>
+
+                <!-- ৪. অভিভাবকদের হায়ার রিকোয়েস্ট ভিউয়ার -->
+                <div id="tab-hire" class="tab-content hidden bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm">
+                    <div class="border-b border-slate-100 pb-4 mb-6 flex justify-between items-center">
+                        <div>
+                            <span class="text-xs font-bold text-amber-600 bg-amber-50 px-2.5 py-1 rounded-md">মডিউল ৪</span>
+                            <h2 class="text-lg font-bold text-slate-900 mt-2">অভিভাবকদের হায়ার আবেদনসমূহ</h2>
+                            <p class="text-xs text-slate-500">হোম থেরাপিস্ট বা শ্যাডো টিচারের জন্য জমা পড়া রিকোয়েস্ট তালিকা।</p>
+                        </div>
+                        <button onclick="loadHireRequests()" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-lg font-bold transition">🔄 রিফ্রেশ</button>
                     </div>
 
-                    <button type="submit" id="qa_btn" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2.5 rounded-xl transition shadow-sm mt-4 text-sm">
-                        প্রশ্নোত্তর সেভ ও পাবলিশ করুন
-                    </button>
-                </form>
-            </div>
-        </main>
+                    <div id="hire-list-container" class="space-y-3">
+                        <p class="text-center text-sm text-slate-400 py-6">তথ্য লোড হচ্ছে...</p>
+                    </div>
+                </div>
+
+            </main>
+        </div>
     </div>
 
     <script>
-        // সিক্রেট অ্যাডমিন পিন (আপনি চাইলে কোডে পরিবর্তন করতে পারেন)
         const ADMIN_SECRET = 'sakib123';
-
         const SUPABASE_URL = 'https://nemgvzmhyidnbdxwqrvi.supabase.co';
         const SUPABASE_KEY = 'sb_publishable_PrhWBDkEc7WyIL25SF66uQ_8DGUUhJ_';
         const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-        // লগইন চেক
         function checkAccess() {
-            const input = document.getElementById('admin-pin').value;
-            if (input === ADMIN_SECRET) {
+            if (document.getElementById('admin-pin').value === ADMIN_SECRET) {
                 sessionStorage.setItem('isAdminLoggedIn', 'true');
                 showDashboard();
             } else {
@@ -181,34 +282,26 @@
             showDashboard();
         }
 
-        // ট্যাব পরিবর্তন
-        function switchTab(tab) {
-            const dirTab = document.getElementById('tab-dir');
-            const qaTab = document.getElementById('tab-qa');
-            const dirBtn = document.getElementById('tab-dir-btn');
-            const qaBtn = document.getElementById('tab-qa-btn');
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.getElementById(tabId).classList.remove('hidden');
 
-            if (tab === 'dir') {
-                dirTab.classList.remove('hidden');
-                qaTab.classList.add('hidden');
-                dirBtn.className = "flex-1 py-2 text-xs font-bold rounded-lg bg-white text-blue-700 shadow-sm transition";
-                qaBtn.className = "flex-1 py-2 text-xs font-bold rounded-lg text-slate-600 hover:text-slate-900 transition";
-            } else {
-                dirTab.classList.add('hidden');
-                qaTab.classList.remove('hidden');
-                qaBtn.className = "flex-1 py-2 text-xs font-bold rounded-lg bg-white text-indigo-700 shadow-sm transition";
-                dirBtn.className = "flex-1 py-2 text-xs font-bold rounded-lg text-slate-600 hover:text-slate-900 transition";
-            }
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.className = 'tab-btn w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-bold transition flex items-center gap-2.5 text-slate-600 hover:bg-slate-50';
+            });
+            document.getElementById('btn-' + tabId).className = 'tab-btn w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-bold transition flex items-center gap-2.5 bg-blue-50 text-blue-700 border border-blue-100';
+
+            if (tabId === 'tab-hire') loadHireRequests();
         }
 
-        // ডিরেক্টরি সাবমিশন
+        // ১. ডিরেক্টরি সাবমিট
         async function handleDirectorySubmit(e) {
             e.preventDefault();
             const btn = document.getElementById('dir_btn');
-            btn.innerText = 'সংরক্ষণ করা হচ্ছে...';
+            btn.innerText = 'সেভ হচ্ছে...';
             btn.disabled = true;
 
-            const newEntry = {
+            const payload = {
                 title: document.getElementById('dir_title').value.trim(),
                 category: document.getElementById('dir_category').value,
                 division: 'ঢাকা',
@@ -219,45 +312,86 @@
                 is_verified: document.getElementById('dir_verified').checked
             };
 
-            const { data, error } = await supabaseClient.from('directories').insert([newEntry]);
-
-            if (error) {
-                alert('ত্রুটি হয়েছে: ' + error.message);
-            } else {
-                alert('অভিনন্দন! সফলভাবে যুক্ত হয়েছে এবং সরাসরি সাইটে লাইভ হয়ে গেছে।');
-                e.target.reset();
-            }
-            btn.innerText = 'সেভ ও লাইভ পাবলিশ করুন';
+            const { error } = await supabaseClient.from('directories').insert([payload]);
+            if (error) alert('ত্রুটি: ' + error.message);
+            else { alert('প্রতিষ্ঠান সফলভাবে ডাটাবেজে যুক্ত হয়েছে!'); e.target.reset(); }
+            btn.innerText = 'পাবলিশ করুন';
             btn.disabled = false;
         }
 
-        // প্রশ্নোত্তর সাবমিশন
+        // ২. প্রফেশনাল ও থেরাপিস্ট সাবমিট
+        async function handleProfessionalSubmit(e) {
+            e.preventDefault();
+            const btn = document.getElementById('pro_btn');
+            btn.innerText = 'সেভ হচ্ছে...';
+            btn.disabled = true;
+
+            const payload = {
+                name: document.getElementById('pro_name').value.trim(),
+                role: document.getElementById('pro_role').value,
+                qualifications: document.getElementById('pro_qualifications').value.trim(),
+                workplace: document.getElementById('pro_workplace').value.trim(),
+                district: document.getElementById('pro_district').value.trim(),
+                chamber_address: document.getElementById('pro_chamber').value.trim(),
+                phone: document.getElementById('pro_phone').value.trim(),
+                is_verified: true
+            };
+
+            const { error } = await supabaseClient.from('professionals').insert([payload]);
+            if (error) alert('ত্রুটি: ' + error.message);
+            else { alert('প্রফেশনাল প্রোফাইল সফলভাবে তৈরি হয়েছে!'); e.target.reset(); }
+            btn.innerText = 'প্রোফাইল লাইভ সেভ করুন';
+            btn.disabled = false;
+        }
+
+        // ৩. প্রশ্নোত্তর সাবমিট
         async function handleQASubmit(e) {
             e.preventDefault();
             const btn = document.getElementById('qa_btn');
-            btn.innerText = 'সংরক্ষণ করা হচ্ছে...';
+            btn.innerText = 'সেভ হচ্ছে...';
             btn.disabled = true;
 
             const tagsRaw = document.getElementById('qa_tags').value;
-            const tagsArray = tagsRaw ? tagsRaw.split(',').map(t => t.trim()) : [];
-
-            const newQA = {
+            const payload = {
                 question: document.getElementById('qa_question').value.trim(),
                 category: document.getElementById('qa_category').value,
                 answer: document.getElementById('qa_answer').value.trim(),
-                tags: tagsArray
+                tags: tagsRaw ? tagsRaw.split(',').map(t => t.trim()) : []
             };
 
-            const { data, error } = await supabaseClient.from('qa_library').insert([newQA]);
-
-            if (error) {
-                alert('ত্রুটি হয়েছে: ' + error.message);
-            } else {
-                alert('অভিনন্দন! প্রশ্নোত্তরটি সফলভাবে যুক্ত হয়েছে।');
-                e.target.reset();
-            }
-            btn.innerText = 'প্রশ্নোত্তর সেভ ও পাবলিশ করুন';
+            const { error } = await supabaseClient.from('qa_library').insert([payload]);
+            if (error) alert('ত্রুটি: ' + error.message);
+            else { alert('প্রশ্নোত্তর সফলভাবে পাবলিশ হয়েছে!'); e.target.reset(); }
+            btn.innerText = 'প্রশ্নোত্তর পাবলিশ করুন';
             btn.disabled = false;
+        }
+
+        // ৪. হায়ার রিকোয়েস্ট লোড করা
+        async function loadHireRequests() {
+            const container = document.getElementById('hire-list-container');
+            container.innerHTML = '<p class="text-center text-xs text-slate-400 py-4">তথ্য আনা হচ্ছে...</p>';
+
+            const { data, error } = await supabaseClient.from('hire_requests').select('*').order('created_at', { ascending: false });
+            if (error || !data || data.length === 0) {
+                container.innerHTML = '<p class="text-center text-xs text-slate-500 py-6">বর্তমানে কোনো নতুন আবেদন জমা নেই।</p>';
+                return;
+            }
+
+            container.innerHTML = data.map(item => `
+                <div class="p-4 rounded-2xl border border-slate-200 bg-slate-50/50 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+                    <div>
+                        <div class="flex items-center gap-2 mb-1">
+                            <span class="text-xs font-bold text-slate-900">${item.parent_name}</span>
+                            <span class="text-[10px] font-semibold bg-amber-100 text-amber-800 px-2 py-0.5 rounded">${item.service_needed}</span>
+                        </div>
+                        <p class="text-xs text-slate-600">এলাকা: <strong>${item.location_area}</strong> | শিশুর বয়স: ${item.child_age || '-'} বছর</p>
+                        ${item.child_concerns ? `<p class="text-xs text-slate-500 mt-1 italic">"${item.child_concerns}"</p>` : ''}
+                    </div>
+                    <a href="tel:${item.phone}" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold px-3 py-2 rounded-xl transition shrink-0 flex items-center gap-1">
+                        📞 কল দিন (${item.phone})
+                    </a>
+                </div>
+            `).join('');
         }
     </script>
 </body>
