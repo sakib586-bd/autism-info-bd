@@ -1,16 +1,19 @@
 {
   "cleanUrls": true,
   "trailingSlash": false,
-  "rewrites": [
+  "routes": [
     {
-      "source": "/:path*",
+      "src": "/(.*)",
       "has": [
         {
           "type": "host",
           "value": "shop.autism.info.bd"
         }
       ],
-      "destination": "/shop.html"
+      "dest": "/shop.html"
+    },
+    {
+      "handle": "filesystem"
     }
   ]
 }
