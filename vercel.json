@@ -1,24 +1,14 @@
 {
-  "rewrites": [
+  "routes": [
     {
-      "source": "/",
+      "src": "/(.*)",
       "has": [
         {
           "type": "host",
           "value": "shop.autism.info.bd"
         }
       ],
-      "destination": "/shop.html"
-    },
-    {
-      "source": "/:match*",
-      "has": [
-        {
-          "type": "host",
-          "value": "shop.autism.info.bd"
-        }
-      ],
-      "destination": "/shop.html"
+      "dest": "/shop.html"
     }
   ]
 }
