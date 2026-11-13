@@ -91,6 +91,10 @@
       </div>
       <div class="flex items-center space-x-3">
         <!-- Text Size Controls -->
+        <!-- যেখানে কার্ডগুলো লোড হবে -->
+<div id="directory-list-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <!-- এখানে জাভাস্ক্রিপ্ট স্বয়ংক্রিয়ভাবে কার্ড বসাবে -->
+</div>
         <div class="flex items-center space-x-1 border-r border-slate-700 pr-3">
           <span class="text-slate-400 mr-1" data-bn="টেক্সট সাইজ:" data-en="Text Size:">টেক্সট:</span>
           <button onclick="changeFontSize(-1)" class="px-2 py-0.5 bg-slate-800 hover:bg-slate-700 rounded text-xs font-bold" title="Decrease Font">A-</button>
@@ -836,22 +840,66 @@
 
   const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-  // ডাটাবেজ থেকে ডিরেক্টরি লোড করার টেস্ট ফাংশন
-  async function fetchDirectories() {
-      const { data, error } = await supabaseClient
-          .from('directories')
-          .select('*');
 
-      if (error) {
-          console.error('ডাটাবেজ কানেকশনে সমস্যা:', error.message);
-          return;
-      }
+// ডাটাবেজ থেকে ডিরেক্টরি লোড এবং পেজে রেন্ডার করার ফাংশন
+async function fetchAndRenderDirectories() {
+    const container = document.getElementById('directory-list-container');
+    if (!container) return;
 
-      console.log('সুপাবেস থেকে আসা লাইভ ডাটা:', data);
-  }
+    // প্রাথমিক লোডার
+    container.innerHTML = '<div class="col-span-full text-center py-8 text-gray-500 font-medium">লোড হচ্ছে...</div>';
 
-  // পেজ লোড হলেই কল হবে
-  fetchDirectories();
+    try {
+        const { data, error } = await supabaseClient
+            .from('directories')
+            .select('*')
+            .order('created_at', { ascending: false });
+
+        if (error) throw error;
+
+        if (!data || data.length === 0) {
+            container.innerHTML = '<div class="col-span-full text-center py-8 text-gray-500">কোনো তথ্য পাওয়া যায়নি।</div>';
+            return;
+        }
+
+        // ডায়নামিক কার্ড রেন্ডার
+        container.innerHTML = data.map(item => `
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-5 hover:shadow-md transition-shadow duration-200">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="text-xs font-semibold px-2.5 py-1 bg-blue-50 text-blue-700 rounded-full border border-blue-100">
+                        ${item.category || 'প্রতিষ্ঠান'}
+                    </span>
+                    ${item.is_verified ? '<span class="text-xs font-medium text-emerald-600 flex items-center gap-1">✓ ভেরিফাইড</span>' : ''}
+                </div>
+                <h3 class="text-lg font-bold text-gray-900 mb-2">${item.title}</h3>
+                <div class="space-y-1.5 text-sm text-gray-600 mb-4">
+                    <p class="flex items-start gap-2">
+                        <span class="text-gray-400">📍</span>
+                        <span>${item.address || `${item.area || ''}, ${item.district}`}</span>
+                    </p>
+                    ${item.phone ? `
+                    <p class="flex items-center gap-2">
+                        <span class="text-gray-400">📞</span>
+                        <a href="tel:${item.phone}" class="hover:text-blue-600 font-medium">${item.phone}</a>
+                    </p>` : ''}
+                </div>
+                <div class="pt-3 border-t border-gray-50 flex items-center justify-between">
+                    <span class="text-xs text-gray-400">${item.area || item.district}</span>
+                    <a href="tel:${item.phone || ''}" class="inline-flex items-center text-xs font-semibold text-blue-600 hover:text-blue-700">
+                        যোগাযোগ করুন →
+                    </a>
+                </div>
+            </div>
+        `).join('');
+
+    } catch (err) {
+        console.error('ডাটা লোড করতে সমস্যা:', err.message);
+        container.innerHTML = '<div class="col-span-full text-center py-8 text-red-500">তথ্য লোড করতে সমস্যা হয়েছে। আবার চেষ্টা করুন।</div>';
+    }
+}
+
+// পেজ লোড হলে ফাংশন কল
+fetchAndRenderDirectories();
 </script>
 </body>
 </html>
