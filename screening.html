@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M-CHAT অনলাইন স্ক্রিনিং টুল | Autism.info.bd</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Hind Siliguri', sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col">
+
+    <!-- ন্যাভবার -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="/index.html" class="flex items-center gap-2">
+                <span class="text-2xl">🧩</span>
+                <div>
+                    <h1 class="text-base font-extrabold text-slate-900 leading-tight">Autism.info.bd</h1>
+                    <p class="text-[10px] text-blue-600 font-bold uppercase tracking-wider">প্রাথমিক স্ক্রিনিং টুল</p>
+                </div>
+            </a>
+            <div class="flex items-center gap-4 text-xs font-semibold">
+                <a href="/index.html" class="hover:text-blue-600 transition">হোম</a>
+                <a href="/directory.html" class="hover:text-blue-600 transition">প্রতিষ্ঠান</a>
+                <a href="/professionals.html" class="hover:text-blue-600 transition">থেরাপিস্ট</a>
+                <a href="https://shop.autism.info.bd" class="text-blue-600 hover:underline">বই ও শপ</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- হিরো হেডার -->
+    <section class="bg-gradient-to-b from-blue-50 to-white py-10 px-4 border-b border-slate-100 text-center">
+        <div class="max-w-3xl mx-auto">
+            <span class="inline-block text-xs font-bold bg-blue-100 text-blue-700 px-3 py-1 rounded-full mb-3">১৬-৩০ মাস বয়সী শিশুদের জন্য</span>
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">M-CHAT-R™ অটিজম স্ক্রিনিং চেকলিস্ট</h2>
+            <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">
+                আপনার সন্তানের স্বাভাবিক আচরণ পর্যবেক্ষণ করে নিচের ২০টি প্রশ্নের উত্তর দিন। এটি কোনো চূড়ান্ত রোগ নির্ণয় নয়, বরং একটি প্রাথমিক মূল্যায়ন যা বিশেষজ্ঞের পরামর্শের প্রয়োজনীয়তা নির্দেশ করে।
+            </p>
+        </div>
+    </section>
+
+    <!-- মূল চেকলিস্ট ফর্ম -->
+    <main class="max-w-3xl mx-auto px-4 py-8 flex-1 w-full">
+        <form id="mchatForm" onsubmit="calculateScore(event)" class="space-y-4">
+            
+            <div id="questionsContainer" class="space-y-4">
+                <!-- জাভাস্ক্রিপ্টের মাধ্যমে ২০টি প্রশ্ন লোড হবে -->
+            </div>
+
+            <div class="pt-6">
+                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-2xl transition shadow-md shadow-blue-500/20 text-sm">
+                    ফলাফল ও স্কোর দেখুন →
+                </button>
+            </div>
+        </form>
+
+        <!-- রেজাল্ট কার্ড (ডিফল্টভাবে লুকানো) -->
+        <div id="resultBox" class="hidden mt-8 p-6 sm:p-8 bg-white border rounded-3xl shadow-lg transition-all">
+            <div class="text-center">
+                <span id="riskBadge" class="inline-block text-xs font-bold px-3 py-1 rounded-full mb-2"></span>
+                <h3 id="riskTitle" class="text-xl font-black text-slate-900 mt-1"></h3>
+                <p id="riskScore" class="text-sm font-bold text-slate-500 mt-1"></p>
+                <div id="riskDesc" class="text-xs sm:text-sm text-slate-600 mt-4 leading-relaxed bg-slate-50 p-4 rounded-2xl border border-slate-100 text-left"></div>
+
+                <div class="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
+                    <a href="/professionals.html" class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold px-5 py-2.5 rounded-xl text-xs transition">
+                        বিশেষজ্ঞ থেরাপিস্ট খুঁজুন
+                    </a>
+                    <a href="/directory.html" class="inline-block bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold px-5 py-2.5 rounded-xl text-xs transition">
+                        বিশেষায়িত স্কুল ডিরেক্টরি
+                    </a>
+                    <button type="button" onclick="window.print()" class="inline-block border border-slate-200 hover:bg-slate-50 text-slate-600 font-bold px-4 py-2.5 rounded-xl text-xs transition">
+                        ফলাফল প্রিন্ট / সেভ করুন
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-400">
+        © 2026 সর্বস্বত্ব সংরক্ষিত | autism.info.bd
+    </footer>
+
+    <script>
+        // M-CHAT-R মানসম্মত ২০টি প্রশ্ন (অ্যালগরিদম অনুযায়ী ক্রিটিক্যাল অ্যানসার ম্যাপিং)
+        // passValue: শিশুর স্বাভাবিক বিকাশ হলে অভিভাবক যে উত্তরটি দেবেন
+        const questions = [
+            { id: 1, text: "আপনি যদি ঘরের কোনো বস্তুর দিকে আঙুল তুলে তাকান (যেমন: কোনো খেলনা বা প্রাণী), শিশু কি সেদিকে তাকায়?", pass: "হ্যাঁ" },
+            { id: 2, text: "আপনি কি কখনো ভেবেছেন আপনার শিশু কানে কম শুনছে বা বধির হতে পারে?", pass: "না" },
+            { id: 3, text: "আপনার শিশু কি কাল্পনিক খেলা (Pretend play) খেলে? (যেমন: খেলনা কাপ দিয়ে চা খাওয়ার ভান করা, পুতুলকে খাওয়ানো)?", pass: "হ্যাঁ" },
+            { id: 4, text: "আপনার শিশু কি আশপাশের জিনিসের ওপর চড়তে পছন্দ করে? (যেমন: আসবাবপত্র, সিঁড়ি বা খেলার সামগ্রী)?", pass: "হ্যাঁ" },
+            { id: 5, text: "আপনার শিশু কি নিজের চোখের সামনে আঙুল অদ্ভুতভাবে নাড়ায় বা চোখের খুব কাছে নিয়ে নড়াচড়া পর্যবেক্ষণ করে?", pass: "না" },
+            { id: 6, text: "আপনার শিশু কি কোনো কিছু চাইতে বা সাহায্য পেতে আপনার আঙুল দিয়ে সেটির দিকে নির্দেশ করে?", pass: "হ্যাঁ" },
+            { id: 7, text: "আপনার শিশু কি কোনো আকর্ষণীয় কিছু দেখলে আপনাকে দেখানোর জন্য সেদিকে আঙুল নির্দেশ করে? (যেমন: আকাশে প্লেন বা বড় গাড়ি)?", pass: "হ্যাঁ" },
+            { id: 8, text: "আপনার শিশু কি অন্যান্য শিশুদের প্রতি আগ্রহী হয় বা তাদের দিকে তাকিয়ে হাসে/কাছে যায়?", pass: "হ্যাঁ" },
+            { id: 9, text: "আপনার শিশু কি কোনো জিনিস আপনাকে দেখানোর জন্য এনে দেয়? (কোনো সাহায্যের জন্য নয়, শুধু দেখানোর জন্য)?", pass: "হ্যাঁ" },
+            { id: 10, text: "আপনি নাম ধরে ডাকলে কি শিশু আপনার দিকে তাকায় বা প্রতিক্রিয়া দেখায়?", pass: "হ্যাঁ" },
+            { id: 11, text: "আপনি যখন শিশুর দিকে তাকিয়ে হাসেন, শিশু কি পাল্টা আপনার দিকে তাকিয়ে হাসে?", pass: "হ্যাঁ" },
+            { id: 12, text: "প্রতিদিনের সাধারণ কোনো শব্দে (যেমন: ব্লেন্ডার বা ভ্যাকুয়াম ক্লিনার) কি শিশু চরমভাবে বিরক্ত বা আতঙ্কিত হয়?", pass: "না" },
+            { id: 13, text: "আপনার শিশু কি একা একা হাঁটতে পারে?", pass: "হ্যাঁ" },
+            { id: 14, text: "আপনি যখন শিশুর সাথে কথা বলেন, খেলেন বা কাপড় পরিয়ে দেন, শিশু কি আপনার চোখের দিকে (Eye contact) তাকায়?", pass: "হ্যাঁ" },
+            { id: 15, text: "আপনার শিশু কি আপনার অঙ্গভঙ্গি অনুকরণ (Copy) করার চেষ্টা করে? (যেমন: হাত নাড়ানো, তালি দেওয়া)?", pass: "হ্যাঁ" },
+            { id: 16, text: "আপনি অন্য কোনো দিকে তাকালে শিশু কি আপনার মুখের ভাব দেখে বুঝতে পেরে নিজেও সেদিকে তাকায়?", pass: "হ্যাঁ" },
+            { id: 17, text: "আপনার শিশু কি আপনাকে তার নিজের দিকে আকর্ষিত করার চেষ্টা করে (যেমন: আপনার দিকে তাকিয়ে তালি বাজানো)?", pass: "হ্যাঁ" },
+            { id: 18, text: "আপনার শিশু কি আপনার কথা বা নির্দেশ বুঝতে পারে? (যেমন: 'বইটা টেবিলে রাখো' বা 'বলটি দাও')?", pass: "হ্যাঁ" },
+            { id: 19, text: "নতুন কোনো অপ্রত্যাশিত ঘটনা ঘটলে শিশু কি আপনার মুখের প্রতিক্রিয়ার দিকে তাকায় (আপনি কি ভাবছেন তা দেখতে)?", pass: "হ্যাঁ" },
+            { id: 20, text: "আপনার শিশু কি গতিশীল ও নড়াচড়ার খেলা পছন্দ করে (যেমন: দোল খাওয়া বা কোলে নিয়ে নাচানো)?", pass: "হ্যাঁ" }
+        ];
+
+        // প্রশ্নগুলো ব্রাউজারে রেন্ডার করা
+        const container = document.getElementById('questionsContainer');
+        questions.forEach((q, index) => {
+            const card = document.createElement('div');
+            card.className = "bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3";
+            card.innerHTML = `
+                <div class="text-xs sm:text-sm font-semibold text-slate-800 pr-2">
+                    <span class="text-blue-600 font-bold mr-1">${index + 1}.</span> ${q.text}
+                </div>
+                <div class="flex items-center gap-3 shrink-0">
+                    <label class="flex items-center gap-1.5 cursor-pointer text-xs font-bold bg-slate-50 hover:bg-slate-100 px-3.5 py-2 rounded-xl border border-slate-200 transition">
+                        <input type="radio" name="q_${q.id}" value="হ্যাঁ" required class="text-blue-600 focus:ring-0"> হ্যাঁ
+                    </label>
+                    <label class="flex items-center gap-1.5 cursor-pointer text-xs font-bold bg-slate-50 hover:bg-slate-100 px-3.5 py-2 rounded-xl border border-slate-200 transition">
+                        <input type="radio" name="q_${q.id}" value="না" required class="text-blue-600 focus:ring-0"> না
+                    </label>
+                </div>
+            `;
+            container.appendChild(card);
+        });
+
+        // স্কোরিং অ্যালগরিদম
+        function calculateScore(e) {
+            e.preventDefault();
+            let score = 0;
+
+            questions.forEach(q => {
+                const selected = document.querySelector(`input[name="q_${q.id}"]:checked`);
+                if (selected && selected.value !== q.pass) {
+                    // উত্তর যদি স্বাভাবিক বিকাশের বাইরেরটি হয়, তবে স্কোর ১ বাড়ে (At Risk indicator)
+                    score++;
+                }
+            });
+
+            displayResult(score);
+        }
+
+        function displayResult(score) {
+            const resBox = document.getElementById('resultBox');
+            const badge = document.getElementById('riskBadge');
+            const title = document.getElementById('riskTitle');
+            const scoreText = document.getElementById('riskScore');
+            const desc = document.getElementById('riskDesc');
+
+            resBox.classList.remove('hidden');
+            scoreText.innerText = `মোট রিস্ক স্কোর: ২০ এর মধ্যে ${score}`;
+
+            if (score <= 2) {
+                // কম ঝুঁকি (Low Risk)
+                badge.className = "inline-block text-xs font-bold px-3 py-1 rounded-full mb-2 bg-emerald-100 text-emerald-700";
+                badge.innerText = "স্বাভাবিক / কম ঝুঁকি";
+                title.innerText = "শিশুর আচরণ স্বাভাবিক রেঞ্জের মধ্যে রয়েছে";
+                title.className = "text-xl font-black text-emerald-600 mt-1";
+                desc.innerHTML = `
+                    <p class="font-bold text-slate-800 mb-1">পরবর্তী করণীয়:</p>
+                    আপনার সন্তানের স্ক্রিনিং ফলাফল অনুযায়ী অটিজমের ঝুঁকি অত্যন্ত কম। শিশুর স্বাভাবিক বিকাশের জন্য নিয়মিত কথা বলুন, খেলাধুলার সুযোগ দিন এবং স্ক্রিন টাইম (মোবাইল/টিভি) সম্পূর্ণ পরিহার করুন। শিশুর বয়স ২৪ মাস পূর্ণ হলে পুনরায় এই চেকলিস্টটি পূরণ করতে পারেন।
+                `;
+            } else if (score >= 3 && score <= 7) {
+                // মাঝারি ঝুঁকি (Medium Risk)
+                badge.className = "inline-block text-xs font-bold px-3 py-1 rounded-full mb-2 bg-amber-100 text-amber-700";
+                badge.innerText = "মাঝারি ঝুঁকি (Medium Risk)";
+                title.innerText = "কিছু ক্ষেত্রে বিকাশের বিলম্ব পরিলক্ষিত হচ্ছে";
+                title.className = "text-xl font-black text-amber-600 mt-1";
+                desc.innerHTML = `
+                    <p class="font-bold text-slate-800 mb-1">পরবর্তী করণীয়:</p>
+                    শিশুর মধ্যে বেশ কয়েকটি ক্ষেত্রে স্বাভাবিক রেসপন্সের ঘাটতি রয়েছে। আতঙ্কিত না হয়ে অনতিবিলম্বে একজন শিশু বিকাশ বিশেষজ্ঞ (Child Development Specialist) বা অকুপেশনাল/স্পিচ থেরাপিস্টের সাথে সরাসরি ফলো-আপ মূল্যায়ন করান। প্রাথমিক পর্যায়ে ইন্টারভেনশন শুরু করলে দ্রুত অগ্রগতি সম্ভব।
+                `;
+            } else {
+                // উচ্চ ঝুঁকি (High Risk)
+                badge.className = "inline-block text-xs font-bold px-3 py-1 rounded-full mb-2 bg-rose-100 text-rose-700";
+                badge.innerText = "উচ্চ ঝুঁকি (High Risk)";
+                title.innerText = "জরুরি বিশেষজ্ঞ মূল্যায়ন প্রয়োজন";
+                title.className = "text-xl font-black text-rose-600 mt-1";
+                desc.innerHTML = `
+                    <p class="font-bold text-slate-800 mb-1">পরবর্তী করণীয়:</p>
+                    স্ক্রিনিং স্কোরটি অটিজম স্পেকট্রাম ডিসঅর্ডারের লক্ষণসমূহের সাথে গভীরভাবে সামঞ্জস্যপূর্ণ। সময় অপচয় না করে দ্রুত কোনো বিশেষায়িত শিশু হাসপাতাল, সরকারি শিশু বিকাশ কেন্দ্র অথবা অভিজ্ঞ ডেভেলপমেন্টাল থেরাপিস্টের শরণাপন্ন হোন এবং পূর্ণাঙ্গ ক্লিনিক্যাল ডায়াগনোসিস সম্পন্ন করুন।
+                `;
+            }
+
+            resBox.scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
