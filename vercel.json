@@ -3,16 +3,6 @@
   "trailingSlash": false,
   "rewrites": [
     {
-      "source": "/",
-      "has": [
-        {
-          "type": "host",
-          "value": "shop.autism.info.bd"
-        }
-      ],
-      "destination": "/shop"
-    },
-    {
       "source": "/:path*",
       "has": [
         {
