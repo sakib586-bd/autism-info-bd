@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Autism.info.bd | সেন্ট্রাল অ্যাডমিন প্যানেল</title>
+    <title>Autism.info.bd | সিকিউর অ্যাডমিন পোর্টাল</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -11,15 +11,25 @@
 </head>
 <body class="bg-slate-100 text-slate-800 antialiased min-h-screen">
 
-    <!-- পাসওয়ার্ড স্ক্রিন -->
-    <div id="login-modal" class="fixed inset-0 bg-slate-900/90 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-        <div class="bg-white rounded-3xl p-8 max-w-sm w-full text-center shadow-2xl border border-slate-100">
-            <div class="w-14 h-14 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-4 border border-blue-100">🔐</div>
-            <h2 class="text-xl font-bold text-slate-900 mb-1">অ্যাডমিন প্রবেশদ্বার</h2>
-            <p class="text-xs text-slate-500 mb-6">কন্ট্রোল প্যানেলে প্রবেশ করতে পাসওয়ার্ড দিন</p>
-            <input type="password" id="admin-pin" placeholder="••••••••" class="w-full px-4 py-3 border border-slate-200 rounded-xl text-center text-xl font-bold tracking-widest focus:outline-none focus:border-blue-600 mb-4 bg-slate-50">
-            <button onclick="checkAccess()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl transition shadow-md shadow-blue-500/20 text-sm">প্রবেশ করুন</button>
-            <p id="error-msg" class="text-xs text-red-500 mt-3 hidden font-medium">ভুল পাসওয়ার্ড! আবার চেষ্টা করুন।</p>
+    <!-- সিকিউর অথেনটিকেশন স্ক্রিন -->
+    <div id="login-modal" class="fixed inset-0 bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-3xl p-8 max-w-sm w-full shadow-2xl border border-slate-100">
+            <div class="w-14 h-14 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-4 border border-blue-100">🔒</div>
+            <h2 class="text-xl font-black text-slate-900 text-center mb-1">অ্যাডমিন সিকিউর লগইন</h2>
+            <p class="text-xs text-slate-500 text-center mb-6">সুপাবেস ভেরিফাইড অ্যাকাউন্ট দিয়ে প্রবেশ করুন</p>
+            
+            <form onsubmit="handleSecureLogin(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">অ্যাডমিন ইমেইল</label>
+                    <input type="email" id="auth_email" required placeholder="admin@autism.info.bd" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-600">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">পাসওয়ার্ড</label>
+                    <input type="password" id="auth_password" required placeholder="••••••••" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-600">
+                </div>
+                <button type="submit" id="loginBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl transition shadow-md shadow-blue-500/20 text-sm mt-2">লগইন করুন</button>
+            </form>
+            <p id="error-msg" class="text-xs text-red-500 mt-3 text-center hidden font-medium"></p>
         </div>
     </div>
 
@@ -32,19 +42,21 @@
                     <span class="text-2xl">🧩</span>
                     <div>
                         <h1 class="text-sm font-bold tracking-tight">Autism.info.bd <span class="text-blue-400">Master Admin</span></h1>
-                        <p class="text-[10px] text-slate-400">কনটেন্ট এন্ট্রি ও ম্যানেজমেন্ট প্যানেল</p>
+                        <p class="text-[10px] text-emerald-400 font-semibold flex items-center gap-1">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> অথেনটিকেটেড ও সুরক্ষিত
+                        </p>
                     </div>
                 </div>
                 <div class="flex items-center gap-3">
-                    <a href="/" target="_blank" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 px-3.5 py-1.5 rounded-lg border border-slate-700 transition">লাইভ সাইট দেখুন ↗</a>
-                    <button onclick="logout()" class="text-xs text-red-400 hover:text-red-300 font-bold px-2 py-1">লগআউট</button>
+                    <a href="/" target="_blank" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 px-3.5 py-1.5 rounded-lg border border-slate-700 transition">লাইভ সাইট ↗</a>
+                    <button onclick="handleLogout()" class="text-xs text-red-400 hover:text-red-300 font-bold px-2 py-1">লগআউট</button>
                 </div>
             </div>
         </header>
 
         <div class="max-w-7xl mx-auto px-4 py-8 flex-1 w-full grid grid-cols-1 md:grid-cols-4 gap-6">
             
-            <!-- সাইডবার মেনু -->
+            <!-- সাইডবার -->
             <aside class="md:col-span-1 space-y-2">
                 <div class="bg-white p-3 rounded-2xl border border-slate-200 shadow-sm space-y-1">
                     <div class="px-3 py-2 text-[11px] font-extrabold uppercase tracking-wider text-slate-400">মডিউল নির্বাচন করুন</div>
@@ -65,28 +77,22 @@
                         <span>📋</span> অভিভাবকদের হায়ার রিকোয়েস্ট
                     </button>
                 </div>
-
-                <div class="bg-blue-900 text-blue-100 p-4 rounded-2xl shadow-sm text-xs space-y-2">
-                    <p class="font-bold text-white flex items-center gap-1.5">⚡ রিয়েল-টাইম ডাটাবেজ</p>
-                    <p class="text-blue-200/80 leading-relaxed">এখানে তথ্য সেভ বা ডিলিট করার সাথে সাথেই মূল সাইটে রিয়েল-টাইমে আপডেট হয়ে যাবে।</p>
-                </div>
             </aside>
 
-            <!-- মূল কনটেন্ট এরিয়া -->
+            <!-- কনটেন্ট এরিয়া -->
             <main class="md:col-span-3">
 
-                <!-- ১. প্রশ্নোত্তর লাইব্রেরি এন্ট্রি ও লিস্ট -->
+                <!-- ১. প্রশ্নোত্তর -->
                 <div id="tab-qa" class="tab-content bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm">
                     <div class="border-b border-slate-100 pb-4 mb-6">
                         <span class="text-xs font-bold text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-md">মডিউল ১</span>
-                        <h2 class="text-lg font-bold text-slate-900 mt-2">নতুন প্রশ্নোত্তর যুক্ত করুন</h2>
-                        <p class="text-xs text-slate-500">প্রশ্নোত্তর হাব পেজে (`qa.html`) সরাসরি প্রদর্শনের জন্য তথ্য দিন।</p>
+                        <h2 class="text-lg font-bold text-slate-900 mt-2">নতুন প্রশ্নোত্তর এন্ট্রি</h2>
                     </div>
 
                     <form onsubmit="handleQASubmit(event)" class="space-y-4">
                         <div>
                             <label class="block text-xs font-bold text-slate-700 mb-1">প্রশ্ন *</label>
-                            <input type="text" id="qa_question" required placeholder="যেমন: অটিজমের প্রাথমিক লক্ষণ কী কী?" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-indigo-600">
+                            <input type="text" id="qa_question" required placeholder="প্রশ্ন লিখুন..." class="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-indigo-600">
                         </div>
 
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -101,54 +107,51 @@
                                 </select>
                             </div>
                             <div>
-                                <label class="block text-xs font-bold text-slate-700 mb-1">ট্যাগ (অপশনাল, কমা দিয়ে লিখুন)</label>
-                                <input type="text" id="qa_tags" placeholder="যেমন: লক্ষণ, বয়স, স্ক্রিনিং" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-indigo-600">
+                                <label class="block text-xs font-bold text-slate-700 mb-1">ট্যাগ (কমা দিয়ে লিখুন)</label>
+                                <input type="text" id="qa_tags" placeholder="যেমন: লক্ষণ, বয়স" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-indigo-600">
                             </div>
                         </div>
 
                         <div>
-                            <label class="block text-xs font-bold text-slate-700 mb-1">সহজ ও বৈজ্ঞানিক উত্তর *</label>
-                            <textarea id="qa_answer" required rows="4" placeholder="অভিভাবকদের জন্য স্পষ্ট সমাধান লিখুন..." class="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-indigo-600"></textarea>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">উত্তর *</label>
+                            <textarea id="qa_answer" required rows="4" placeholder="উত্তর লিখুন..." class="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-indigo-600"></textarea>
                         </div>
 
-                        <button type="submit" id="qa_btn" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-xl transition shadow-md shadow-indigo-500/10 text-sm">
-                            প্রশ্নোত্তর পাবলিশ করুন
-                        </button>
+                        <button type="submit" id="qa_btn" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-xl transition text-sm">পাবলিশ করুন</button>
                     </form>
 
                     <div class="mt-10 border-t border-slate-100 pt-6">
                         <div class="flex justify-between items-center mb-4">
-                            <h3 class="text-sm font-bold text-slate-900">বর্তমানে সাইটে থাকা প্রশ্নোত্তরসমূহ</h3>
+                            <h3 class="text-sm font-bold text-slate-900">সংরক্ষিত প্রশ্নোত্তর তালিকা</h3>
                             <button onclick="loadAdminQA()" class="text-xs text-indigo-600 font-bold hover:underline">🔄 রিফ্রেশ</button>
                         </div>
                         <div id="admin-qa-list" class="space-y-2.5">
-                            <p class="text-xs text-slate-400 py-3">তথ্য লোড হচ্ছে...</p>
+                            <p class="text-xs text-slate-400 py-3">লোড হচ্ছে...</p>
                         </div>
                     </div>
                 </div>
 
-                <!-- ২. প্রতিষ্ঠান / স্কুল ডিরেক্টরি -->
+                <!-- ২. প্রতিষ্ঠান -->
                 <div id="tab-dir" class="tab-content hidden bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm">
                     <div class="border-b border-slate-100 pb-4 mb-6">
                         <span class="text-xs font-bold text-blue-600 bg-blue-50 px-2.5 py-1 rounded-md">মডিউল ২</span>
                         <h2 class="text-lg font-bold text-slate-900 mt-2">নতুন প্রতিষ্ঠান বা সেন্টার এন্ট্রি</h2>
-                        <p class="text-xs text-slate-500">বিশেষায়িত স্কুল বা সেন্টারের তথ্য সরাসরি ডাটাবেজে যুক্ত করুন।</p>
                     </div>
 
                     <form onsubmit="handleDirectorySubmit(event)" class="space-y-4">
                         <div>
-                            <label class="block text-xs font-bold text-slate-700 mb-1">প্রতিষ্ঠানের পূর্ণ নাম *</label>
-                            <input type="text" id="dir_title" required placeholder="যেমন: সি এস কেয়ার প্রায়োরিটি স্কুল" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-600">
+                            <label class="block text-xs font-bold text-slate-700 mb-1">প্রতিষ্ঠানের নাম *</label>
+                            <input type="text" id="dir_title" required placeholder="প্রতিষ্ঠানের নাম" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-600">
                         </div>
 
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div>
-                                <label class="block text-xs font-bold text-slate-700 mb-1">ধরণ / ক্যাটাগরি *</label>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">ক্যাটাগরি *</label>
                                 <select id="dir_category" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-600 bg-white">
                                     <option value="School">School (বিশেষ স্কুল)</option>
                                     <option value="Therapy Center">Therapy Center (থেরাপি সেন্টার)</option>
-                                    <option value="Hospital">Hospital / Foundation (ফাউন্ডেশন/হাসপাতাল)</option>
-                                    <option value="Daycare">Daycare (ডে-কেয়ার)</option>
+                                    <option value="Hospital">Hospital / Foundation</option>
+                                    <option value="Daycare">Daycare</option>
                                 </select>
                             </div>
                             <div>
@@ -160,56 +163,48 @@
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-xs font-bold text-slate-700 mb-1">এলাকা / থানা *</label>
-                                <input type="text" id="dir_area" required placeholder="যেমন: মিরপুর-১১, উত্তরা" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-600">
+                                <input type="text" id="dir_area" required placeholder="যেমন: মিরপুর, উত্তরা" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-600">
                             </div>
                             <div>
-                                <label class="block text-xs font-bold text-slate-700 mb-1">যোগাযোগ নম্বর *</label>
-                                <input type="text" id="dir_phone" required placeholder="যেমন: ০১XXXXXXXXX" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-600">
+                                <label class="block text-xs font-bold text-slate-700 mb-1">ফোন নম্বর *</label>
+                                <input type="text" id="dir_phone" required placeholder="০১XXXXXXXXX" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-600">
                             </div>
                         </div>
 
                         <div>
-                            <label class="block text-xs font-bold text-slate-700 mb-1">বিস্তারিত ঠিকানা</label>
-                            <input type="text" id="dir_address" placeholder="রোড, বাড়ি নম্বর বা স্পষ্ট ল্যান্ডমার্ক..." class="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-600">
+                            <label class="block text-xs font-bold text-slate-700 mb-1">ঠিকানা</label>
+                            <input type="text" id="dir_address" placeholder="বিস্তারিত ঠিকানা..." class="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-600">
                         </div>
 
-                        <div class="flex items-center gap-2 pt-2">
-                            <input type="checkbox" id="dir_verified" checked class="w-4 h-4 text-blue-600 rounded">
-                            <label for="dir_verified" class="text-xs font-medium text-slate-700">ভেরিফাইড ব্যাজ (Verified Badge দেখাবে)</label>
-                        </div>
-
-                        <button type="submit" id="dir_btn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl transition shadow-md shadow-blue-500/10 text-sm">
-                            পাবলিশ করুন
-                        </button>
+                        <button type="submit" id="dir_btn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl transition text-sm">পাবলিশ করুন</button>
                     </form>
 
                     <div class="mt-10 border-t border-slate-100 pt-6">
                         <div class="flex justify-between items-center mb-4">
-                            <h3 class="text-sm font-bold text-slate-900">বর্তমানে সাইটে থাকা প্রতিষ্ঠানসমূহ</h3>
+                            <h3 class="text-sm font-bold text-slate-900">সংরক্ষিত প্রতিষ্ঠানসমূহ</h3>
                             <button onclick="loadAdminDirectories()" class="text-xs text-blue-600 font-bold hover:underline">🔄 রিফ্রেশ</button>
                         </div>
                         <div id="admin-dir-list" class="space-y-2.5">
-                            <p class="text-xs text-slate-400 py-3">তথ্য লোড হচ্ছে...</p>
+                            <p class="text-xs text-slate-400 py-3">লোড হচ্ছে...</p>
                         </div>
                     </div>
                 </div>
 
-                <!-- ৩. থেরাপিস্ট ও ডাক্তার প্রোফাইল -->
+                <!-- ৩. প্রফেশনাল -->
                 <div id="tab-pro" class="tab-content hidden bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm">
                     <div class="border-b border-slate-100 pb-4 mb-6">
                         <span class="text-xs font-bold text-teal-600 bg-teal-50 px-2.5 py-1 rounded-md">মডিউল ৩</span>
                         <h2 class="text-lg font-bold text-slate-900 mt-2">থেরাপিস্ট ও ডাক্তার এন্ট্রি</h2>
-                        <p class="text-xs text-slate-500">বিশেষজ্ঞ থেরাপিস্ট ও চিকিৎসকদের প্রোফাইল যুক্ত করুন।</p>
                     </div>
 
                     <form onsubmit="handleProfessionalSubmit(event)" class="space-y-4">
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div>
-                                <label class="block text-xs font-bold text-slate-700 mb-1">প্রফেশনালের নাম *</label>
-                                <input type="text" id="pro_name" required placeholder="যেমন: ডাঃ মোহাম্মদ..." class="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-teal-600">
+                                <label class="block text-xs font-bold text-slate-700 mb-1">নাম *</label>
+                                <input type="text" id="pro_name" required placeholder="প্রফেশনালের নাম" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-teal-600">
                             </div>
                             <div>
-                                <label class="block text-xs font-bold text-slate-700 mb-1">পদবী / স্পেশালাইজেশন *</label>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">স্পেশালাইজেশন *</label>
                                 <select id="pro_role" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-teal-600 bg-white">
                                     <option value="Occupational Therapist">Occupational Therapist (OT)</option>
                                     <option value="Speech Therapist">Speech & Language Therapist (SLT)</option>
@@ -221,14 +216,14 @@
                         </div>
 
                         <div>
-                            <label class="block text-xs font-bold text-slate-700 mb-1">শিক্ষাগত যোগ্যতা ও ডিগ্রি *</label>
-                            <input type="text" id="pro_qualifications" required placeholder="যেমন: BSc in OT (DU), RBT Certified" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-teal-600">
+                            <label class="block text-xs font-bold text-slate-700 mb-1">যোগ্যতা *</label>
+                            <input type="text" id="pro_qualifications" required placeholder="ডিগ্রি বা সার্টিফিকেশন" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-teal-600">
                         </div>
 
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div>
-                                <label class="block text-xs font-bold text-slate-700 mb-1">বর্তমান কর্মক্ষেত্র</label>
-                                <input type="text" id="pro_workplace" placeholder="যেমন: সি এস কেয়ার / ঢাকা মেডিকেল" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-teal-600">
+                                <label class="block text-xs font-bold text-slate-700 mb-1">বর্তমান প্রতিষ্ঠান</label>
+                                <input type="text" id="pro_workplace" placeholder="কর্মক্ষেত্র" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-teal-600">
                             </div>
                             <div>
                                 <label class="block text-xs font-bold text-slate-700 mb-1">জেলা *</label>
@@ -237,44 +232,32 @@
                         </div>
 
                         <div>
-                            <label class="block text-xs font-bold text-slate-700 mb-1">চেম্বার ঠিকানা ও রোগী দেখার সময়</label>
-                            <input type="text" id="pro_chamber" placeholder="যেমন: মিরপুর ১০, শনি-বুধ বিকাল ৫টা - রাত ৮টা" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-teal-600">
+                            <label class="block text-xs font-bold text-slate-700 mb-1">সিরিয়াল/ফোন নম্বর *</label>
+                            <input type="text" id="pro_phone" required placeholder="০১XXXXXXXXX" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-teal-600">
                         </div>
 
-                        <div>
-                            <label class="block text-xs font-bold text-slate-700 mb-1">যোগাযোগের ফোন নম্বর *</label>
-                            <input type="text" id="pro_phone" required placeholder="যেমন: ০১XXXXXXXXX" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-teal-600">
-                        </div>
-
-                        <button type="submit" id="pro_btn" class="w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 rounded-xl transition shadow-md shadow-teal-500/10 text-sm">
-                            প্রোফাইল লাইভ সেভ করুন
-                        </button>
+                        <button type="submit" id="pro_btn" class="w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 rounded-xl transition text-sm">সেভ করুন</button>
                     </form>
 
                     <div class="mt-10 border-t border-slate-100 pt-6">
                         <div class="flex justify-between items-center mb-4">
-                            <h3 class="text-sm font-bold text-slate-900">বর্তমানে সাইটে থাকা প্রফেশনালগণ</h3>
+                            <h3 class="text-sm font-bold text-slate-900">সংরক্ষিত প্রফেশনাল তালিকা</h3>
                             <button onclick="loadAdminProfessionals()" class="text-xs text-teal-600 font-bold hover:underline">🔄 রিফ্রেশ</button>
                         </div>
                         <div id="admin-pro-list" class="space-y-2.5">
-                            <p class="text-xs text-slate-400 py-3">তথ্য লোড হচ্ছে...</p>
+                            <p class="text-xs text-slate-400 py-3">লোড হচ্ছে...</p>
                         </div>
                     </div>
                 </div>
 
-                <!-- ৪. অভিভাবকদের হায়ার রিকোয়েস্ট -->
+                <!-- ৪. হায়ার রিকোয়েস্ট -->
                 <div id="tab-hire" class="tab-content hidden bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm">
                     <div class="border-b border-slate-100 pb-4 mb-6 flex justify-between items-center">
-                        <div>
-                            <span class="text-xs font-bold text-amber-600 bg-amber-50 px-2.5 py-1 rounded-md">মডিউল ৪</span>
-                            <h2 class="text-lg font-bold text-slate-900 mt-2">অভিভাবকদের হায়ার আবেদনসমূহ</h2>
-                            <p class="text-xs text-slate-500">হোম থেরাপিস্ট বা শ্যাডো টিচারের জন্য জমা পড়া রিকোয়েস্ট তালিকা।</p>
-                        </div>
+                        <h2 class="text-lg font-bold text-slate-900">অভিভাবকদের হায়ার আবেদনসমূহ</h2>
                         <button onclick="loadHireRequests()" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-lg font-bold transition">🔄 রিফ্রেশ</button>
                     </div>
-
                     <div id="hire-list-container" class="space-y-3">
-                        <p class="text-center text-xs text-slate-400 py-6">তথ্য আনা হচ্ছে...</p>
+                        <p class="text-center text-xs text-slate-400 py-6">তথ্য লোড হচ্ছে...</p>
                     </div>
                 </div>
 
@@ -283,18 +266,44 @@
     </div>
 
     <script>
-        const ADMIN_SECRET = 'sakib123';
         const SUPABASE_URL = 'https://nemgvzmhyidnbdxwqrvi.supabase.co';
         const SUPABASE_KEY = 'sb_publishable_PrhWBDkEc7WyIL25SF66uQ_8DGUUhJ_';
         const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-        // লগইন অথেনটিকেশন
-        function checkAccess() {
-            if (document.getElementById('admin-pin').value === ADMIN_SECRET) {
-                sessionStorage.setItem('isAdminLoggedIn', 'true');
+        // পেজ লোড হলে সেশন চেক
+        async function checkCurrentSession() {
+            const { data: { session } } = await supabaseClient.auth.getSession();
+            if (session) {
                 showDashboard();
             } else {
-                document.getElementById('error-msg').classList.remove('hidden');
+                showLogin();
+            }
+        }
+
+        // লগইন সাবমিশন
+        async function handleSecureLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('auth_email').value.trim();
+            const password = document.getElementById('auth_password').value;
+            const btn = document.getElementById('loginBtn');
+            const errMsg = document.getElementById('error-msg');
+
+            btn.innerText = 'লগইন হচ্ছে...';
+            btn.disabled = true;
+            errMsg.classList.add('hidden');
+
+            const { data, error } = await supabaseClient.auth.signInWithPassword({
+                email: email,
+                password: password
+            });
+
+            if (error) {
+                errMsg.innerText = 'লগইন ব্যর্থ: ' + error.message;
+                errMsg.classList.remove('hidden');
+                btn.innerText = 'লগইন করুন';
+                btn.disabled = false;
+            } else {
+                showDashboard();
             }
         }
 
@@ -304,16 +313,16 @@
             loadAdminQA();
         }
 
-        function logout() {
-            sessionStorage.removeItem('isAdminLoggedIn');
+        function showLogin() {
+            document.getElementById('login-modal').classList.remove('hidden');
+            document.getElementById('admin-panel').classList.add('hidden');
+        }
+
+        async function handleLogout() {
+            await supabaseClient.auth.signOut();
             location.reload();
         }
 
-        if (sessionStorage.getItem('isAdminLoggedIn') === 'true') {
-            showDashboard();
-        }
-
-        // ট্যাব সুইচ
         function switchTab(tabId) {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
             document.getElementById(tabId).classList.remove('hidden');
@@ -329,69 +338,47 @@
             if (tabId === 'tab-hire') loadHireRequests();
         }
 
-        // ১. প্রশ্নোত্তর সাবমিশন (handleQASubmit)
+        // প্রশ্নোত্তর সেভ
         async function handleQASubmit(e) {
             e.preventDefault();
             const btn = document.getElementById('qa_btn');
             btn.innerText = 'সেভ হচ্ছে...';
             btn.disabled = true;
 
-            const qVal = document.getElementById('qa_question').value.trim();
-            const catVal = document.getElementById('qa_category').value;
-            const aVal = document.getElementById('qa_answer').value.trim();
             const tagsRaw = document.getElementById('qa_tags').value.trim();
-
-            let tagsArray = [];
-            if (tagsRaw) {
-                tagsArray = tagsRaw.split(',').map(t => t.trim()).filter(t => t.length > 0);
-            }
-
             const payload = {
-                question: qVal,
-                category: catVal,
-                answer: aVal,
-                tags: tagsArray
+                question: document.getElementById('qa_question').value.trim(),
+                category: document.getElementById('qa_category').value,
+                answer: document.getElementById('qa_answer').value.trim(),
+                tags: tagsRaw ? tagsRaw.split(',').map(t => t.trim()).filter(t => t.length > 0) : []
             };
 
-            const { data, error } = await supabaseClient.from('qa_library').insert([payload]);
-
-            if (error) {
-                alert('ত্রুটি হয়েছে: ' + error.message);
-            } else { 
-                alert('অভিনন্দন! প্রশ্নোত্তরটি সফলভাবে পাবলিশ হয়েছে।'); 
-                e.target.reset(); 
-                loadAdminQA();
-            }
-            btn.innerText = 'প্রশ্নোত্তর পাবলিশ করুন';
+            const { error } = await supabaseClient.from('qa_library').insert([payload]);
+            if (error) alert('ত্রুটি: ' + error.message);
+            else { alert('সফলভাবে পাবলিশ হয়েছে!'); e.target.reset(); loadAdminQA(); }
+            btn.innerText = 'পাবলিশ করুন';
             btn.disabled = false;
         }
 
-        // প্রশ্নোত্তর তালিকা লোড
         async function loadAdminQA() {
             const list = document.getElementById('admin-qa-list');
-            if (!list) return;
-            list.innerHTML = '<p class="text-xs text-slate-400 py-3">লোড হচ্ছে...</p>';
-
             const { data, error } = await supabaseClient.from('qa_library').select('*').order('created_at', { ascending: false });
             if (error || !data || data.length === 0) {
-                list.innerHTML = '<p class="text-xs text-slate-500 py-3">কোনো প্রশ্নোত্তর পাওয়া যায়নি।</p>';
+                list.innerHTML = '<p class="text-xs text-slate-500 py-3">কোনো প্রশ্নোত্তর নেই।</p>';
                 return;
             }
-
             list.innerHTML = data.map(item => `
                 <div class="flex items-center justify-between p-3.5 bg-slate-50 rounded-2xl border border-slate-200/80">
-                    <div class="pr-4">
+                    <div>
                         <p class="text-xs font-bold text-slate-900">${item.question}</p>
-                        <p class="text-[11px] text-indigo-600 font-medium mt-0.5">${item.category}</p>
+                        <p class="text-[11px] text-indigo-600 mt-0.5">${item.category}</p>
                     </div>
-                    <button onclick="deleteRecord('qa_library', '${item.id}')" class="text-xs bg-red-50 hover:bg-red-100 text-red-600 font-bold px-3 py-1.5 rounded-xl border border-red-200 transition shrink-0">
-                        🗑️ মুছুন
-                    </button>
+                    <button onclick="deleteRecord('qa_library', '${item.id}')" class="text-xs bg-red-50 hover:bg-red-100 text-red-600 font-bold px-3 py-1.5 rounded-xl border border-red-200 transition">🗑️ মুছুন</button>
                 </div>
             `).join('');
         }
 
-        // ২. প্রতিষ্ঠান সাবমিশন
+        // প্রতিষ্ঠান সেভ
         async function handleDirectorySubmit(e) {
             e.preventDefault();
             const btn = document.getElementById('dir_btn');
@@ -406,46 +393,35 @@
                 area: document.getElementById('dir_area').value.trim(),
                 phone: document.getElementById('dir_phone').value.trim(),
                 address: document.getElementById('dir_address').value.trim(),
-                is_verified: document.getElementById('dir_verified').checked
+                is_verified: true
             };
 
             const { error } = await supabaseClient.from('directories').insert([payload]);
-            if (error) {
-                alert('ত্রুটি: ' + error.message);
-            } else { 
-                alert('প্রতিষ্ঠান সফলভাবে যুক্ত হয়েছে!'); 
-                e.target.reset(); 
-                loadAdminDirectories();
-            }
+            if (error) alert('ত্রুটি: ' + error.message);
+            else { alert('প্রতিষ্ঠান সফলভাবে যুক্ত হয়েছে!'); e.target.reset(); loadAdminDirectories(); }
             btn.innerText = 'পাবলিশ করুন';
             btn.disabled = false;
         }
 
         async function loadAdminDirectories() {
             const list = document.getElementById('admin-dir-list');
-            if (!list) return;
-            list.innerHTML = '<p class="text-xs text-slate-400 py-3">লোড হচ্ছে...</p>';
-
             const { data, error } = await supabaseClient.from('directories').select('*').order('created_at', { ascending: false });
             if (error || !data || data.length === 0) {
-                list.innerHTML = '<p class="text-xs text-slate-500 py-3">কোনো প্রতিষ্ঠান পাওয়া যায়নি।</p>';
+                list.innerHTML = '<p class="text-xs text-slate-500 py-3">কোনো প্রতিষ্ঠান নেই।</p>';
                 return;
             }
-
             list.innerHTML = data.map(item => `
                 <div class="flex items-center justify-between p-3.5 bg-slate-50 rounded-2xl border border-slate-200/80">
                     <div>
                         <p class="text-xs font-bold text-slate-900">${item.title}</p>
-                        <p class="text-[11px] text-slate-500 mt-0.5">${item.category} • ${item.area || item.district} • ${item.phone || 'ফোন নেই'}</p>
+                        <p class="text-[11px] text-slate-500 mt-0.5">${item.category} • ${item.area || item.district} • ${item.phone}</p>
                     </div>
-                    <button onclick="deleteRecord('directories', '${item.id}')" class="text-xs bg-red-50 hover:bg-red-100 text-red-600 font-bold px-3 py-1.5 rounded-xl border border-red-200 transition">
-                        🗑️ মুছুন
-                    </button>
+                    <button onclick="deleteRecord('directories', '${item.id}')" class="text-xs bg-red-50 hover:bg-red-100 text-red-600 font-bold px-3 py-1.5 rounded-xl border border-red-200 transition">🗑️ মুছুন</button>
                 </div>
             `).join('');
         }
 
-        // ৩. প্রফেশনাল সাবমিশন
+        // প্রফেশনাল সেভ
         async function handleProfessionalSubmit(e) {
             e.preventDefault();
             const btn = document.getElementById('pro_btn');
@@ -458,90 +434,61 @@
                 qualifications: document.getElementById('pro_qualifications').value.trim(),
                 workplace: document.getElementById('pro_workplace').value.trim(),
                 district: document.getElementById('pro_district').value.trim(),
-                chamber_address: document.getElementById('pro_chamber').value.trim(),
                 phone: document.getElementById('pro_phone').value.trim(),
                 is_verified: true
             };
 
             const { error } = await supabaseClient.from('professionals').insert([payload]);
-            if (error) {
-                alert('ত্রুটি: ' + error.message);
-            } else { 
-                alert('প্রফেশনাল প্রোফাইল সফলভাবে তৈরি হয়েছে!'); 
-                e.target.reset(); 
-                loadAdminProfessionals();
-            }
-            btn.innerText = 'প্রোফাইল লাইভ সেভ করুন';
+            if (error) alert('ত্রুটি: ' + error.message);
+            else { alert('প্রফেশনাল সফলভাবে যুক্ত হয়েছে!'); e.target.reset(); loadAdminProfessionals(); }
+            btn.innerText = 'সেভ করুন';
             btn.disabled = false;
         }
 
         async function loadAdminProfessionals() {
             const list = document.getElementById('admin-pro-list');
-            if (!list) return;
-            list.innerHTML = '<p class="text-xs text-slate-400 py-3">লোড হচ্ছে...</p>';
-
             const { data, error } = await supabaseClient.from('professionals').select('*').order('created_at', { ascending: false });
             if (error || !data || data.length === 0) {
-                list.innerHTML = '<p class="text-xs text-slate-500 py-3">কোনো প্রফেশনাল পাওয়া যায়নি।</p>';
+                list.innerHTML = '<p class="text-xs text-slate-500 py-3">কোনো প্রফেশনাল নেই।</p>';
                 return;
             }
-
             list.innerHTML = data.map(item => `
                 <div class="flex items-center justify-between p-3.5 bg-slate-50 rounded-2xl border border-slate-200/80">
                     <div>
                         <p class="text-xs font-bold text-slate-900">${item.name}</p>
                         <p class="text-[11px] text-slate-500 mt-0.5">${item.role} • ${item.district} • ${item.phone}</p>
                     </div>
-                    <button onclick="deleteRecord('professionals', '${item.id}')" class="text-xs bg-red-50 hover:bg-red-100 text-red-600 font-bold px-3 py-1.5 rounded-xl border border-red-200 transition">
-                        🗑️ মুছুন
-                    </button>
+                    <button onclick="deleteRecord('professionals', '${item.id}')" class="text-xs bg-red-50 hover:bg-red-100 text-red-600 font-bold px-3 py-1.5 rounded-xl border border-red-200 transition">🗑️ মুছুন</button>
                 </div>
             `).join('');
         }
 
-        // ৪. হায়ার রিকোয়েস্ট লোড
+        // হায়ার রিকোয়েস্ট লোড
         async function loadHireRequests() {
             const container = document.getElementById('hire-list-container');
-            if (!container) return;
-            container.innerHTML = '<p class="text-center text-xs text-slate-400 py-4">তথ্য আনা হচ্ছে...</p>';
-
             const { data, error } = await supabaseClient.from('hire_requests').select('*').order('created_at', { ascending: false });
             if (error || !data || data.length === 0) {
-                container.innerHTML = '<p class="text-center text-xs text-slate-500 py-6">বর্তমানে কোনো আবেদন জমা নেই।</p>';
+                container.innerHTML = '<p class="text-center text-xs text-slate-500 py-6">কোনো আবেদন নেই।</p>';
                 return;
             }
-
             container.innerHTML = data.map(item => `
-                <div class="p-4 rounded-2xl border border-slate-200 bg-slate-50/50 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+                <div class="p-4 rounded-2xl border border-slate-200 bg-slate-50/50 flex justify-between items-center gap-3">
                     <div>
-                        <div class="flex items-center gap-2 mb-1">
-                            <span class="text-xs font-bold text-slate-900">${item.parent_name}</span>
-                            <span class="text-[10px] font-semibold bg-amber-100 text-amber-800 px-2 py-0.5 rounded">${item.service_needed}</span>
-                        </div>
-                        <p class="text-xs text-slate-600">এলাকা: <strong>${item.location_area}</strong> | বয়স: ${item.child_age || '-'} বছর</p>
-                        ${item.child_concerns ? `<p class="text-xs text-slate-500 mt-1 italic">"${item.child_concerns}"</p>` : ''}
+                        <span class="text-xs font-bold text-slate-900">${item.parent_name}</span>
+                        <span class="text-[10px] font-semibold bg-amber-100 text-amber-800 px-2 py-0.5 rounded ml-2">${item.service_needed}</span>
+                        <p class="text-xs text-slate-600 mt-1">এলাকা: <strong>${item.location_area}</strong> | ফোন: <strong>${item.phone}</strong></p>
                     </div>
-                    <div class="flex items-center gap-2 shrink-0">
-                        <a href="tel:${item.phone}" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold px-3 py-2 rounded-xl transition flex items-center gap-1">
-                            📞 ${item.phone}
-                        </a>
-                        <button onclick="deleteRecord('hire_requests', '${item.id}')" class="text-xs bg-red-50 hover:bg-red-100 text-red-600 font-bold px-3 py-2 rounded-xl border border-red-200 transition">
-                            🗑️
-                        </button>
-                    </div>
+                    <button onclick="deleteRecord('hire_requests', '${item.id}')" class="text-xs bg-red-50 hover:bg-red-100 text-red-600 font-bold px-3 py-1.5 rounded-xl border border-red-200 transition">🗑️</button>
                 </div>
             `).join('');
         }
 
-        // ডিলিট একশন
+        // সিকিউর ডিলিট ফাংশন
         async function deleteRecord(tableName, id) {
-            const ok = confirm('আপনি কি নিশ্চিত যে এই তথ্যটি মুছে ফেলতে চান? এটি মুছে দিলে ওয়েবসাইট থেকেও মুছে যাবে।');
-            if (!ok) return;
-
+            if (!confirm('আপনি কি নিশ্চিত যে এটি মুছে ফেলতে চান?')) return;
             const { error } = await supabaseClient.from(tableName).delete().eq('id', id);
-
             if (error) {
-                alert('মুছতে সমস্যা হয়েছে: ' + error.message);
+                alert('অননুমোদিত অ্যাকশন! আপনি অ্যাডমিন হিসেবে অথেনটিকেটেড নন: ' + error.message);
             } else {
                 alert('সফলভাবে মুছে ফেলা হয়েছে!');
                 if (tableName === 'directories') loadAdminDirectories();
@@ -550,6 +497,8 @@
                 if (tableName === 'hire_requests') loadHireRequests();
             }
         }
+
+        document.addEventListener('DOMContentLoaded', checkCurrentSession);
     </script>
 </body>
 </html>
