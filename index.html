@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
+
+  <!-- Supabase JS Client Library -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Autism.info.bd | অটিজম তথ্য, সেবা ও সহায়তা পোর্টাল</title>
@@ -76,6 +79,8 @@
   </style>
 </head>
 <body class="bg-slate-50 text-slate-800 font-size-md">
+
+  
 
   <!-- ================= ACCESSIBILITY TOP BAR ================= -->
   <aside aria-label="Accessibility Settings" class="bg-slate-900 text-slate-200 text-xs py-1.5 px-4 sticky top-0 z-50 shadow-sm">
@@ -824,5 +829,29 @@
       document.getElementById('tts-text').innerText = currentLang === 'bn' ? 'বন্ধ করুন' : 'Stop Reading';
     }
   </script>
+  <script>
+  // Supabase লাইভ কানেকশন
+  const SUPABASE_URL = 'https://nemgvzmhyidnbdxwqrvi.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_PrhWBDkEc7WyIL25SF66uQ_8DGUUhJ_';
+
+  const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  // ডাটাবেজ থেকে ডিরেক্টরি লোড করার টেস্ট ফাংশন
+  async function fetchDirectories() {
+      const { data, error } = await supabaseClient
+          .from('directories')
+          .select('*');
+
+      if (error) {
+          console.error('ডাটাবেজ কানেকশনে সমস্যা:', error.message);
+          return;
+      }
+
+      console.log('সুপাবেস থেকে আসা লাইভ ডাটা:', data);
+  }
+
+  // পেজ লোড হলেই কল হবে
+  fetchDirectories();
+</script>
 </body>
 </html>
