@@ -8,6 +8,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- html2pdf Library for client-side PDF export -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <!-- Supabase JS Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         body { font-family: 'Hind Siliguri', sans-serif; }
     </style>
@@ -31,45 +33,49 @@
     <!-- Main Container -->
     <main class="max-w-3xl mx-auto px-4 py-8 flex-grow w-full">
         
-        <!-- Step 1: Info Screen -->
+        <!-- Step 1: Info Screen (Mandatory Form) -->
         <div id="intro-card" class="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200 mb-8">
             <h1 class="text-2xl md:text-3xl font-bold text-slate-900 mb-3">M-CHAT-R অটিজম প্রাথমিক স্ক্রিনিং</h1>
             <p class="text-slate-600 text-sm md:text-base leading-relaxed mb-6">
-                মডিফাইড চেক-লিস্ট ফর অটিজম ইন টডলার্স (M-CHAT-R) ১৬ থেকে ৩০ মাস বয়সী শিশুদের প্রাথমিক সামাজিক ও যোগাযোগমূলক বিকাশ যাচাই করার একটি প্রমিত স্ক্রিনিং পদ্ধতি। নিচের তথ্যগুলো দিয়ে শুরু করুন।
+                মডিফাইড চেক-লিস্ট ফর অটিজম ইন টডলার্স (M-CHAT-R) ১৬ থেকে ৩০ মাস বয়সী শিশুদের সামাজিক ও যোগাযোগমূলক বিকাশ যাচাইয়ের প্রমিত পদ্ধতি। স্ক্রিনিং শুরু করতে নিচের তথ্যগুলো নির্ভুলভাবে পূরণ করুন।
             </p>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                 <div>
-                    <label class="block text-sm font-semibold text-slate-700 mb-1">শিশুর নাম বা পরিচয় (ঐচ্ছিক):</label>
-                    <input type="text" id="child-name" placeholder="যেমন: আয়ান" class="w-full px-4 py-2 rounded-lg border border-slate-300 focus:outline-none focus:border-blue-500">
+                    <label class="block text-sm font-semibold text-slate-700 mb-1">শিশুর নাম <span class="text-red-500">*</span></label>
+                    <input type="text" id="child-name" placeholder="যেমন: আয়ান" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                 </div>
                 <div>
-                    <label class="block text-sm font-semibold text-slate-700 mb-1">শিশুর বর্তমান বয়স (মাসে):</label>
-                    <input type="number" id="child-age" placeholder="যেমন: ২৪" class="w-full px-4 py-2 rounded-lg border border-slate-300 focus:outline-none focus:border-blue-500">
+                    <label class="block text-sm font-semibold text-slate-700 mb-1">শিশুর বয়স (মাসে) <span class="text-red-500">*</span></label>
+                    <input type="number" id="child-age" placeholder="যেমন: ২৪" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 mb-1">অভিভাবকের মোবাইল নম্বর <span class="text-red-500">*</span></label>
+                    <input type="tel" id="parent-phone" placeholder="01XXXXXXXXX" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                 </div>
             </div>
 
-            <div class="bg-amber-50 border-l-4 border-amber-400 p-4 rounded-r-lg mb-6 text-sm text-amber-800 leading-relaxed">
-                <strong>সতর্কতা:</strong> এটি কোনো আনুষ্ঠানিক ক্লিনিক্যাল ডায়াগনস্টিক রিপোর্ট নয়। এটি কেবলমাত্র প্রাথমিক ঝুঁকি যাচাইয়ের টুল। যেকোনো সিদ্ধান্তের জন্য নিবন্ধিত বিশেষজ্ঞ চিকিৎসকের শরণাপন্ন হোন।
+            <div class="bg-amber-50 border-l-4 border-amber-400 p-4 rounded-r-xl mb-6 text-sm text-amber-800 leading-relaxed">
+                <strong>সতর্কতা:</strong> এটি কোনো আনুষ্ঠানিক ক্লিনিক্যাল ডায়াগনস্টিক রিপোর্ট নয়। এটি কেবল প্রাথমিক ঝুঁকি যাচাইয়ের টুল। যেকোনো সিদ্ধান্তের জন্য নিবন্ধিত বিশেষজ্ঞ চিকিৎসকের শরণাপন্ন হোন।
             </div>
 
-            <button onclick="startScreening()" class="w-full bg-blue-600 text-white font-semibold py-3 px-6 rounded-xl hover:bg-blue-700 transition">
-                স্ক্রিনিং শুরু করুন
+            <button onclick="startScreening()" class="w-full bg-blue-600 text-white font-semibold py-3.5 px-6 rounded-xl hover:bg-blue-700 transition shadow-sm">
+                স্ক্রিনিং শুরু করুন ➔
             </button>
         </div>
 
         <!-- Step 2: Questionnaire Form (Hidden by default) -->
         <div id="quiz-container" class="hidden">
-            <div class="mb-4 flex items-center justify-between text-sm text-slate-500">
-                <span>প্রশ্নের উত্তর দিন (মোট ২০টি)</span>
-                <span id="progress-indicator">উত্তর দেওয়া হয়েছে: ০/২০</span>
+            <div class="mb-4 flex items-center justify-between text-sm text-slate-500 bg-white p-4 rounded-xl border border-slate-200">
+                <span class="font-medium text-slate-700">প্রশ্নের উত্তর দিন (মোট ২০টি)</span>
+                <span id="progress-indicator" class="font-semibold text-blue-600">উত্তর দেওয়া হয়েছে: ০/২০</span>
             </div>
 
             <form id="screening-form" class="space-y-4">
-                <!-- Questions will be injected here via JavaScript -->
+                <!-- Questions injected via JS -->
             </form>
 
-            <button onclick="calculateResult()" class="w-full mt-8 bg-blue-600 text-white font-semibold py-3 px-6 rounded-xl hover:bg-blue-700 transition">
+            <button onclick="calculateResult()" id="submit-btn" class="w-full mt-8 bg-blue-600 text-white font-semibold py-3.5 px-6 rounded-xl hover:bg-blue-700 transition shadow-sm flex items-center justify-center">
                 ফলাফল দেখুন
             </button>
         </div>
@@ -82,8 +88,9 @@
                         <h2 class="text-xl font-bold text-blue-600">Autism.info.bd</h2>
                         <p class="text-xs text-slate-500">M-CHAT-R স্ক্রিনিং সামারি রিপোর্ট</p>
                     </div>
-                    <div class="text-right text-xs text-slate-500">
+                    <div class="text-right text-xs text-slate-500 space-y-0.5">
                         <p>তারিখ: <span id="report-date"></span></p>
+                        <p>শিশুর নাম: <strong id="report-name" class="text-slate-700"></strong></p>
                         <p>শিশুর বয়স: <span id="report-age">--</span> মাস</p>
                     </div>
                 </div>
@@ -91,7 +98,7 @@
                 <div class="text-center mb-6">
                     <span class="text-xs uppercase tracking-wider font-semibold text-slate-500">স্ক্রিনিং ফলাফল</span>
                     <h3 id="result-title" class="text-2xl md:text-3xl font-bold mt-1"></h3>
-                    <p class="text-slate-600 text-sm mt-1">মোট স্কোর: <span id="result-score" class="font-bold"></span> / ২০</p>
+                    <p class="text-slate-600 text-sm mt-1">মোট স্কোর: <span id="result-score" class="font-bold text-slate-900"></span> / ২০</p>
                 </div>
 
                 <div id="result-advice-box" class="p-4 rounded-xl text-sm leading-relaxed mb-6">
@@ -99,17 +106,17 @@
                 </div>
 
                 <div class="text-xs text-slate-500 border-t border-slate-100 pt-3">
-                    <p><strong>ডিসক্লেইমার:</strong> এই ফলাফল শিশুর আনুষ্ঠানিক অটিজম নির্ণয় নির্দেশ করে না। এটি কেবলমাত্র প্রাথমিক পর্যবেক্ষণের সারাংশ, যা বিশেষজ্ঞ চিকিৎসকের সঙ্গে আলোচনার সময় প্রদর্শন করা যেতে পারে।</p>
+                    <p><strong>ডিসক্লেইমার:</strong> এই ফলাফল শিশুর আনুষ্ঠানিক অটিজম নির্ণয় নির্দেশ করে না। এটি কেবল প্রাথমিক ঝুঁকি পর্যবেক্ষণের সারাংশ, যা বিশেষজ্ঞ চিকিৎসকের সঙ্গে আলোচনার সময় প্রদর্শন করা যেতে পারে।</p>
                 </div>
             </div>
 
             <!-- Action Buttons -->
             <div class="flex flex-col sm:flex-row gap-4">
-                <button onclick="downloadPDF()" class="flex-1 bg-slate-900 text-white font-semibold py-3 px-6 rounded-xl hover:bg-slate-800 transition flex items-center justify-center gap-2">
+                <button onclick="downloadPDF()" class="flex-1 bg-slate-900 text-white font-semibold py-3.5 px-6 rounded-xl hover:bg-slate-800 transition flex items-center justify-center gap-2">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
                     রিপোর্ট ডাউনলোড করুন (PDF)
                 </button>
-                <a href="/directory" class="flex-1 bg-blue-600 text-white font-semibold py-3 px-6 rounded-xl hover:bg-blue-700 transition text-center flex items-center justify-center">
+                <a href="/directory" class="flex-1 bg-blue-600 text-white font-semibold py-3.5 px-6 rounded-xl hover:bg-blue-700 transition text-center flex items-center justify-center">
                     নিকটস্থ বিশেষজ্ঞ বা সেন্টার খুঁজুন ➔
                 </a>
             </div>
@@ -127,8 +134,12 @@
     </footer>
 
     <script>
+        // Supabase Credentials
+        const SUPABASE_URL = 'YOUR_SUPABASE_PROJECT_URL';
+        const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
         // M-CHAT-R 20 Questions
-        // critical: true means 'না' indicates at-risk response, except Q2, Q5, Q12 where 'হ্যাঁ' is at-risk
         const questions = [
             { id: 1, text: "আপনি যদি ঘরের কোনো জিনিসের দিকে আঙুল তোলেন, আপনার সন্তান কি সেটির দিকে তাকায়? (যেমন: কোনো খেলনা বা প্রাণীর দিকে)", atRisk: "no" },
             { id: 2, text: "আপনার কি কখনো মনে হয়েছে আপনার সন্তান শুনতে পায় না বা কানে কম শোনে?", atRisk: "yes" },
@@ -153,22 +164,42 @@
         ];
 
         function startScreening() {
+            const name = document.getElementById('child-name').value.trim();
+            const age = document.getElementById('child-age').value.trim();
+            const phone = document.getElementById('parent-phone').value.trim();
+
+            if (!name) {
+                alert("অনুগ্রহ করে শিশুর নাম লিখুন।");
+                document.getElementById('child-name').focus();
+                return;
+            }
+            if (!age || age <= 0) {
+                alert("অনুগ্রহ করে শিশুর সঠিক বয়স (মাসে) লিখুন।");
+                document.getElementById('child-age').focus();
+                return;
+            }
+            if (!phone || phone.length < 11) {
+                alert("অনুগ্রহ করে অভিভাবকের সঠিক ১১ ডিজিটের মোবাইল নম্বর প্রদান করুন।");
+                document.getElementById('parent-phone').focus();
+                return;
+            }
+
             document.getElementById('intro-card').classList.add('hidden');
             const quizContainer = document.getElementById('quiz-container');
             const form = document.getElementById('screening-form');
             quizContainer.classList.remove('hidden');
 
             form.innerHTML = questions.map((q, index) => `
-                <div class="bg-white p-5 rounded-xl border border-slate-200">
+                <div class="bg-white p-5 rounded-2xl border border-slate-200">
                     <p class="font-medium text-slate-800 text-sm md:text-base mb-3 leading-snug">
                         <span class="text-blue-600 font-bold mr-1">${index + 1}.</span> ${q.text}
                     </p>
-                    <div class="flex gap-4">
-                        <label class="flex items-center gap-2 text-sm cursor-pointer">
+                    <div class="flex gap-6">
+                        <label class="flex items-center gap-2 text-sm cursor-pointer font-medium text-slate-700">
                             <input type="radio" name="q${q.id}" value="yes" onchange="updateProgress()" class="w-4 h-4 text-blue-600 focus:ring-blue-500">
                             <span>হ্যাঁ</span>
                         </label>
-                        <label class="flex items-center gap-2 text-sm cursor-pointer">
+                        <label class="flex items-center gap-2 text-sm cursor-pointer font-medium text-slate-700">
                             <input type="radio" name="q${q.id}" value="no" onchange="updateProgress()" class="w-4 h-4 text-blue-600 focus:ring-blue-500">
                             <span>না</span>
                         </label>
@@ -183,7 +214,7 @@
             document.getElementById('progress-indicator').innerText = `উত্তর দেওয়া হয়েছে: ${answeredCount}/২০`;
         }
 
-        function calculateResult() {
+        async function calculateResult() {
             let answeredCount = 0;
             let score = 0;
 
@@ -202,41 +233,78 @@
                 return;
             }
 
+            const submitBtn = document.getElementById('submit-btn');
+            submitBtn.innerText = "সংরক্ষণ ও ফলাফল লোড হচ্ছে...";
+            submitBtn.disabled = true;
+
+            const childName = document.getElementById('child-name').value.trim();
+            const childAge = document.getElementById('child-age').value.trim();
+            const parentPhone = document.getElementById('parent-phone').value.trim();
+
+            let riskLevel = "";
+            let riskTitle = "";
+            let riskClass = "";
+            let adviceHtml = "";
+            let adviceClass = "";
+
+            if (score <= 2) {
+                riskLevel = "Low Risk";
+                riskTitle = "স্বাভাবিক বা কম ঝুঁকি (Low Risk)";
+                riskClass = "text-2xl md:text-3xl font-bold mt-1 text-emerald-600";
+                adviceClass = "p-4 rounded-xl text-sm leading-relaxed mb-6 bg-emerald-50 text-emerald-800 border border-emerald-200";
+                adviceHtml = "<strong>পরামর্শ:</strong> স্ক্রিনিং অনুযায়ী অটিজম লক্ষণের ঝুঁকি কম দেখা যাচ্ছে। শিশুর বয়স ২৪ মাসের নিচে হলে পরবর্তীতে স্বাভাবিক বিকাশ ও মাইলস্টোন পর্যবেক্ষণ অব্যাহত রাখুন।";
+            } else if (score >= 3 && score <= 7) {
+                riskLevel = "Medium Risk";
+                riskTitle = "মাঝারি ঝুঁকি (Medium Risk)";
+                riskClass = "text-2xl md:text-3xl font-bold mt-1 text-amber-600";
+                adviceClass = "p-4 rounded-xl text-sm leading-relaxed mb-6 bg-amber-50 text-amber-800 border border-amber-200";
+                adviceHtml = "<strong>পরামর্শ:</strong> কিছু সামাজিক বা যোগাযোগমূলক আচরণে অসংগতি দেখা যাচ্ছে। অবিলম্বে একজন শিশু বিকাশ বিশেষজ্ঞ (Child Development Specialist) বা থেরাপিস্টের সাথে ফলো-আপ পরামর্শ নেওয়ার সুপারিশ করা হচ্ছে।";
+            } else {
+                riskLevel = "High Risk";
+                riskTitle = "উচ্চ ঝুঁকি (High Risk)";
+                riskClass = "text-2xl md:text-3xl font-bold mt-1 text-rose-600";
+                adviceClass = "p-4 rounded-xl text-sm leading-relaxed mb-6 bg-rose-50 text-rose-800 border border-rose-200";
+                adviceHtml = "<strong>পরামর্শ:</strong> উল্লেখযোগ্য মাত্রায় ঝুঁকির লক্ষণ বিদ্যমান। কালক্ষেপণ না করে দ্রুত একজন পেডিয়াট্রিক নিউরোলজিস্ট বা চাইল্ড ডেভেলপমেন্ট সেন্টারে পূর্ণাঙ্গ ক্লিনিক্যাল মূল্যায়নের (Diagnostic Assessment) ব্যবস্থা গ্রহণ করুন।";
+            }
+
+            // Supabase-এ সংরক্ষণ
+            try {
+                await supabase.from('screening_submissions').insert([
+                    {
+                        child_name: childName,
+                        child_age: childAge,
+                        phone: parentPhone,
+                        score: score,
+                        risk_level: riskLevel
+                    }
+                ]);
+            } catch (err) {
+                console.error("Supabase Save Error:", err);
+            }
+
+            // রেজাল্ট দেখানো
             document.getElementById('quiz-container').classList.add('hidden');
             const resultContainer = document.getElementById('result-container');
             resultContainer.classList.remove('hidden');
 
-            const childAge = document.getElementById('child-age').value || '--';
+            document.getElementById('report-name').innerText = childName;
             document.getElementById('report-age').innerText = childAge;
             document.getElementById('report-date').innerText = new Date().toLocaleDateString('bn-BD');
             document.getElementById('result-score').innerText = score;
 
             const title = document.getElementById('result-title');
             const adviceBox = document.getElementById('result-advice-box');
-
-            if (score <= 2) {
-                title.innerText = "স্বাভাবিক বা কম ঝুঁকি (Low Risk)";
-                title.className = "text-2xl md:text-3xl font-bold mt-1 text-emerald-600";
-                adviceBox.className = "p-4 rounded-xl text-sm leading-relaxed mb-6 bg-emerald-50 text-emerald-800 border border-emerald-200";
-                adviceBox.innerHTML = "<strong>পরামর্শ:</strong> স্ক্রিনিং অনুযায়ী অটিজম লক্ষণের ঝুঁকি কম দেখা যাচ্ছে। শিশুর বয়স ২৪ মাসের নিচে হলে পরবর্তীতে স্বাভাবিক মাইলস্টোন পর্যবেক্ষণ অব্যাহত রাখুন।";
-            } else if (score >= 3 && score <= 7) {
-                title.innerText = "মাঝারি ঝুঁকি (Medium Risk)";
-                title.className = "text-2xl md:text-3xl font-bold mt-1 text-amber-600";
-                adviceBox.className = "p-4 rounded-xl text-sm leading-relaxed mb-6 bg-amber-50 text-amber-800 border border-amber-200";
-                adviceBox.innerHTML = "<strong>পরামর্শ:</strong> কিছু সামাজিক বা যোগাযোগমূলক আচরণে অসংগতি দেখা যাচ্ছে। অবিলম্বে একজন শিশু বিকাশ বিশেষজ্ঞ (Child Development Specialist) বা অকুপেশনাল থেরাপিস্টের সাথে ফলো-আপ পরামর্শ নেওয়ার সুপারিশ করা হচ্ছে।";
-            } else {
-                title.innerText = "উচ্চ ঝুঁকি (High Risk)";
-                title.className = "text-2xl md:text-3xl font-bold mt-1 text-rose-600";
-                adviceBox.className = "p-4 rounded-xl text-sm leading-relaxed mb-6 bg-rose-50 text-rose-800 border border-rose-200";
-                adviceBox.innerHTML = "<strong>পরামর্শ:</strong> উল্লেখযোগ্য মাত্রায় ঝুঁকির লক্ষণ বিদ্যমান। কালক্ষেপণ না করে দ্রুত একজন পেডিয়াট্রিক নিউরোলজিস্ট বা চাইল্ড ডেভেলপমেন্ট সেন্টারে পূর্ণাঙ্গ ক্লিনিক্যাল মূল্যায়নের (Diagnostic Assessment) ব্যবস্থা গ্রহণ করুন।";
-            }
+            title.innerText = riskTitle;
+            title.className = riskClass;
+            adviceBox.className = adviceClass;
+            adviceBox.innerHTML = adviceHtml;
 
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function downloadPDF() {
             const element = document.getElementById('pdf-content');
-            const childName = document.getElementById('child-name').value || 'Child';
+            const childName = document.getElementById('child-name').value.trim() || 'Child';
             const opt = {
                 margin:       10,
                 filename:     `M-CHAT_Report_${childName}.pdf`,
