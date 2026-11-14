@@ -16,7 +16,7 @@
         <div class="bg-white rounded-3xl p-8 max-w-sm w-full shadow-2xl border border-slate-100">
             <div class="w-14 h-14 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-4 border border-blue-100">🔒</div>
             <h2 class="text-xl font-black text-slate-900 text-center mb-1">অ্যাডমিন সিকিউর লগইন</h2>
-            <p class="text-xs text-slate-500 text-center mb-6">সুপাবেস ভেরিফাইড অ্যাকাউন্ট দিয়ে প্রবেশ করুন</p>
+            <p class="text-xs text-slate-500 text-center mb-6">সুপাবেস ভেরিফাইড অ্যাকাউন্ট দিয়ে প্রবেশ করুন</p>
             
             <form onsubmit="handleSecureLogin(event)" class="space-y-4">
                 <div>
@@ -24,7 +24,7 @@
                     <input type="email" id="auth_email" required placeholder="admin@autism.info.bd" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-600">
                 </div>
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-1">পাসওয়ার্ড</label>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">পাসওয়ার্ড</label>
                     <input type="password" id="auth_password" required placeholder="••••••••" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-600">
                 </div>
                 <button type="submit" id="loginBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl transition shadow-md shadow-blue-500/20 text-sm mt-2">লগইন করুন</button>
@@ -74,12 +74,17 @@
                     </button>
                     
                     <button onclick="switchTab('tab-hire')" id="btn-tab-hire" class="tab-btn w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-bold transition flex items-center gap-2.5 text-slate-600 hover:bg-slate-50">
-                        <span>📋</span> অভিভাবকদের হায়ার রিকোয়েস্ট
+                        <span>📋</span> অভিভাবকদের হায়ার রিকোয়েস্ট
+                    </button>
+
+                    <!-- ৫. স্ক্রিনিং সাবমিশন বাটন -->
+                    <button onclick="switchTab('tab-screening')" id="btn-tab-screening" class="tab-btn w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-bold transition flex items-center gap-2.5 text-slate-600 hover:bg-slate-50">
+                        <span>📊</span> স্ক্রিনিং রেসপন্স (M-CHAT)
                     </button>
                 </div>
             </aside>
 
-            <!-- কনটেন্ট এরিয়া -->
+            <!-- কনটেন্ট এরিয়া -->
             <main class="md:col-span-3">
 
                 <!-- ১. প্রশ্নোত্তর -->
@@ -102,13 +107,13 @@
                                     <option value="লক্ষণ">লক্ষণ</option>
                                     <option value="থেরাপি">থেরাপি</option>
                                     <option value="আচরণ">আচরণ</option>
-                                    <option value="ডায়েট">ডায়েট</option>
+                                    <option value="ডায়েট">ডায়েট</option>
                                     <option value="সরকারি সেবা">সরকারি সেবা</option>
                                 </select>
                             </div>
                             <div>
-                                <label class="block text-xs font-bold text-slate-700 mb-1">ট্যাগ (কমা দিয়ে লিখুন)</label>
-                                <input type="text" id="qa_tags" placeholder="যেমন: লক্ষণ, বয়স" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-indigo-600">
+                                <label class="block text-xs font-bold text-slate-700 mb-1">ট্যাগ (কমা দিয়ে লিখুন)</label>
+                                <input type="text" id="qa_tags" placeholder="যেমন: লক্ষণ, বয়স" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-indigo-600">
                             </div>
                         </div>
 
@@ -232,7 +237,7 @@
                         </div>
 
                         <div>
-                            <label class="block text-xs font-bold text-slate-700 mb-1">সিরিয়াল/ফোন নম্বর *</label>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">সিরিয়াল/ফোন নম্বর *</label>
                             <input type="text" id="pro_phone" required placeholder="০১XXXXXXXXX" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-teal-600">
                         </div>
 
@@ -250,14 +255,46 @@
                     </div>
                 </div>
 
-                <!-- ৪. হায়ার রিকোয়েস্ট -->
+                <!-- ৪. হায়ার রিকোয়েস্ট -->
                 <div id="tab-hire" class="tab-content hidden bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm">
                     <div class="border-b border-slate-100 pb-4 mb-6 flex justify-between items-center">
-                        <h2 class="text-lg font-bold text-slate-900">অভিভাবকদের হায়ার আবেদনসমূহ</h2>
+                        <h2 class="text-lg font-bold text-slate-900">অভিভাবকদের হায়ার আবেদনসমূহ</h2>
                         <button onclick="loadHireRequests()" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-lg font-bold transition">🔄 রিফ্রেশ</button>
                     </div>
                     <div id="hire-list-container" class="space-y-3">
                         <p class="text-center text-xs text-slate-400 py-6">তথ্য লোড হচ্ছে...</p>
+                    </div>
+                </div>
+
+                <!-- ৫. M-CHAT স্ক্রিনিং রেসপন্স (নতুন সংযোজন) -->
+                <div id="tab-screening" class="tab-content hidden bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm">
+                    <div class="border-b border-slate-100 pb-4 mb-6 flex justify-between items-center">
+                        <div>
+                            <span class="text-xs font-bold text-rose-600 bg-rose-50 px-2.5 py-1 rounded-md">মডিউল ৫</span>
+                            <h2 class="text-lg font-bold text-slate-900 mt-2">M-CHAT প্রাথমিক স্ক্রিনিং তালিকা</h2>
+                        </div>
+                        <button onclick="loadAdminScreenings()" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-lg font-bold transition">🔄 রিফ্রেশ</button>
+                    </div>
+
+                    <div class="overflow-x-auto border border-slate-200 rounded-2xl">
+                        <table class="w-full text-left border-collapse min-w-[650px]">
+                            <thead class="bg-slate-50 border-b border-slate-200 text-[11px] font-extrabold text-slate-500 uppercase">
+                                <tr>
+                                    <th class="p-3.5">তারিখ</th>
+                                    <th class="p-3.5">শিশুর নাম</th>
+                                    <th class="p-3.5">বয়স</th>
+                                    <th class="p-3.5">মোবাইল নম্বর</th>
+                                    <th class="p-3.5">স্কোর</th>
+                                    <th class="p-3.5">ঝুঁকি স্তর</th>
+                                    <th class="p-3.5 text-center">অ্যাকশন</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-screening-list" class="divide-y divide-slate-100 text-xs">
+                                <tr>
+                                    <td colspan="7" class="p-6 text-center text-slate-400">তথ্য লোড হচ্ছে...</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
 
@@ -336,6 +373,7 @@
             if (tabId === 'tab-dir') loadAdminDirectories();
             if (tabId === 'tab-pro') loadAdminProfessionals();
             if (tabId === 'tab-hire') loadHireRequests();
+            if (tabId === 'tab-screening') loadAdminScreenings();
         }
 
         // প্রশ্নোত্তর সেভ
@@ -355,7 +393,7 @@
 
             const { error } = await supabaseClient.from('qa_library').insert([payload]);
             if (error) alert('ত্রুটি: ' + error.message);
-            else { alert('সফলভাবে পাবলিশ হয়েছে!'); e.target.reset(); loadAdminQA(); }
+            else { alert('সফলভাবে পাবলিশ হয়েছে!'); e.target.reset(); loadAdminQA(); }
             btn.innerText = 'পাবলিশ করুন';
             btn.disabled = false;
         }
@@ -398,7 +436,7 @@
 
             const { error } = await supabaseClient.from('directories').insert([payload]);
             if (error) alert('ত্রুটি: ' + error.message);
-            else { alert('প্রতিষ্ঠান সফলভাবে যুক্ত হয়েছে!'); e.target.reset(); loadAdminDirectories(); }
+            else { alert('প্রতিষ্ঠান সফলভাবে যুক্ত হয়েছে!'); e.target.reset(); loadAdminDirectories(); }
             btn.innerText = 'পাবলিশ করুন';
             btn.disabled = false;
         }
@@ -440,7 +478,7 @@
 
             const { error } = await supabaseClient.from('professionals').insert([payload]);
             if (error) alert('ত্রুটি: ' + error.message);
-            else { alert('প্রফেশনাল সফলভাবে যুক্ত হয়েছে!'); e.target.reset(); loadAdminProfessionals(); }
+            else { alert('প্রফেশনাল সফলভাবে যুক্ত হয়েছে!'); e.target.reset(); loadAdminProfessionals(); }
             btn.innerText = 'সেভ করুন';
             btn.disabled = false;
         }
@@ -463,7 +501,7 @@
             `).join('');
         }
 
-        // হায়ার রিকোয়েস্ট লোড
+        // হায়ার রিকোয়েস্ট লোড
         async function loadHireRequests() {
             const container = document.getElementById('hire-list-container');
             const { data, error } = await supabaseClient.from('hire_requests').select('*').order('created_at', { ascending: false });
@@ -483,6 +521,46 @@
             `).join('');
         }
 
+        // ৫. M-CHAT স্ক্রিনিং রেসপন্স লোড
+        async function loadAdminScreenings() {
+            const list = document.getElementById('admin-screening-list');
+            const { data, error } = await supabaseClient.from('screening_submissions').select('*').order('created_at', { ascending: false });
+            if (error || !data || data.length === 0) {
+                list.innerHTML = '<tr><td colspan="7" class="p-6 text-center text-slate-400">কোনো স্ক্রিনিং রেকর্ড জমা পড়েনি।</td></tr>';
+                return;
+            }
+            list.innerHTML = data.map(item => {
+                const date = new Date(item.created_at).toLocaleString('bn-BD', { dateStyle: 'short', timeStyle: 'short' });
+                
+                let badgeClass = 'bg-emerald-50 text-emerald-700 border-emerald-200';
+                if (item.score >= 8) {
+                    badgeClass = 'bg-rose-50 text-rose-700 border-rose-200';
+                } else if (item.score >= 3) {
+                    badgeClass = 'bg-amber-50 text-amber-700 border-amber-200';
+                }
+
+                return `
+                    <tr class="hover:bg-slate-50 transition border-b border-slate-100 last:border-0">
+                        <td class="p-3.5 text-slate-500 whitespace-nowrap">${date}</td>
+                        <td class="p-3.5 font-bold text-slate-800">${item.child_name}</td>
+                        <td class="p-3.5 text-slate-600">${item.child_age} মাস</td>
+                        <td class="p-3.5">
+                            <a href="tel:${item.phone}" class="text-blue-600 font-mono font-medium hover:underline">${item.phone}</a>
+                        </td>
+                        <td class="p-3.5 font-black text-slate-900">${item.score}/২০</td>
+                        <td class="p-3.5">
+                            <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold border ${badgeClass}">
+                                ${item.risk_level}
+                            </span>
+                        </td>
+                        <td class="p-3.5 text-center">
+                            <button onclick="deleteRecord('screening_submissions', '${item.id}')" class="text-xs bg-red-50 hover:bg-red-100 text-red-600 font-bold px-2.5 py-1 rounded-xl border border-red-200 transition">🗑️ মুছুন</button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
         // সিকিউর ডিলিট ফাংশন
         async function deleteRecord(tableName, id) {
             if (!confirm('আপনি কি নিশ্চিত যে এটি মুছে ফেলতে চান?')) return;
@@ -490,11 +568,12 @@
             if (error) {
                 alert('অননুমোদিত অ্যাকশন! আপনি অ্যাডমিন হিসেবে অথেনটিকেটেড নন: ' + error.message);
             } else {
-                alert('সফলভাবে মুছে ফেলা হয়েছে!');
+                alert('সফলভাবে মুছে ফেলা হয়েছে!');
                 if (tableName === 'directories') loadAdminDirectories();
                 if (tableName === 'professionals') loadAdminProfessionals();
                 if (tableName === 'qa_library') loadAdminQA();
                 if (tableName === 'hire_requests') loadHireRequests();
+                if (tableName === 'screening_submissions') loadAdminScreenings();
             }
         }
 
