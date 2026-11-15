@@ -3,203 +3,178 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>প্রশ্নোত্তর জ্ঞানভাণ্ডার | Autism.info.bd</title>
+    <title>অটিজম এআই সহকারী | Autism.info.bd</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>body { font-family: 'Hind Siliguri', sans-serif; }</style>
+    <!-- Markdown Parser for clean responses -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        body { font-family: 'Hind Siliguri', sans-serif; }
+    </style>
 </head>
-<body class="bg-gray-50 text-gray-800 antialiased min-h-screen flex flex-col">
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between">
 
-    <!-- হেডার -->
-  <!-- স্ট্যান্ডার্ড গ্লোবাল হেডার / নেভিগেশন বার -->
-<header class="bg-white border-b border-slate-200 sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex items-center justify-between h-16">
-            
-            <!-- ব্র্যান্ড লোগো ও টাইটেল -->
-            <a href="/" class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-cyan-500 flex items-center justify-center text-white text-xl font-black shadow-sm">
-                    🧩
-                </div>
-                <div>
-                    <span class="text-xl font-bold tracking-tight text-slate-900 block leading-tight">Autism<span class="text-blue-600">.info.bd</span></span>
-                    <span class="text-[11px] text-slate-500 hidden sm:block">অটিজম তথ্য, সেবা ও সহায়তা পোর্টাল</span>
-                </div>
+    <!-- Header / Navbar -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-50">
+        <div class="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
+            <a href="/" class="flex items-center gap-2">
+                <span class="text-2xl font-bold text-blue-600">Autism<span class="text-slate-800">.info.bd</span></span>
             </a>
-
-            <!-- ডেস্কটপ মেনুবার -->
-            <nav class="hidden md:flex items-center gap-1 text-sm font-semibold text-slate-600">
-                <a href="/" class="px-3 py-2 rounded-lg hover:text-blue-600 hover:bg-slate-50 transition">হোম</a>
-                <a href="/#qa" class="px-3 py-2 rounded-lg hover:text-blue-600 hover:bg-slate-50 transition">প্রশ্নোত্তর হাব</a>
-                <a href="/directory" class="px-3 py-2 rounded-lg hover:text-blue-600 hover:bg-slate-50 transition">প্রতিষ্ঠান ও স্কুল</a>
-                <a href="/professionals" class="px-3 py-2 rounded-lg hover:text-blue-600 hover:bg-slate-50 transition">ডাক্তার ও থেরাপিস্ট</a>
-                <a href="/hire" class="px-3 py-2 rounded-lg hover:text-blue-600 hover:bg-slate-50 transition">হায়ার করুন</a>
-                <a href="/screening" class="px-3 py-2 rounded-lg hover:text-blue-600 hover:bg-slate-50 transition">স্ক্রিনিং টুল</a>
-                <a href="https://shop.autism.info.bd" target="_blank" rel="noopener noreferrer" class="ml-2 px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-600 font-bold hover:bg-indigo-100 transition flex items-center gap-1">
-                    শপ ↗
-                </a>
-            </nav>
-
-            <!-- মোবাইল মেনু টগল বাটন -->
-            <div class="flex md:hidden">
-                <button type="button" onclick="toggleNavMenu()" class="p-2 rounded-xl text-slate-600 hover:text-slate-900 hover:bg-slate-100 focus:outline-none transition">
-                    <svg id="nav-open-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                    </svg>
-                    <svg id="nav-close-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                    </svg>
-                </button>
+            <div class="flex items-center gap-4 text-sm font-medium">
+                <a href="/" class="text-slate-600 hover:text-blue-600">হোম</a>
+                <a href="/directory" class="text-slate-600 hover:text-blue-600">ডিরেক্টরি</a>
+                <a href="/screening" class="text-slate-600 hover:text-blue-600">স্ক্রিনিং</a>
+                <a href="https://shop.autism.info.bd" target="_blank" class="text-blue-600 hover:underline">শপ ↗</a>
             </div>
-
         </div>
-    </div>
+    </header>
 
-    <!-- মোবাইল ড্রপডাউন মেনু -->
-    <div id="nav-mobile-dropdown" class="hidden md:hidden border-t border-slate-100 bg-white px-4 pt-3 pb-5 space-y-1 shadow-lg">
-        <a href="/" class="block px-3 py-2 rounded-xl text-sm font-semibold text-slate-700 hover:bg-slate-50">হোম</a>
-        <a href="/#qa" class="block px-3 py-2 rounded-xl text-sm font-semibold text-slate-700 hover:bg-slate-50">প্রশ্নোত্তর হাব</a>
-        <a href="/directory" class="block px-3 py-2 rounded-xl text-sm font-semibold text-slate-700 hover:bg-slate-50">প্রতিষ্ঠান ও স্কুল</a>
-        <a href="/professionals" class="block px-3 py-2 rounded-xl text-sm font-semibold text-slate-700 hover:bg-slate-50">ডাক্তার ও থেরাপিস্ট</a>
-        <a href="/hire" class="block px-3 py-2 rounded-xl text-sm font-semibold text-slate-700 hover:bg-slate-50">হায়ার করুন</a>
-        <a href="/screening" class="block px-3 py-2 rounded-xl text-sm font-semibold text-slate-700 hover:bg-slate-50">স্ক্রিনিং টুল</a>
-        <a href="https://shop.autism.info.bd" target="_blank" rel="noopener noreferrer" class="block px-3 py-2 rounded-xl text-sm font-bold text-indigo-600 bg-indigo-50/70 mt-2">
-            শপ ↗
-        </a>
-    </div>
-</header>
-
-<script>
-    function toggleNavMenu() {
-        const menu = document.getElementById('nav-mobile-dropdown');
-        const openIcon = document.getElementById('nav-open-icon');
-        const closeIcon = document.getElementById('nav-close-icon');
-        menu.classList.toggle('hidden');
-        openIcon.classList.toggle('hidden');
-        closeIcon.classList.toggle('hidden');
-    }
-</script>
-
-    <main class="flex-1 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full">
-        <!-- টাইটেল ও ফিল্টার -->
-        <div class="bg-white p-6 sm:p-8 rounded-3xl border border-gray-200 shadow-sm mb-8 text-center">
-            <span class="text-xs font-bold px-3 py-1 bg-indigo-50 text-indigo-700 rounded-md">জ্ঞানভাণ্ডার</span>
-            <h1 class="text-2xl md:text-3xl font-black text-gray-900 mt-2">অটিজম নিয়ে সাধারণ জিজ্ঞাসা ও বৈজ্ঞানিক উত্তর</h1>
-            <p class="text-xs text-gray-500 mt-1 mb-6">অভিভাবকদের প্রয়োজনীয় প্রশ্নগুলোর নির্ভরযোগ্য তথ্য ও সঠিক দিকনির্দেশনা</p>
-
-            <div class="max-w-md mx-auto mb-6">
-                <input type="text" id="qaSearch" oninput="handleQASearch()" placeholder="যেকোনো বিষয় দিয়ে খুঁজুন (যেমন: লক্ষণ, মেল্টডাউন)..." class="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-xs focus:outline-none focus:border-indigo-600">
+    <!-- Main Container -->
+    <main class="max-w-3xl mx-auto px-4 py-6 flex-grow w-full flex flex-col">
+        
+        <!-- Chat Header -->
+        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm mb-4 flex items-center gap-3">
+            <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-2xl border border-blue-100">
+                🤖
             </div>
-
-            <div class="flex items-center justify-center gap-2 flex-wrap">
-                <button type="button" onclick="filterQACat('All')" class="qa-cat-btn px-4 py-1.5 text-xs font-bold rounded-xl bg-indigo-600 text-white shadow-sm">সবগুলো</button>
-                <button type="button" onclick="filterQACat('লক্ষণ')" class="qa-cat-btn px-4 py-1.5 text-xs font-bold rounded-xl bg-gray-100 text-gray-700 hover:bg-gray-200">লক্ষণ</button>
-                <button type="button" onclick="filterQACat('থেরাপি')" class="qa-cat-btn px-4 py-1.5 text-xs font-bold rounded-xl bg-gray-100 text-gray-700 hover:bg-gray-200">থেরাপি</button>
-                <button type="button" onclick="filterQACat('আচরণ')" class="qa-cat-btn px-4 py-1.5 text-xs font-bold rounded-xl bg-gray-100 text-gray-700 hover:bg-gray-200">আচরণ</button>
-                <button type="button" onclick="filterQACat('ডায়েট')" class="qa-cat-btn px-4 py-1.5 text-xs font-bold rounded-xl bg-gray-100 text-gray-700 hover:bg-gray-200">ডায়েট</button>
+            <div>
+                <h1 class="text-lg font-bold text-slate-900 leading-tight">অটিজম এআই সহায়তা বট</h1>
+                <p class="text-xs text-slate-500">শুধুমাত্র অটিজম, লক্ষণ ও থেরাপি সংক্রান্ত প্রশ্নের নির্ভরযোগ্য উত্তর দেয়</p>
             </div>
         </div>
 
-        <div id="qa-container" class="space-y-4">
-            <p class="text-center py-12 text-gray-400 text-sm">প্রশ্নোত্তর লোড হচ্ছে...</p>
+        <!-- Chat Messages Box -->
+        <div id="chat-box" class="flex-grow bg-white border border-slate-200 rounded-2xl p-4 overflow-y-auto space-y-4 mb-4 shadow-sm min-h-[420px] max-h-[550px]">
+            <!-- Welcome Bot Message -->
+            <div class="flex items-start gap-2.5">
+                <div class="w-8 h-8 rounded-lg bg-blue-600 text-white flex items-center justify-center text-xs font-bold shrink-0">AI</div>
+                <div class="bg-slate-100 text-slate-800 p-3.5 rounded-2xl rounded-tl-none text-sm leading-relaxed max-w-[85%]">
+                    আসসালামু আলাইকুম। আমি অটিজম ও বিশেষ শিশু বিষয়ক সহায়তা এআই। অটিজমের প্রাথমিক লক্ষণ, স্পিচ ও অকুপেশনাল থেরাপি, আচরণ বা দৈনন্দিন গাইডলাইন সংক্রান্ত যেকোনো প্রশ্ন আপনি আমাকে করতে পারেন।
+                </div>
+            </div>
         </div>
+
+        <!-- Quick Suggestions -->
+        <div class="flex gap-2 overflow-x-auto pb-2 mb-2 no-scrollbar text-xs">
+            <button onclick="sendQuickPrompt('অটিজমের প্রাথমিক লক্ষণগুলো কী কী?')" class="whitespace-nowrap px-3 py-1.5 bg-blue-50 text-blue-700 rounded-full border border-blue-100 hover:bg-blue-100 transition">
+                🔹 অটিজমের প্রাথমিক লক্ষণ?
+            </button>
+            <button onclick="sendQuickPrompt('কথা বলতে দেরি হলে কী করা উচিত?')" class="whitespace-nowrap px-3 py-1.5 bg-blue-50 text-blue-700 rounded-full border border-blue-100 hover:bg-blue-100 transition">
+                🔹 কথা বলতে দেরি হলে করণীয়?
+            </button>
+            <button onclick="sendQuickPrompt('আই কন্টাক্ট বাড়ানোর উপায় কী?')" class="whitespace-nowrap px-3 py-1.5 bg-blue-50 text-blue-700 rounded-full border border-blue-100 hover:bg-blue-100 transition">
+                🔹 আই কন্টাক্ট বাড়ানোর উপায়?
+            </button>
+        </div>
+
+        <!-- Input Area -->
+        <form onsubmit="handleChatSubmit(event)" class="flex gap-2">
+            <input type="text" id="user-input" required placeholder="অটিজম সংক্রান্ত আপনার প্রশ্নটি লিখুন..." class="flex-grow px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
+            <button type="submit" id="send-btn" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-5 rounded-xl transition flex items-center justify-center shadow-sm text-sm">
+                পাঠান
+            </button>
+        </form>
+
     </main>
 
-    <footer class="bg-slate-950 text-slate-400 py-8 text-xs text-center border-t border-slate-900 mt-auto">
-        <p>© 2026 সর্বস্বত্ব সংরক্ষিত | autism.info.bd</p>
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 py-4 text-center text-xs text-slate-500">
+        <p>© 2026 Autism.info.bd | জরুরী প্রয়োজনে বিশেষজ্ঞের পরামর্শ গ্রহণ করুন।</p>
     </footer>
 
     <script>
-        const SUPABASE_URL = 'https://nemgvzmhyidnbdxwqrvi.supabase.co';
-        const SUPABASE_KEY = 'sb_publishable_PrhWBDkEc7WyIL25SF66uQ_8DGUUhJ_';
-        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        // আপনার Google Gemini API Key বসাবেন
+        const GEMINI_API_KEY = "AQ.Ab8RN6IZawGig95eEUVLOh3fqUPkpE5gNDcabcYTApRgbVMT6Q"; 
 
-        let qaList = [];
-        let activeCat = 'All';
+        const SYSTEM_INSTRUCTION = `
+        তুমি Autism.info.bd-এর একজন দক্ষ ও সহানুভূতিশীল অটিজম বিশেষজ্ঞ এআই সহকারী। 
+        তোমার মূল লক্ষ্য হলো অভিভাবক এবং পেশাজীবীদের অটিজম স্পেকট্রাম ডিজঅর্ডার (ASD), শিশু বিকাশ, মাইলস্টোন, স্পিচ ও ল্যাঙ্গুয়েজ থেরাপি, অকুপেশনাল থেরাপি, সেন্সরি সমস্যা এবং বিশেষ শিক্ষা বিষয়ে বিজ্ঞানসম্মত ও সহজ বাংলায় তথ্য দেওয়া।
 
-        async function loadQA() {
-            const container = document.getElementById('qa-container');
-            try {
-                const { data, error } = await supabaseClient.from('qa_library').select('*').order('created_at', { ascending: false });
-                if (error) throw error;
-                qaList = data || [];
-                renderQA(qaList);
-            } catch (err) {
-                container.innerHTML = '<p class="text-center py-8 text-red-500 text-sm">প্রশ্নোত্তর লোড করা যায়নি।</p>';
-            }
-        }
+        কঠোর বিধিনিষেধ:
+        ১. যদি ব্যবহারকারী অটিজম, নিউরোডাইভারসিটি, শিশু বিকাশ, আচরণ বা থেরাপিউটিক বিষয়ে প্রশ্ন করে, তবে আন্তরিক ও গোছানো পয়েন্ট আকারে উত্তর দাও।
+        ২. যদি ব্যবহারকারী অটিজম বা শিশু বিকাশ সম্পর্কিত বিষয়ের বাইরে কোনো অপ্রাসঙ্গিক প্রশ্ন করে (যেমন: ক্রিকেট, সিনেমা, রান্না, সাধারণ প্রযুক্তি, রাজনীতি, সাধারণ জ্ঞান ইত্যাদি), তবে বিনীতভাবে ঠিক এই কথাটি বলো: "আমি দুঃখিত, আমি কেবলমাত্র অটিজম ও বিশেষ শিশু বিষয়ক পরামর্শ ও তথ্যের জন্য নিবেদিত একটি এআই। অনুগ্রহ করে অটিজম বা চাইল্ড ডেভেলপমেন্ট সংক্রান্ত প্রশ্ন করুন।"
+        ৩. কোনো অবস্থাতেই প্রেসক্রিপশন বা ওষুধ খাওয়ার চূড়ান্ত পরামর্শ দেবে না।
+        `;
 
-        function renderQA(items) {
-            const container = document.getElementById('qa-container');
-            if (!container) return;
-            if (items.length === 0) {
-                container.innerHTML = '<p class="text-center py-12 text-gray-400 text-sm">কোনো তথ্য পাওয়া যায়নি।</p>';
-                return;
-            }
+        const chatBox = document.getElementById('chat-box');
+        const userInput = document.getElementById('user-input');
+        const sendBtn = document.getElementById('send-btn');
 
-            container.innerHTML = items.map((item, index) => `
-                <div class="border border-gray-200 rounded-2xl bg-white overflow-hidden shadow-sm transition-all duration-200">
-                    <button type="button" onclick="toggleAnswer(${index})" class="w-full text-left p-5 flex items-center justify-between gap-4 focus:outline-none hover:bg-slate-50">
-                        <div class="flex items-center gap-3">
-                            <span class="w-7 h-7 rounded-full bg-indigo-50 text-indigo-600 text-xs font-bold flex items-center justify-center shrink-0 border border-indigo-100">?</span>
-                            <span class="font-bold text-gray-900 text-sm md:text-base">${item.question}</span>
-                        </div>
-                        <div class="flex items-center gap-2 shrink-0">
-                            <span class="text-xs font-semibold px-2.5 py-0.5 rounded bg-indigo-50 text-indigo-600 border border-indigo-100">${item.category}</span>
-                            <span id="qa-arrow-${index}" class="text-gray-400 text-xs transition-transform duration-200">▼</span>
-                        </div>
-                    </button>
-                    <div id="qa-body-${index}" class="hidden px-6 pb-6 pt-2 text-sm text-gray-600 leading-relaxed border-t border-gray-100 bg-slate-50/50">
-                        <p class="mt-2">${item.answer}</p>
-                    </div>
-                </div>
-            `).join('');
-        }
+        // চ্যাট হিস্ট্রি রাখা যাতে আগের কথার রেফারেন্স মনে রাখতে পারে
+        let chatHistory = [];
 
-        function toggleAnswer(index) {
-            const body = document.getElementById(`qa-body-${index}`);
-            const arrow = document.getElementById(`qa-arrow-${index}`);
-            if (body.classList.contains('hidden')) {
-                body.classList.remove('hidden');
-                arrow.style.transform = 'rotate(180deg)';
+        function appendMessage(sender, text) {
+            const isUser = sender === 'user';
+            const msgWrapper = document.createElement('div');
+            msgWrapper.className = `flex items-start gap-2.5 ${isUser ? 'flex-row-reverse' : ''}`;
+
+            const avatar = document.createElement('div');
+            avatar.className = `w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold shrink-0 ${isUser ? 'bg-slate-800 text-white' : 'bg-blue-600 text-white'}`;
+            avatar.innerText = isUser ? 'আপ' : 'AI';
+
+            const bubble = document.createElement('div');
+            bubble.className = `p-3.5 rounded-2xl text-sm leading-relaxed max-w-[85%] ${
+                isUser ? 'bg-blue-600 text-white rounded-tr-none' : 'bg-slate-100 text-slate-800 rounded-tl-none border border-slate-200/60'
+            }`;
+
+            if (isUser) {
+                bubble.innerText = text;
             } else {
-                body.classList.add('hidden');
-                arrow.style.transform = 'rotate(0deg)';
+                bubble.innerHTML = marked.parse(text); // সুন্দর বোল্ড ও পয়েন্ট ফরম্যাট
+            }
+
+            msgWrapper.appendChild(avatar);
+            msgWrapper.appendChild(bubble);
+            chatBox.appendChild(msgWrapper);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        async function handleChatSubmit(e) {
+            if (e) e.preventDefault();
+            const message = userInput.value.trim();
+            if (!message) return;
+
+            appendMessage('user', message);
+            userInput.value = '';
+            userInput.disabled = true;
+            sendBtn.disabled = true;
+            sendBtn.innerText = 'ভাবছে...';
+
+            chatHistory.push({ role: "user", parts: [{ text: message }] });
+
+            try {
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        system_instruction: {
+                            parts: [{ text: SYSTEM_INSTRUCTION }]
+                        },
+                        contents: chatHistory
+                    })
+                });
+
+                const data = await response.json();
+                const aiReply = data?.candidates?.[0]?.content?.parts?.[0]?.text || "দুঃখিত, এই মুহূর্তে উত্তর তৈরিতে সমস্যা হচ্ছে। কিছুক্ষণ পর আবার চেষ্টা করুন।";
+
+                appendMessage('ai', aiReply);
+                chatHistory.push({ role: "model", parts: [{ text: aiReply }] });
+
+            } catch (err) {
+                console.error("AI Error:", err);
+                appendMessage('ai', "সার্ভারে সংযোগ পেতে সমস্যা হয়েছে। আপনার ইন্টারনেট কানেকশন চেক করে আবার চেষ্টা করুন।");
+            } finally {
+                userInput.disabled = false;
+                sendBtn.disabled = false;
+                sendBtn.innerText = 'পাঠান';
+                userInput.focus();
             }
         }
 
-        function filterQACat(cat) {
-            activeCat = cat;
-            document.querySelectorAll('.qa-cat-btn').forEach(btn => {
-                if (btn.innerText.trim() === cat || (cat === 'All' && btn.innerText.trim() === 'সবগুলো')) {
-                    btn.className = 'qa-cat-btn px-4 py-1.5 text-xs font-bold rounded-xl bg-indigo-600 text-white shadow-sm';
-                } else {
-                    btn.className = 'qa-cat-btn px-4 py-1.5 text-xs font-bold rounded-xl bg-gray-100 text-gray-700 hover:bg-gray-200';
-                }
-            });
-            applyQAFilters();
+        function sendQuickPrompt(promptText) {
+            userInput.value = promptText;
+            handleChatSubmit();
         }
-
-        function handleQASearch() {
-            applyQAFilters();
-        }
-
-        function applyQAFilters() {
-            const query = document.getElementById('qaSearch').value.trim().toLowerCase();
-            let result = qaList;
-
-            if (activeCat !== 'All') result = result.filter(q => q.category === activeCat);
-            if (query) {
-                result = result.filter(q => 
-                    (q.question && q.question.toLowerCase().includes(query)) ||
-                    (q.answer && q.answer.toLowerCase().includes(query))
-                );
-            }
-            renderQA(result);
-        }
-
-        document.addEventListener('DOMContentLoaded', loadQA);
     </script>
 </body>
 </html>
