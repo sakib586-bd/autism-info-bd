@@ -4,171 +4,428 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Autism.info.bd | অটিজম তথ্য, সেবা ও সহায়তা পোর্টাল</title>
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Hind Siliguri', sans-serif; }
-        .high-contrast { background-color: #000 !important; color: #fff !important; }
-        .high-contrast * { background-color: #000 !important; color: #fff !important; border-color: #fff !important; }
-        .easy-read { font-size: 1.15rem !important; line-height: 2 !important; }
+        
+        /* গ্লাস ইফেক্ট */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+        
+        .glass-dark {
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* সূক্ষ্ম পালস অ্যানিমেশন */
+        @keyframes float-slow {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(2deg); }
+        }
+        .animate-float { animation: float-slow 6s ease-in-out infinite; }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800 antialiased selection:bg-blue-600 selection:text-white">
+<body class="bg-slate-900 text-slate-100 flex flex-col min-h-screen relative overflow-x-hidden">
 
-    <!-- হেডার ও মেনুবার -->
-   <!-- স্ট্যান্ডার্ড গ্লোবাল হেডার / নেভিগেশন বার -->
-<header class="bg-white border-b border-slate-200 sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex items-center justify-between h-16">
-            
-            <!-- ব্র্যান্ড লোগো ও টাইটেল -->
-            <a href="/" class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-cyan-500 flex items-center justify-center text-white text-xl font-black shadow-sm">
-                    🧩
-                </div>
-                <div>
-                    <span class="text-xl font-bold tracking-tight text-slate-900 block leading-tight">Autism<span class="text-blue-600">.info.bd</span></span>
-                    <span class="text-[11px] text-slate-500 hidden sm:block">অটিজম তথ্য, সেবা ও সহায়তা পোর্টাল</span>
-                </div>
-            </a>
+    <!-- কোডেড লাইভ অ্যানিমেশন ক্যানভাস (ব্যাকগ্রাউন্ড) -->
+    <canvas id="puzzleCanvas" class="fixed inset-0 pointer-events-none z-0"></canvas>
 
-            <!-- ডেস্কটপ মেনুবার -->
-            <nav class="hidden md:flex items-center gap-1 text-sm font-semibold text-slate-600">
-                <a href="/" class="px-3 py-2 rounded-lg hover:text-blue-600 hover:bg-slate-50 transition">হোম</a>
-                <a href="/#qa" class="px-3 py-2 rounded-lg hover:text-blue-600 hover:bg-slate-50 transition">প্রশ্নোত্তর হাব</a>
-                <a href="/directory" class="px-3 py-2 rounded-lg hover:text-blue-600 hover:bg-slate-50 transition">প্রতিষ্ঠান ও স্কুল</a>
-                <a href="/professionals" class="px-3 py-2 rounded-lg hover:text-blue-600 hover:bg-slate-50 transition">ডাক্তার ও থেরাপিস্ট</a>
-                <a href="/hire" class="px-3 py-2 rounded-lg hover:text-blue-600 hover:bg-slate-50 transition">হায়ার করুন</a>
-                <a href="/screening" class="px-3 py-2 rounded-lg hover:text-blue-600 hover:bg-slate-50 transition">স্ক্রিনিং টুল</a>
-                <a href="https://shop.autism.info.bd" target="_blank" rel="noopener noreferrer" class="ml-2 px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-600 font-bold hover:bg-indigo-100 transition flex items-center gap-1">
-                    শপ ↗
+    <!-- নেভিগেশন বার -->
+    <header class="glass-dark border-b border-slate-800 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                
+                <a href="/" class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-blue-500 via-indigo-500 to-amber-400 flex items-center justify-center text-white text-xl font-black shadow-lg shadow-blue-500/30">
+                        🧩
+                    </div>
+                    <div>
+                        <span class="text-xl font-extrabold tracking-tight text-white block leading-tight">Autism<span class="text-blue-400">.info.bd</span></span>
+                        <span class="text-[10px] text-slate-400 hidden sm:block">অটিজম তথ্য, সেবা ও সহায়তা পোর্টাল</span>
+                    </div>
                 </a>
-            </nav>
 
-            <!-- মোবাইল মেনু টগল বাটন -->
-            <div class="flex md:hidden">
-                <button type="button" onclick="toggleNavMenu()" class="p-2 rounded-xl text-slate-600 hover:text-slate-900 hover:bg-slate-100 focus:outline-none transition">
-                    <svg id="nav-open-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                    </svg>
-                    <svg id="nav-close-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                    </svg>
-                </button>
+                <!-- ডেস্কটপ মেনু -->
+                <nav class="hidden md:flex items-center gap-1 text-sm font-semibold text-slate-300">
+                    <a href="/" class="px-3.5 py-2 rounded-xl text-blue-400 bg-blue-500/10 font-bold border border-blue-400/20">হোম</a>
+                    <a href="/qa" class="px-3.5 py-2 rounded-xl hover:text-white hover:bg-slate-800/60 transition">এআই পরামর্শ</a>
+                    <a href="/screening" class="px-3.5 py-2 rounded-xl hover:text-white hover:bg-slate-800/60 transition">স্ক্রিনিং টুল</a>
+                    <a href="/directory" class="px-3.5 py-2 rounded-xl hover:text-white hover:bg-slate-800/60 transition">স্কুল ও সেন্টার</a>
+                    <a href="/professionals" class="px-3.5 py-2 rounded-xl hover:text-white hover:bg-slate-800/60 transition">থেরাপিস্ট হাব</a>
+                    <a href="https://shop.autism.info.bd" target="_blank" rel="noopener noreferrer" class="ml-2 px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold hover:shadow-lg hover:shadow-indigo-500/30 transition flex items-center gap-1.5 text-xs">
+                        রিসোর্স শপ ↗
+                    </a>
+                </nav>
+
+                <!-- মোবাইল মেনু টগল -->
+                <div class="flex md:hidden">
+                    <button type="button" onclick="toggleNavMenu()" class="p-2 rounded-xl text-slate-300 hover:text-white hover:bg-slate-800 transition">
+                        <svg id="nav-open-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                        <svg id="nav-close-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- মোবাইল ড্রপডাউন -->
+        <div id="nav-mobile-dropdown" class="hidden md:hidden border-t border-slate-800 bg-slate-900/95 px-4 pt-3 pb-5 space-y-1 backdrop-blur-xl">
+            <a href="/" class="block px-3 py-2.5 rounded-xl text-sm font-bold text-blue-400 bg-blue-500/10">হোম</a>
+            <a href="/qa" class="block px-3 py-2 rounded-xl text-sm font-semibold text-slate-300 hover:bg-slate-800">এআই পরামর্শ</a>
+            <a href="/screening" class="block px-3 py-2 rounded-xl text-sm font-semibold text-slate-300 hover:bg-slate-800">স্ক্রিনিং টুল</a>
+            <a href="/directory" class="block px-3 py-2 rounded-xl text-sm font-semibold text-slate-300 hover:bg-slate-800">স্কুল ও সেন্টার</a>
+            <a href="/professionals" class="block px-3 py-2 rounded-xl text-sm font-semibold text-slate-300 hover:bg-slate-800">থেরাপিস্ট হাব</a>
+            <a href="https://shop.autism.info.bd" target="_blank" rel="noopener noreferrer" class="block px-3 py-2 rounded-xl text-sm font-bold text-amber-300 bg-amber-400/10 mt-2">
+                রিসোর্স শপ ↗
+            </a>
+        </div>
+    </header>
+
+    <!-- হিরো সেকশন (কোডেড ভেক্টর আর্ট ও অ্যানিমেটেড ব্যাকগ্রাউন্ড) -->
+    <section class="relative z-10 py-16 md:py-28 px-4">
+        <div class="max-w-5xl mx-auto text-center space-y-8">
+            
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-blue-500/30 bg-blue-500/10 text-blue-300 text-xs sm:text-sm font-medium backdrop-blur-md animate-float">
+                <span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
+                বিশেষ শিশুর পাশে আধুনিক ও বিজ্ঞানসম্মত ডিজিটাল সহায়িকা
+            </div>
+
+            <h1 class="text-3xl sm:text-5xl md:text-6xl font-black tracking-tight leading-tight text-white">
+                প্রতিটি শিশু অনন্য, <br>
+                <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-indigo-300 to-amber-300">
+                    তাদের সম্ভাবনাকে বিকশিত করুন
+                </span>
+            </h1>
+
+            <p class="text-slate-300 text-base sm:text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
+                অটিজম কোনো রোগ বা প্রতিবন্ধকতা নয়—এটি স্নায়বিক বিকাশের ভিন্নতা। ঘরে বসে প্রাথমিক স্ক্রিনিং, এলাকাভিত্তিক বিশেষ স্কুল ও থেরাপিস্টদের সন্ধান পেতে আপনার বিশ্বস্ত সহায়িকা।
+            </p>
+
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+                <a href="/screening" class="w-full sm:w-auto px-8 py-4 rounded-2xl bg-gradient-to-r from-blue-600 via-blue-500 to-indigo-600 text-white font-extrabold text-sm sm:text-base shadow-xl shadow-blue-500/25 hover:scale-105 transition duration-300 flex items-center justify-center gap-2">
+                    <span>📋</span> M-CHAT স্ক্রিনিং যাচাই করুন
+                </a>
+                <a href="/qa" class="w-full sm:w-auto px-8 py-4 rounded-2xl glass-dark hover:bg-slate-800/80 text-slate-200 font-bold text-sm sm:text-base border border-slate-700 transition flex items-center justify-center gap-2">
+                    <span>🤖</span> এআই বিশেষজ্ঞ সহকারী
+                </a>
             </div>
 
         </div>
-    </div>
+    </section>
 
-    <!-- মোবাইল ড্রপডাউন মেনু -->
-    <div id="nav-mobile-dropdown" class="hidden md:hidden border-t border-slate-100 bg-white px-4 pt-3 pb-5 space-y-1 shadow-lg">
-        <a href="/" class="block px-3 py-2 rounded-xl text-sm font-semibold text-slate-700 hover:bg-slate-50">হোম</a>
-        <a href="/#qa" class="block px-3 py-2 rounded-xl text-sm font-semibold text-slate-700 hover:bg-slate-50">প্রশ্নোত্তর হাব</a>
-        <a href="/directory" class="block px-3 py-2 rounded-xl text-sm font-semibold text-slate-700 hover:bg-slate-50">প্রতিষ্ঠান ও স্কুল</a>
-        <a href="/professionals" class="block px-3 py-2 rounded-xl text-sm font-semibold text-slate-700 hover:bg-slate-50">ডাক্তার ও থেরাপিস্ট</a>
-        <a href="/hire" class="block px-3 py-2 rounded-xl text-sm font-semibold text-slate-700 hover:bg-slate-50">হায়ার করুন</a>
-        <a href="/screening" class="block px-3 py-2 rounded-xl text-sm font-semibold text-slate-700 hover:bg-slate-50">স্ক্রিনিং টুল</a>
-        <a href="https://shop.autism.info.bd" target="_blank" rel="noopener noreferrer" class="block px-3 py-2 rounded-xl text-sm font-bold text-indigo-600 bg-indigo-50/70 mt-2">
-            শপ ↗
-        </a>
-    </div>
-</header>
+    <!-- মূল মডিউল কার্ডসমূহ (গ্রাফিক্যাল ভেক্টর স্টাইল) -->
+    <section class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
+        <div class="text-center max-w-xl mx-auto mb-12">
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-white">আমাদের প্ল্যাটফর্মের সেবাসমূহ</h2>
+            <p class="text-slate-400 text-sm mt-1.5">বিশেষ শিশুর অভিভাবক ও শিক্ষকদের জন্য পরিকল্পিত সুনির্দিষ্ট টুলস</p>
+        </div>
 
-<script>
-    function toggleNavMenu() {
-        const menu = document.getElementById('nav-mobile-dropdown');
-        const openIcon = document.getElementById('nav-open-icon');
-        const closeIcon = document.getElementById('nav-close-icon');
-        menu.classList.toggle('hidden');
-        openIcon.classList.toggle('hidden');
-        closeIcon.classList.toggle('hidden');
-    }
-</script>
-    <main>
-        <!-- হিরো ব্যানার -->
-        <section class="relative bg-gradient-to-b from-blue-900 via-blue-800 to-indigo-950 text-white py-20 px-4 text-center">
-            <div class="max-w-4xl mx-auto">
-                <span class="inline-flex items-center gap-1.5 py-1 px-3.5 rounded-full text-xs font-semibold bg-blue-500/20 text-blue-200 border border-blue-400/30 mb-6">
-                    ✨ বাংলাদেশের প্রথম পূর্ণাঙ্গ অটিজম তথ্য হাব
-                </span>
-                <h1 class="text-3xl md:text-5xl lg:text-6xl font-black leading-tight mb-6">
-                    অটিজম নিয়ে সঠিক তথ্য ও <br class="hidden sm:block">
-                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 via-teal-200 to-cyan-300">বিশ্বাসযোগ্য সহায়তার এক ঠিকানা</span>
-                </h1>
-                <p class="text-base md:text-lg text-blue-100/90 max-w-2xl mx-auto mb-10">
-                    অভিভাবকদের সঠিক দিকনির্দেশনা, দেশজুড়ে থেরাপি সেন্টার, বিশেষজ্ঞ প্রফেশনাল এবং প্রয়োজনীয় থেরাপিউটিক টুলসের সমন্বিত প্ল্যাটফর্ম।
-                </p>
-                <div class="flex flex-wrap justify-center gap-4">
-                    <a href="/directory.html" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-6 py-3 rounded-xl transition shadow-lg text-sm">
-                        🏫 প্রতিষ্ঠান খুঁজুন
-                    </a>
-                    <a href="/qa.html" class="bg-white/10 hover:bg-white/20 text-white border border-white/20 font-bold px-6 py-3 rounded-xl transition text-sm">
-                        💡 প্রশ্নোত্তর লাইব্রেরি
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            
+            <!-- কার্ড ১ -->
+            <div class="glass-dark p-6 rounded-3xl border border-slate-800 hover:border-blue-500/50 hover:shadow-2xl hover:shadow-blue-500/10 transition duration-300 flex flex-col justify-between group">
+                <div>
+                    <div class="w-14 h-14 rounded-2xl bg-rose-500/10 border border-rose-500/20 text-rose-400 flex items-center justify-center text-2xl mb-6 group-hover:scale-110 transition">
+                        📋
+                    </div>
+                    <span class="text-[11px] font-bold text-rose-400 tracking-wider uppercase">প্রাথমিক মূল্যায়ন</span>
+                    <h3 class="text-lg font-bold text-white mt-1 mb-2">M-CHAT-R স্ক্রিনিং</h3>
+                    <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">
+                        ১৬-৩০ মাস বয়সী শিশুর বিকাশ ও সামাজিক সংকেত যাচাইয়ের আন্তর্জাতিক মানসম্মত প্রশ্নমালা।
+                    </p>
+                </div>
+                <div class="pt-6">
+                    <a href="/screening" class="text-rose-400 font-bold text-xs hover:underline flex items-center gap-1">
+                        স্ক্রিনিং শুরু করুন ➔
                     </a>
                 </div>
             </div>
-        </section>
 
-        <!-- মূল ফিচার কার্ডস (সার্ভিস নেভিগেশন) -->
-        <section class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12">
-                <h2 class="text-2xl md:text-3xl font-black text-gray-900">আমাদের মূল সেবাসমূহ</h2>
-                <p class="text-sm text-gray-600 mt-2">আপনার প্রয়োজনীয় বিভাগটি নির্বাচন করুন</p>
+            <!-- কার্ড ২ -->
+            <div class="glass-dark p-6 rounded-3xl border border-slate-800 hover:border-indigo-500/50 hover:shadow-2xl hover:shadow-indigo-500/10 transition duration-300 flex flex-col justify-between group">
+                <div>
+                    <div class="w-14 h-14 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 flex items-center justify-center text-2xl mb-6 group-hover:scale-110 transition">
+                        🤖
+                    </div>
+                    <span class="text-[11px] font-bold text-indigo-400 tracking-wider uppercase">তাৎক্ষণিক সমাধান</span>
+                    <h3 class="text-lg font-bold text-white mt-1 mb-2">অটিজম এআই কনসালটেন্ট</h3>
+                    <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">
+                        শুধুমাত্র অটিজম, স্পিচ ও অকুপেশনাল থেরাপির বিজ্ঞানসম্মত উত্তর দিতে বিশেষভাবে প্রশিক্ষিত বট।
+                    </p>
+                </div>
+                <div class="pt-6">
+                    <a href="/qa" class="text-indigo-400 font-bold text-xs hover:underline flex items-center gap-1">
+                        এআই-এর সাথে কথা বলুন ➔
+                    </a>
+                </div>
+            </div>
+
+            <!-- কার্ড ৩ -->
+            <div class="glass-dark p-6 rounded-3xl border border-slate-800 hover:border-teal-500/50 hover:shadow-2xl hover:shadow-teal-500/10 transition duration-300 flex flex-col justify-between group">
+                <div>
+                    <div class="w-14 h-14 rounded-2xl bg-teal-500/10 border border-teal-500/20 text-teal-400 flex items-center justify-center text-2xl mb-6 group-hover:scale-110 transition">
+                        🏫
+                    </div>
+                    <span class="text-[11px] font-bold text-teal-400 tracking-wider uppercase">সেন্টার ডিরেক্টরি</span>
+                    <h3 class="text-lg font-bold text-white mt-1 mb-2">বিশেষায়িত স্কুল ও সেন্টার</h3>
+                    <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">
+                        ঢাকা ও সমগ্র বাংলাদেশের ভেরিফায়েড বিশেষ শিক্ষা প্রতিষ্ঠান ও ডে-কেয়ার সেন্টারের ডাটাবেস।
+                    </p>
+                </div>
+                <div class="pt-6">
+                    <a href="/directory" class="text-teal-400 font-bold text-xs hover:underline flex items-center gap-1">
+                        সেন্টার খুঁজুন ➔
+                    </a>
+                </div>
+            </div>
+
+            <!-- কার্ড ৪ -->
+            <div class="glass-dark p-6 rounded-3xl border border-slate-800 hover:border-amber-500/50 hover:shadow-2xl hover:shadow-amber-500/10 transition duration-300 flex flex-col justify-between group">
+                <div>
+                    <div class="w-14 h-14 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-400 flex items-center justify-center text-2xl mb-6 group-hover:scale-110 transition">
+                        👨‍⚕️
+                    </div>
+                    <span class="text-[11px] font-bold text-amber-400 tracking-wider uppercase">প্রফেশনাল ডিরেক্টরি</span>
+                    <h3 class="text-lg font-bold text-white mt-1 mb-2">থেরাপিস্ট ও প্রফেশনালস</h3>
+                    <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">
+                        স্পিচ থেরাপিস্ট (SLT), অকুপেশনাল থেরাপিস্ট (OT) ও স্পেশাল এডুকেটরদের যাচাইকৃত তালিকা।
+                    </p>
+                </div>
+                <div class="pt-6">
+                    <a href="/professionals" class="text-amber-400 font-bold text-xs hover:underline flex items-center gap-1">
+                        থেরাপিস্ট খুঁজুন ➔
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- সচেতনতামূলক বিভাগ: কোডেড ভেক্টর কার্ডে অটিজমের প্রাথমিক লক্ষণসমূহ -->
+    <section class="relative z-10 py-16 px-4 bg-slate-950/60 border-y border-slate-800/80">
+        <div class="max-w-6xl mx-auto space-y-12">
+            
+            <div class="text-center max-w-2xl mx-auto space-y-2">
+                <span class="text-xs font-bold text-blue-400 bg-blue-500/10 border border-blue-500/20 px-3 py-1 rounded-full uppercase">অভিভাবক সচেতনতা</span>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-white">কখন সচেতন হওয়া জরুরি?</h2>
+                <p class="text-slate-400 text-sm">১৮ থেকে ৩৬ মাস বয়সের শিশুদের মধ্যে নিচের আচরণগুলো গভীরভাবে পর্যবেক্ষণ করুন:</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- ১. প্রতিষ্ঠান -->
-                <a href="/directory.html" class="p-6 bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition duration-300 block group">
-                    <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">🏫</div>
-                    <h3 class="text-lg font-bold text-gray-900 mb-2">প্রতিষ্ঠান ও স্কুল ডিরেক্টরি</h3>
-                    <p class="text-xs text-gray-600 leading-relaxed mb-4">দেশজুড়ে নিবন্ধিত বিশেষায়িত স্কুল, ডে-কেয়ার ও চাইল্ড ডেভেলপমেন্ট সেন্টারের যাচাইকৃত তালিকা।</p>
-                    <span class="text-xs font-bold text-blue-600">সবগুলো দেখুন →</span>
-                </a>
+                
+                <div class="glass-dark p-6 rounded-3xl border border-slate-800 flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center text-xl font-bold mb-4">
+                            👁️
+                        </div>
+                        <h4 class="font-bold text-white text-base mb-2">আই-কন্টাক্ট ও ডাকলে সাড়া না দেওয়া</h4>
+                        <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">
+                            নাম ধরে বেশ কয়েকবার ডাকলেও নিজের মনে মেতে থাকা, চোখে চোখ না রাখা বা অন্যের অঙ্গভঙ্গির দিকে খেয়াল না করা।
+                        </p>
+                    </div>
+                </div>
 
-                <!-- ২. থেরাপিস্ট -->
-                <a href="/professionals.html" class="p-6 bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition duration-300 block group">
-                    <div class="w-12 h-12 bg-teal-50 text-teal-600 rounded-xl flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">👨‍⚕️</div>
-                    <h3 class="text-lg font-bold text-gray-900 mb-2">ডাক্তার ও থেরাপিস্ট হাব</h3>
-                    <p class="text-xs text-gray-600 leading-relaxed mb-4">স্পিচ অ্যান্ড ল্যাঙ্গুয়েজ, অকুপেশনাল থেরাপিস্ট ও চাইল্ড নিউরোলজিস্টদের চেম্বার ও কন্টাক্ট।</p>
-                    <span class="text-xs font-bold text-teal-600">প্রোফাইল দেখুন →</span>
-                </a>
+                <div class="glass-dark p-6 rounded-3xl border border-slate-800 flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-xl font-bold mb-4">
+                            🔄
+                        </div>
+                        <h4 class="font-bold text-white text-base mb-2">পুনরাবৃত্তিমূলক আচরণ</h4>
+                        <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">
+                            হাতের আঙুল অদ্ভুতভাবে ঘোরানো (Flapping), একই ভঙ্গিমায় অনবরত গোল গোল ঘোরা, বা খেলনা দিয়ে সাধারণ খেলার বদলে সারিবদ্ধ রাখা।
+                        </p>
+                    </div>
+                </div>
 
-                <!-- ৩. প্রশ্নোত্তর -->
-                <a href="/qa.html" class="p-6 bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition duration-300 block group">
-                    <div class="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-xl flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">💡</div>
-                    <h3 class="text-lg font-bold text-gray-900 mb-2">প্রশ্নোত্তর জ্ঞানভাণ্ডার</h3>
-                    <p class="text-xs text-gray-600 leading-relaxed mb-4">অটিজমের লক্ষণ, মেল্টডাউন ও থেরাপি সংক্রান্ত সাধারণ প্রশ্নের সহজ ও বিজ্ঞানসম্মত সমাধান।</p>
-                    <span class="text-xs font-bold text-indigo-600">প্রশ্নোত্তর পড়ুন →</span>
+                <div class="glass-dark p-6 rounded-3xl border border-slate-800 flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-rose-500/20 text-rose-400 flex items-center justify-center text-xl font-bold mb-4">
+                            🗣️
+                        </div>
+                        <h4 class="font-bold text-white text-base mb-2">কথা বলায় বিলম্ব (Speech Delay)</h4>
+                        <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">
+                            নির্দিষ্ট বয়সে অর্থপূর্ণ শব্দ না বলা, আকার-ইঙ্গিতে মনের ভাব প্রকাশ না করা, বা অর্থ না বুঝে অন্যের বলা কথা হুবহু আওড়ানো।
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- কল টু অ্যাকশন ব্যানার -->
+            <div class="glass-dark p-8 rounded-3xl border border-blue-500/30 flex flex-col sm:flex-row items-center justify-between gap-6">
+                <div class="space-y-1 text-center sm:text-left">
+                    <h3 class="text-lg font-bold text-white">দেরি না করে আজই শিশুর বিকাশ যাচাই করুন</h3>
+                    <p class="text-slate-400 text-xs sm:text-sm">M-CHAT-R স্ক্রিনিং করতে মাত্র ৩-৫ মিনিট সময় প্রয়োজন।</p>
+                </div>
+                <a href="/screening" class="whitespace-nowrap px-6 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs sm:text-sm transition shadow-lg shadow-blue-600/30">
+                    ফ্রি স্ক্রিনিং শুরু করুন ➔
                 </a>
             </div>
-        </section>
-    </main>
+
+        </div>
+    </section>
 
     <!-- ফুটার -->
-    <footer class="bg-slate-950 text-slate-400 py-12 text-sm border-t border-slate-900">
-        <div class="max-w-7xl mx-auto px-4 text-center space-y-3">
-            <p class="font-bold text-white text-base">Autism.info.bd</p>
-            <p class="text-xs text-slate-500 max-w-md mx-auto">অটিজম ও নিউরো-ডেভেলপমেন্টাল বৈচিত্র্যময় শিশুদের পাশে নির্ভরযোগ্য তথ্যের উন্মুক্ত পোর্টাল।</p>
-            <p class="text-xs text-slate-600">© 2026 সর্বস্বত্ব সংরক্ষিত | autism.info.bd</p>
+    <footer class="relative z-10 glass-dark border-t border-slate-800 py-10 px-4 mt-auto text-slate-400 text-xs">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex items-center gap-3">
+                <span class="text-2xl">🧩</span>
+                <div>
+                    <p class="text-sm font-bold text-white">Autism.info.bd</p>
+                    <p class="text-[11px] text-slate-500">বিশেষ শিশুর পাশে সর্বক্ষণ।</p>
+                </div>
+            </div>
+            
+            <div class="flex gap-6 text-slate-400">
+                <a href="/screening" class="hover:text-white transition">স্ক্রিনিং</a>
+                <a href="/qa" class="hover:text-white transition">এআই কনসালটেন্ট</a>
+                <a href="/directory" class="hover:text-white transition">স্কুল ও সেন্টার</a>
+                <a href="mailto:contact@autism.info.bd" class="hover:text-blue-400 transition">contact@autism.info.bd</a>
+            </div>
+
+            <p class="text-slate-500">© 2026 Autism.info.bd. সর্বস্বত্ব সংরক্ষিত।</p>
         </div>
     </footer>
 
+    <!-- স্ক্রিপ্ট: নেভিগেশন ও লাইভ ক্যানভাস ব্যাকগ্রাউন্ড অ্যানিমেশন -->
     <script>
-        let currentSize = 16;
-        function changeFontSize(delta) {
-            if (delta === 0) currentSize = 16;
-            else currentSize += delta * 2;
-            document.documentElement.style.fontSize = currentSize + 'px';
+        // ১. মোবাইল নেভিগেশন টগল
+        function toggleNavMenu() {
+            const menu = document.getElementById('nav-mobile-dropdown');
+            const openIcon = document.getElementById('nav-open-icon');
+            const closeIcon = document.getElementById('nav-close-icon');
+            menu.classList.toggle('hidden');
+            openIcon.classList.toggle('hidden');
+            closeIcon.classList.toggle('hidden');
         }
-        function toggleContrast() { document.body.classList.toggle('high-contrast'); }
-        function toggleEasyRead() { document.body.classList.toggle('easy-read'); }
-        function readAloud() {
-            if ('speechSynthesis' in window) {
-                const utterance = new SpeechSynthesisUtterance("Autism.info.bd তে আপনাকে স্বাগতম। এটি বাংলাদেশের প্রথম পূর্ণাঙ্গ অটিজম তথ্য ও সেবা হাব।");
-                utterance.lang = 'bn-BD';
-                window.speechSynthesis.speak(utterance);
+
+        // ২. পিওর জাভাস্ক্রিপ্ট ক্যানভাস অ্যানিমেশন (অটিজম থিম পাজল ও নিউরাল পার্টিকেল)
+        const canvas = document.getElementById('puzzleCanvas');
+        const ctx = canvas.getContext('2d');
+
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+
+        window.addEventListener('resize', () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            initParticles();
+        });
+
+        const colors = [
+            'rgba(59, 130, 246, 0.35)',  // ব্লু
+            'rgba(99, 102, 241, 0.35)',  // ইন্ডিগো
+            'rgba(245, 158, 11, 0.35)',  // অ্যাম্বার/গোল্ড
+            'rgba(20, 184, 166, 0.35)'   // টিল
+        ];
+
+        let particles = [];
+        const particleCount = Math.floor(Math.min(width, height) / 25);
+
+        class PuzzleParticle {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.size = Math.random() * 14 + 10;
+                this.speedX = (Math.random() - 0.5) * 0.6;
+                this.speedY = (Math.random() - 0.5) * 0.6;
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+                this.angle = Math.random() * Math.PI * 2;
+                this.rotSpeed = (Math.random() - 0.5) * 0.01;
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                this.angle += this.rotSpeed;
+
+                if (this.x < 0) this.x = width;
+                if (this.x > width) this.x = 0;
+                if (this.y < 0) this.y = height;
+                if (this.y > height) this.y = 0;
+            }
+
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.angle);
+                ctx.fillStyle = this.color;
+
+                // ক্যানভাসে পাজল শেপ ড্র করা
+                const s = this.size;
+                ctx.beginPath();
+                ctx.moveTo(-s/2, -s/2);
+                ctx.lineTo(-s/6, -s/2);
+                ctx.arc(0, -s/2, s/6, Math.PI, 0, false);
+                ctx.lineTo(s/2, -s/2);
+                ctx.lineTo(s/2, -s/6);
+                ctx.arc(s/2, 0, s/6, -Math.PI/2, Math.PI/2, false);
+                ctx.lineTo(s/2, s/2);
+                ctx.lineTo(s/6, s/2);
+                ctx.arc(0, s/2, s/6, 0, Math.PI, false);
+                ctx.lineTo(-s/2, s/2);
+                ctx.closePath();
+                ctx.fill();
+
+                ctx.restore();
             }
         }
+
+        function initParticles() {
+            particles = [];
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new PuzzleParticle());
+            }
+        }
+
+        // কানেক্টিং নিউরাল লাইনস
+        function drawConnections() {
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+
+                    if (dist < 120) {
+                        ctx.strokeStyle = `rgba(148, 163, 184, ${0.15 * (1 - dist / 120)})`;
+                        ctx.lineWidth = 1;
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            
+            // পার্টিকেল ড্র
+            for (let p of particles) {
+                p.update();
+                p.draw();
+            }
+            drawConnections();
+
+            requestAnimationFrame(animate);
+        }
+
+        initParticles();
+        animate();
     </script>
 </body>
 </html>
