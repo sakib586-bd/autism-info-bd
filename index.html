@@ -130,8 +130,8 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16 gap-2">
 
-                <!-- লোগো ও ব্র্যান্ড -->
-                <a href="/" class="flex items-center gap-2.5 select-none shrink-0 group">
+                <!-- লোগো ও ব্র্যান্ড (notranslate যুক্ত থাকায় কখনো নাম পরিবর্তন হবে না) -->
+                <a href="/" class="flex items-center gap-2.5 select-none shrink-0 group notranslate" translate="no">
                     <svg width="36" height="36" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" class="shrink-0 drop-shadow-sm transition-transform duration-300 group-hover:scale-105">
                         <path d="M50 10 L53.5 21 L64 21.5 L55.5 28 L59 38 L50 32 L41 38 L44.5 28 L36 21.5 L46.5 21 Z" fill="#F59E0B"/>
                         <circle cx="50" cy="24" r="2.5" fill="#FDE68A"/>
@@ -144,7 +144,7 @@
                         <path d="M50 78 C46 72 45 62 48 54 C50 56 50 56 52 54 C55 62 54 72 50 78 Z" fill="#0F766E"/>
                     </svg>
 
-                    <div class="flex flex-col leading-none">
+                    <div class="flex flex-col leading-none notranslate" translate="no">
                         <div class="text-xl sm:text-2xl font-black tracking-tight flex items-baseline">
                             <span class="text-slate-900">Autism</span>
                             <span class="text-[#16a34a] font-extrabold ml-0.5">.info</span>
@@ -683,7 +683,6 @@
                     </div>
                 </div>
 
-                <!-- আইডি ৩ ফিক্সড -->
                 <div class="bg-white/60 backdrop-blur-md rounded-2xl p-5 border border-white/80 shadow-sm">
                     <button type="button" onclick="toggleFaq(3)" class="w-full flex justify-between items-center text-left font-bold text-slate-900 text-base sm:text-lg">
                         <span>৩. অকুপেশনাল ও স্পিচ থেরাপি কি একই সাথে শুরু করা উচিত?</span>
@@ -710,7 +709,7 @@
     <!-- ফুটার -->
     <footer class="relative z-10 glass-panel border-t border-slate-200 pt-12 pb-10 px-4 mt-16 text-slate-600 text-sm">
         <div class="max-w-2xl mx-auto text-center space-y-3 mb-10">
-            <a href="/" class="inline-flex items-center justify-center gap-3 select-none">
+            <a href="/" class="inline-flex items-center justify-center gap-3 select-none notranslate" translate="no">
                 <svg width="38" height="38" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" class="shrink-0 drop-shadow-sm">
                     <path d="M50 10 L53.5 21 L64 21.5 L55.5 28 L59 38 L50 32 L41 38 L44.5 28 L36 21.5 L46.5 21 Z" fill="#F59E0B"/>
                     <circle cx="50" cy="24" r="2.5" fill="#FDE68A"/>
@@ -908,7 +907,7 @@
         renderLeaves();
     </script>
 
-    <!-- গুগল অনুবাদ স্ক্রিপ্ট (১-ক্লিক সুরক্ষিত টগল) -->
+    <!-- গুগল অনুবাদ স্ক্রিপ্ট (১-ক্লিক সুরক্ষিত টগল ও আসল বাংলা রিস্টোর) -->
     <script type="text/javascript">
         function googleTranslateElementInit() {
             new google.translate.TranslateElement({
@@ -922,19 +921,19 @@
             const langLabel = document.getElementById('currentLangLabel');
             const select = document.querySelector('.goog-te-combo');
             
-            if (!select) {
-                alert('অনুবাদ ইঞ্জিন প্রস্তুত হচ্ছে, অনুগ্রহ করে ১ সেকেন্ড পর আবার চেষ্টা করুন।');
-                return;
-            }
-
-            if (langLabel.innerText === 'English') {
+            if (langLabel.innerText.trim() === 'English') {
+                if (!select) {
+                    alert('অনুবাদ ইঞ্জিন প্রস্তুত হচ্ছে, অনুগ্রহ করে ১ সেকেন্ড পর আবার চেষ্টা করুন।');
+                    return;
+                }
                 select.value = 'en';
                 select.dispatchEvent(new Event('change'));
                 langLabel.innerText = 'বাংলা';
             } else {
-                select.value = 'bn';
-                select.dispatchEvent(new Event('change'));
-                langLabel.innerText = 'English';
+                // ডাবল অনুবাদ বিকৃতি বন্ধ করে সরাসরি আসল নিখুঁত বাংলা পেজ রিস্টোর
+                document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=" + location.hostname + ";";
+                location.reload();
             }
         }
     </script>
