@@ -105,98 +105,80 @@
     <div class="fixed top-[-10%] left-[-5%] w-[45vw] h-[45vw] rounded-full bg-blue-100/40 blur-[130px] pointer-events-none -z-10"></div>
     <div class="fixed top-[25%] right-[-5%] w-[40vw] h-[40vw] rounded-full bg-emerald-100/40 blur-[140px] pointer-events-none -z-10"></div>
 
-    <!-- গ্লোবাল নেভিগেশন বার -->
-    <header class="glass-nav sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-20">
+  <!-- স্লিম ও কম্প্যাক্ট নেভিগেশন বার -->
+<header class="glass-nav sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-16">
 
-                <!-- লোগো: কনসেপ্ট B (Caring Hands & Sprout Star) -->
-                <a href="/" class="flex items-center gap-3.5 select-none group">
-                    <svg width="46" height="46" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" class="shrink-0 drop-shadow-sm transition-transform duration-300 group-hover:scale-105">
-                        <path d="M50 10 L53.5 21 L64 21.5 L55.5 28 L59 38 L50 32 L41 38 L44.5 28 L36 21.5 L46.5 21 Z" fill="#F59E0B"/>
-                        <circle cx="50" cy="24" r="2.5" fill="#FDE68A"/>
-                        <path d="M30 76 C20 62 20 44 32 32 C34 38 38 43 45 46 C38 48 32 54 30 76 Z" fill="#0D9488"/>
-                        <path d="M48 64 C43 54 37 46 38 36 C42 41 46 45 50 49 C49 54 49 59 48 64 Z" fill="#14B8A6"/>
-                        <path d="M22 64 C16 52 22 38 27 33 C27 40 30 46 36 50 C30 54 25 58 22 64 Z" fill="#10B981" opacity="0.85"/>
-                        <path d="M70 76 C80 62 80 44 68 32 C66 38 62 43 55 46 C62 48 68 54 70 76 Z" fill="#2563EB"/>
-                        <path d="M52 64 C57 54 63 46 62 36 C58 41 54 45 50 49 C51 54 51 59 52 64 Z" fill="#3B82F6"/>
-                        <path d="M78 64 C84 52 78 38 73 33 C73 40 70 46 64 50 C70 54 75 58 78 64 Z" fill="#60A5FA" opacity="0.85"/>
-                        <path d="M50 78 C46 72 45 62 48 54 C50 56 50 56 52 54 C55 62 54 72 50 78 Z" fill="#0F766E"/>
-                    </svg>
-
-                    <div class="flex flex-col leading-none">
-                        <div class="text-2xl sm:text-[26px] font-black tracking-tight flex items-baseline">
-                            <span class="text-slate-900">Autism</span>
-                            <span class="text-[#16a34a] font-extrabold ml-0.5">.info</span>
-                            <span class="text-[#dc2626] font-extrabold">.bd</span>
-                        </div>
-                        <span class="text-[11px] font-medium text-slate-500 tracking-wider mt-1.5 block">
-                            অটিজম তথ্য, সেবা ও সহায়তা পোর্টাল
-                        </span>
+            <!-- বামে: লোগো ও টেক্সট (কম্প্যাক্ট সাইজ) -->
+            <a href="/" class="flex items-center gap-2.5 select-none shrink-0 group">
+                <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-600 to-teal-400 flex items-center justify-center shadow-xs">
+                    <span class="text-lg">🧩</span>
+                </div>
+                <div class="flex flex-col leading-none">
+                    <div class="text-xl font-black tracking-tight flex items-baseline">
+                        <span class="text-slate-900">Autism</span>
+                        <span class="text-blue-600 font-extrabold ml-0.5">.info.bd</span>
                     </div>
-                </a>
+                    <span class="text-[10px] font-medium text-slate-500 tracking-wide mt-1 block">
+                        অটিজম তথ্য, সেবা ও সহায়তা পোর্টাল
+                    </span>
+                </div>
+            </a>
 
-                <!-- নির্ধারিত ক্রমানুসারে মেনু (ল্যাপটপ ও ডেক্সটপে দৃশ্যমান) -->
-                <nav class="hidden xl:flex items-center gap-1.5 text-[15px] font-semibold text-slate-600">
-                    <a href="/" class="px-3 py-1.5 rounded-xl text-blue-600 bg-blue-50/80 font-bold">হোম</a>
-                    <a href="/directory" class="px-3 py-1.5 rounded-xl hover:text-blue-600 hover:bg-slate-100/70 transition">সেন্টার</a>
-                    <a href="/doctors" class="px-3 py-1.5 rounded-xl hover:text-blue-600 hover:bg-slate-100/70 transition">ডক্টর</a>
-                    <a href="/therapists" class="px-3 py-1.5 rounded-xl hover:text-blue-600 hover:bg-slate-100/70 transition">থেরাপিস্ট</a>
-                    <a href="/educators" class="px-3 py-1.5 rounded-xl hover:text-blue-600 hover:bg-slate-100/70 transition">এডুকেটর</a>
-                    <a href="/research" class="px-3 py-1.5 rounded-xl hover:text-blue-600 hover:bg-slate-100/70 transition">বই ও গবেষণা</a>
-                    <a href="/articles" class="px-3 py-1.5 rounded-xl hover:text-blue-600 hover:bg-slate-100/70 transition">আর্টিকেল</a>
-                    <a href="/qa" class="px-3 py-1.5 rounded-xl hover:text-blue-600 hover:bg-slate-100/70 transition">প্রশ্নোত্তর</a>
-                    <a href="/screening" class="px-3 py-1.5 rounded-xl hover:text-blue-600 hover:bg-slate-100/70 transition">স্ক্রিনিং</a>
-                    <a href="/contact" class="px-3 py-1.5 rounded-xl hover:text-blue-600 hover:bg-slate-100/70 transition">যোগাযোগ</a>
-                    <a href="https://shop.autism.info.bd" target="_blank" rel="noopener noreferrer" class="ml-2 px-4 py-1.5 rounded-xl bg-blue-600 text-white font-bold hover:bg-blue-700 transition shadow-sm text-sm">
-                        রিসোর্স শপ ↗
+            <!-- ডানে: মেনু লিংক ও বাটনসমূহ (সব এক লাইনে) -->
+            <div class="flex items-center gap-2">
+                <nav class="hidden lg:flex items-center gap-1 text-[13.5px] font-semibold text-slate-600">
+                    <a href="/" class="px-2.5 py-1.5 rounded-lg text-blue-600 bg-blue-50/80 font-bold">হোম</a>
+                    <a href="/qa" class="px-2.5 py-1.5 rounded-lg hover:text-blue-600 hover:bg-slate-100/70 transition">প্রশ্নোত্তর হাব</a>
+                    <a href="/directory" class="px-2.5 py-1.5 rounded-lg hover:text-blue-600 hover:bg-slate-100/70 transition">প্রতিষ্ঠান ও স্কুল</a>
+                    <a href="/doctors" class="px-2.5 py-1.5 rounded-lg hover:text-blue-600 hover:bg-slate-100/70 transition">ডাক্তার ও থেরাপিস্ট</a>
+                    <a href="/educators" class="px-2.5 py-1.5 rounded-lg hover:text-blue-600 hover:bg-slate-100/70 transition">হায়ার করুন</a>
+                    <a href="/screening" class="px-2.5 py-1.5 rounded-lg hover:text-blue-600 hover:bg-slate-100/70 transition">স্ক্রিনিং টুল</a>
+                    <a href="https://shop.autism.info.bd" target="_blank" rel="noopener noreferrer" class="ml-1 px-3 py-1.5 rounded-lg bg-blue-50 text-blue-700 hover:bg-blue-600 hover:text-white transition font-bold text-xs flex items-center gap-1 border border-blue-200/60">
+                        <span>শপ</span>
+                        <span class="text-[11px]">↗</span>
                     </a>
                 </nav>
 
-                <!-- ডান পাশের কন্ট্রোলস (ভাষা বাটন ও মোবাইল মেনু টগল) -->
-                <div class="flex items-center gap-2.5">
-                    <!-- ভাষা পরিবর্তন টগল বাটন -->
-                    <button onclick="toggleSiteLanguage()" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/80 hover:bg-white text-slate-800 text-xs font-bold border border-slate-200 shadow-sm transition cursor-pointer select-none">
-                        <span class="text-sm">🌐</span>
-                        <span id="currentLangLabel">English</span>
-                    </button>
+                <!-- ভাষা পরিবর্তন বাটন -->
+                <button onclick="toggleSiteLanguage()" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-white/80 hover:bg-white text-slate-700 text-xs font-bold border border-slate-200 shadow-2xs transition select-none ml-1">
+                    <span>🌐</span>
+                    <span id="currentLangLabel">English</span>
+                </button>
 
-                    <!-- মোবাইল মেনু বাটন -->
-                    <div class="flex xl:hidden">
-                        <button type="button" onclick="toggleNavMenu()" class="p-2.5 rounded-2xl text-slate-700 hover:bg-slate-100/80 transition" aria-label="Toggle Navigation">
-                            <svg id="nav-open-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                            </svg>
-                            <svg id="nav-close-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-
+                <!-- মোবাইল মেনু টগল বাটন -->
+                <button type="button" onclick="toggleNavMenu()" class="lg:hidden p-1.5 rounded-xl text-slate-700 hover:bg-slate-100/80 transition" aria-label="Toggle Navigation">
+                    <svg id="nav-open-icon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                    <svg id="nav-close-icon" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
             </div>
-        </div>
 
-        <!-- গুগল অনুবাদের ব্যাকগ্রাউন্ড ড্রপডাউন -->
-        <div id="google_translate_element" class="hidden"></div>
-
-        <!-- মোবাইল ড্রপডাউন মেনু -->
-        <div id="nav-mobile-dropdown" class="hidden xl:hidden border-t border-slate-200 bg-white/95 px-6 pt-4 pb-6 space-y-1.5 backdrop-blur-xl shadow-xl">
-            <a href="/" class="block px-3 py-2 rounded-xl text-base font-bold text-blue-600 bg-blue-50">হোম</a>
-            <a href="/directory" class="block px-3 py-2 rounded-xl text-base font-medium text-slate-700 hover:bg-slate-50">সেন্টার</a>
-            <a href="/doctors" class="block px-3 py-2 rounded-xl text-base font-medium text-slate-700 hover:bg-slate-50">ডক্টর</a>
-            <a href="/therapists" class="block px-3 py-2 rounded-xl text-base font-medium text-slate-700 hover:bg-slate-50">থেরাপিস্ট</a>
-            <a href="/educators" class="block px-3 py-2 rounded-xl text-base font-medium text-slate-700 hover:bg-slate-50">এডুকেটর</a>
-            <a href="/research" class="block px-3 py-2 rounded-xl text-base font-medium text-slate-700 hover:bg-slate-50">বই ও গবেষণা</a>
-            <a href="/articles" class="block px-3 py-2 rounded-xl text-base font-medium text-slate-700 hover:bg-slate-50">আর্টিকেল</a>
-            <a href="/qa" class="block px-3 py-2 rounded-xl text-base font-medium text-slate-700 hover:bg-slate-50">প্রশ্নোত্তর</a>
-            <a href="/screening" class="block px-3 py-2 rounded-xl text-base font-medium text-slate-700 hover:bg-slate-50">স্ক্রিনিং</a>
-            <a href="/contact" class="block px-3 py-2 rounded-xl text-base font-medium text-slate-700 hover:bg-slate-50">যোগাযোগ</a>
-            <a href="https://shop.autism.info.bd" target="_blank" rel="noopener noreferrer" class="block px-3 py-2.5 rounded-xl text-base font-bold text-white bg-blue-600 mt-2 text-center">
-                রিসোর্স শপ ↗
-            </a>
         </div>
-    </header>
+    </div>
+
+    <!-- ব্যাকগ্রাউন্ড অনুবাদ ড্রপডাউন -->
+    <div id="google_translate_element" class="hidden"></div>
+
+    <!-- মোবাইল ড্রপডাউন মেনু -->
+    <div id="nav-mobile-dropdown" class="hidden lg:hidden border-t border-slate-200 bg-white/95 px-6 pt-3 pb-5 space-y-1 backdrop-blur-xl shadow-lg">
+        <a href="/" class="block px-3 py-2 rounded-lg text-sm font-bold text-blue-600 bg-blue-50">হোম</a>
+        <a href="/qa" class="block px-3 py-2 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50">প্রশ্নোত্তর হাব</a>
+        <a href="/directory" class="block px-3 py-2 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50">প্রতিষ্ঠান ও স্কুল</a>
+        <a href="/doctors" class="block px-3 py-2 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50">ডাক্তার ও থেরাপিস্ট</a>
+        <a href="/educators" class="block px-3 py-2 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50">হায়ার করুন</a>
+        <a href="/screening" class="block px-3 py-2 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50">স্ক্রিনিং টুল</a>
+        <a href="https://shop.autism.info.bd" target="_blank" rel="noopener noreferrer" class="block px-3 py-2 rounded-lg text-sm font-bold text-white bg-blue-600 mt-2 text-center">
+            শপ ↗
+        </a>
+    </div>
+</header>
+
+    
 
     <!-- হিরো সেকশন -->
     <section class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-20 w-full">
