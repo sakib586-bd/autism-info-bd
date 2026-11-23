@@ -105,12 +105,13 @@
     <div class="fixed top-[-10%] left-[-5%] w-[45vw] h-[45vw] rounded-full bg-blue-100/40 blur-[130px] pointer-events-none -z-10"></div>
     <div class="fixed top-[25%] right-[-5%] w-[40vw] h-[40vw] rounded-full bg-emerald-100/40 blur-[140px] pointer-events-none -z-10"></div>
 
- <!-- গ্লোবাল নেভিগেশন বার (স্লিম ও কম্প্যাক্ট ভার্সন) -->
+ 
+    <!-- গ্লোবাল নেভিগেশন বার (ভাষা পরিবর্তনেও ভাঙবে না) -->
 <header class="glass-nav sticky top-0 z-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex items-center justify-between h-14">
+        <div class="flex items-center justify-between h-16 gap-2">
 
-            <!-- লোগো: কনসেপ্ট B (আগের মূল এসভিজি ও ব্র্যান্ডিং অপরিবর্তিত) -->
+            <!-- লোগো ও ব্র্যান্ড -->
             <a href="/" class="flex items-center gap-2.5 select-none shrink-0 group">
                 <svg width="36" height="36" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" class="shrink-0 drop-shadow-sm transition-transform duration-300 group-hover:scale-105">
                     <path d="M50 10 L53.5 21 L64 21.5 L55.5 28 L59 38 L50 32 L41 38 L44.5 28 L36 21.5 L46.5 21 Z" fill="#F59E0B"/>
@@ -130,38 +131,39 @@
                         <span class="text-[#16a34a] font-extrabold ml-0.5">.info</span>
                         <span class="text-[#dc2626] font-extrabold">.bd</span>
                     </div>
-                    <span class="text-[10px] font-medium text-slate-500 tracking-wider mt-0.5 block">
+                    <span class="text-[10px] font-medium text-slate-500 tracking-wider mt-0.5 block whitespace-nowrap">
                         অটিজম তথ্য, সেবা ও সহায়তা পোর্টাল
                     </span>
                 </div>
             </a>
 
-            <!-- আপনার পূর্বের ১১টি মূল মেনু আইটেম (টাইট প্যাডিং ও নিখুঁত এক লাইনে বিন্যাস) -->
-            <nav class="hidden xl:flex items-center gap-1 text-[13.5px] font-semibold text-slate-600">
-                <a href="/" class="px-2 py-1 rounded-lg text-blue-600 bg-blue-50/80 font-bold">হোম</a>
-                <a href="/directory" class="px-2 py-1 rounded-lg hover:text-blue-600 hover:bg-slate-100/70 transition">সেন্টার</a>
-                <a href="/doctors" class="px-2 py-1 rounded-lg hover:text-blue-600 hover:bg-slate-100/70 transition">ডক্টর</a>
-                <a href="/therapists" class="px-2 py-1 rounded-lg hover:text-blue-600 hover:bg-slate-100/70 transition">থেরাপিস্ট</a>
-                <a href="/educators" class="px-2 py-1 rounded-lg hover:text-blue-600 hover:bg-slate-100/70 transition">এডুকেটর</a>
-                <a href="/research" class="px-2 py-1 rounded-lg hover:text-blue-600 hover:bg-slate-100/70 transition">বই ও গবেষণা</a>
-                <a href="/articles" class="px-2 py-1 rounded-lg hover:text-blue-600 hover:bg-slate-100/70 transition">আর্টিকেল</a>
-                <a href="/qa" class="px-2 py-1 rounded-lg hover:text-blue-600 hover:bg-slate-100/70 transition">প্রশ্নোত্তর</a>
-                <a href="/screening" class="px-2 py-1 rounded-lg hover:text-blue-600 hover:bg-slate-100/70 transition">স্ক্রিনিং</a>
-                <a href="/contact" class="px-2 py-1 rounded-lg hover:text-blue-600 hover:bg-slate-100/70 transition">যোগাযোগ</a>
-                <a href="https://shop.autism.info.bd" target="_blank" rel="noopener noreferrer" class="ml-1 px-3 py-1 rounded-lg bg-blue-600 text-white font-bold hover:bg-blue-700 transition shadow-xs text-xs">
-                    রিসোর্স শপ ↗
+            <!-- মেনু লিংকসমূহ (whitespace-nowrap দিয়ে এক লাইনে ফিক্সড) -->
+            <nav class="hidden xl:flex items-center gap-1 text-[13px] font-semibold text-slate-600 shrink-0">
+                <a href="/" class="px-2 py-1.5 rounded-lg text-blue-600 bg-blue-50/80 font-bold whitespace-nowrap shrink-0">হোম</a>
+                <a href="/directory" class="px-2 py-1.5 rounded-lg hover:text-blue-600 hover:bg-slate-100/70 transition whitespace-nowrap shrink-0">সেন্টার</a>
+                <a href="/doctors" class="px-2 py-1.5 rounded-lg hover:text-blue-600 hover:bg-slate-100/70 transition whitespace-nowrap shrink-0">ডক্টর</a>
+                <a href="/therapists" class="px-2 py-1.5 rounded-lg hover:text-blue-600 hover:bg-slate-100/70 transition whitespace-nowrap shrink-0">থেরাপিস্ট</a>
+                <a href="/educators" class="px-2 py-1.5 rounded-lg hover:text-blue-600 hover:bg-slate-100/70 transition whitespace-nowrap shrink-0">এডুকেটর</a>
+                <a href="/research" class="px-2 py-1.5 rounded-lg hover:text-blue-600 hover:bg-slate-100/70 transition whitespace-nowrap shrink-0">বই ও গবেষণা</a>
+                <a href="/articles" class="px-2 py-1.5 rounded-lg hover:text-blue-600 hover:bg-slate-100/70 transition whitespace-nowrap shrink-0">আর্টিকেল</a>
+                <a href="/qa" class="px-2 py-1.5 rounded-lg hover:text-blue-600 hover:bg-slate-100/70 transition whitespace-nowrap shrink-0">প্রশ্নোত্তর</a>
+                <a href="/screening" class="px-2 py-1.5 rounded-lg hover:text-blue-600 hover:bg-slate-100/70 transition whitespace-nowrap shrink-0">স্ক্রিনিং</a>
+                <a href="/contact" class="px-2 py-1.5 rounded-lg hover:text-blue-600 hover:bg-slate-100/70 transition whitespace-nowrap shrink-0">যোগাযোগ</a>
+                <a href="https://shop.autism.info.bd" target="_blank" rel="noopener noreferrer" class="ml-1 px-2.5 py-1.5 rounded-lg bg-blue-600 text-white font-bold hover:bg-blue-700 transition shadow-xs text-xs whitespace-nowrap shrink-0 inline-flex items-center gap-1">
+                    <span>রিসোর্স শপ</span>
+                    <span class="text-[11px]">↗</span>
                 </a>
             </nav>
 
-            <!-- ডান পাশের বাটনসমূহ (ভাষা পরিবর্তন ও মোবাইল টগল) -->
-            <div class="flex items-center gap-2">
+            <!-- ডান পাশের একশন বাটনসমূহ -->
+            <div class="flex items-center gap-2 shrink-0">
                 <!-- ভাষা পরিবর্তন বাটন -->
-                <button onclick="toggleSiteLanguage()" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-white/80 hover:bg-white text-slate-800 text-xs font-bold border border-slate-200 shadow-2xs transition cursor-pointer select-none">
+                <button onclick="toggleSiteLanguage()" class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-white/80 hover:bg-white text-slate-800 text-xs font-bold border border-slate-200 shadow-2xs transition cursor-pointer select-none whitespace-nowrap shrink-0">
                     <span class="text-xs">🌐</span>
                     <span id="currentLangLabel">English</span>
                 </button>
 
-                <!-- মোবাইল মেনু বাটন -->
+                <!-- মোবাইল মেনু টগল বাটন -->
                 <div class="flex xl:hidden">
                     <button type="button" onclick="toggleNavMenu()" class="p-1.5 rounded-xl text-slate-700 hover:bg-slate-100/80 transition" aria-label="Toggle Navigation">
                         <svg id="nav-open-icon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -177,7 +179,7 @@
         </div>
     </div>
 
-    <!-- গুগল অনুবাদ হিডেন বক্স -->
+    <!-- ব্যাকগ্রাউন্ড অনুবাদ ড্রপডাউন -->
     <div id="google_translate_element" class="hidden"></div>
 
     <!-- মোবাইল ড্রপডাউন মেনু -->
