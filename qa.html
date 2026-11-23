@@ -3,130 +3,328 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>অটিজম এআই সহকারী | Autism.info.bd</title>
+    <title>প্রশ্নোত্তর ও বিশেষজ্ঞ পরামর্শ | Autism.info.bd</title>
+    
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Markdown Parser for clean responses -->
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    
+    <!-- সোলাইমান লিপি ফন্ট -->
+    <link href="https://fonts.maateen.me/solaiman-lipi/font.css" rel="stylesheet">
+
+    <!-- Supabase JS Client CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
     <style>
-        body { font-family: 'Hind Siliguri', sans-serif; }
+        body {
+            font-family: 'SolaimanLipi', sans-serif;
+            top: 0px !important;
+        }
+
+        /* ক্রিস্টাল ক্লিয়ার গ্লাস-মর্ফিজম */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.75);
+            box-shadow: 0 10px 30px -5px rgba(148, 163, 184, 0.12);
+        }
+
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(226, 232, 240, 0.7);
+        }
+
+        /* গুগলের টেক্সট হাইলাইট ও অতিরিক্ত বার বন্ধের নিয়ম */
+        .goog-text-highlight {
+            background-color: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+        }
+        #goog-gt-tt, .goog-te-balloon-frame, .goog-tooltip, .goog-tooltip:hover {
+            display: none !important;
+        }
+        font {
+            background-color: transparent !important;
+            box-shadow: none !important;
+        }
+        .goog-te-banner-frame.skiptranslate, 
+        .goog-te-gadget-icon, 
+        body > .skiptranslate {
+            display: none !important;
+        }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between">
+<body class="bg-[#f8fafc] text-slate-800 flex flex-col min-h-screen relative overflow-x-hidden">
 
-    <!-- গ্লোবাল হেডার / নেভিগেশন বার -->
-    <header class="bg-white border-b border-slate-200 sticky top-0 z-50">
+    <!-- পাতা ঝরার ফুল-পেইজ ক্যানভাস (মূল পেজের সাথে ১০০% এক) -->
+    <canvas id="fallingLeavesCanvas" class="fixed inset-0 pointer-events-none z-0 w-full h-full"></canvas>
+
+    <!-- নরম অ্যাম্বিয়েন্ট গ্লো -->
+    <div class="fixed top-[-10%] left-[-5%] w-[45vw] h-[45vw] rounded-full bg-blue-100/40 blur-[130px] pointer-events-none -z-10"></div>
+    <div class="fixed top-[25%] right-[-5%] w-[40vw] h-[40vw] rounded-full bg-emerald-100/40 blur-[140px] pointer-events-none -z-10"></div>
+
+    <!-- গ্লোবাল নেভিগেশন বার (মূল ল্যান্ডিং পেজের সাথে ১০০% এক) -->
+    <header class="glass-nav sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16">
-                
-                <!-- ব্র্যান্ড লোগো ও টাইটেল -->
-                <a href="/" class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-cyan-500 flex items-center justify-center text-white text-xl font-black shadow-sm">
-                        🧩
-                    </div>
-                    <div>
-                        <span class="text-xl font-bold tracking-tight text-slate-900 block leading-tight">Autism<span class="text-blue-600">.info.bd</span></span>
-                        <span class="text-[11px] text-slate-500 hidden sm:block">অটিজম তথ্য, সেবা ও সহায়তা পোর্টাল</span>
+            <div class="flex items-center justify-between h-16 gap-2">
+
+                <!-- লোগো ও ব্র্যান্ড (notranslate যুক্ত) -->
+                <a href="/" class="flex items-center gap-2.5 select-none shrink-0 group notranslate" translate="no">
+                    <svg width="36" height="36" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" class="shrink-0 drop-shadow-sm transition-transform duration-300 group-hover:scale-105">
+                        <path d="M50 10 L53.5 21 L64 21.5 L55.5 28 L59 38 L50 32 L41 38 L44.5 28 L36 21.5 L46.5 21 Z" fill="#F59E0B"/>
+                        <circle cx="50" cy="24" r="2.5" fill="#FDE68A"/>
+                        <path d="M30 76 C20 62 20 44 32 32 C34 38 38 43 45 46 C38 48 32 54 30 76 Z" fill="#0D9488"/>
+                        <path d="M48 64 C43 54 37 46 38 36 C42 41 46 45 50 49 C49 54 49 59 48 64 Z" fill="#14B8A6"/>
+                        <path d="M22 64 C16 52 22 38 27 33 C27 40 30 46 36 50 C30 54 25 58 22 64 Z" fill="#10B981" opacity="0.85"/>
+                        <path d="M70 76 C80 62 80 44 68 32 C66 38 62 43 55 46 C62 48 68 54 70 76 Z" fill="#2563EB"/>
+                        <path d="M52 64 C57 54 63 46 62 36 C58 41 54 45 50 49 C51 54 51 59 52 64 Z" fill="#3B82F6"/>
+                        <path d="M78 64 C84 52 78 38 73 33 C73 40 70 46 64 50 C70 54 75 58 78 64 Z" fill="#60A5FA" opacity="0.85"/>
+                        <path d="M50 78 C46 72 45 62 48 54 C50 56 50 56 52 54 C55 62 54 72 50 78 Z" fill="#0F766E"/>
+                    </svg>
+
+                    <div class="flex flex-col leading-none notranslate" translate="no">
+                        <div class="text-xl sm:text-2xl font-black tracking-tight flex items-baseline">
+                            <span class="text-slate-900">Autism</span>
+                            <span class="text-[#16a34a] font-extrabold ml-0.5">.info</span>
+                            <span class="text-[#dc2626] font-extrabold">.bd</span>
+                        </div>
+                        <span class="text-[10px] font-medium text-slate-500 tracking-wider mt-0.5 block whitespace-nowrap">
+                            অটিজম তথ্য, সেবা ও সহায়তা পোর্টাল
+                        </span>
                     </div>
                 </a>
 
-                <!-- ডেস্কটপ মেনুবার -->
-                <nav class="hidden md:flex items-center gap-1 text-sm font-semibold text-slate-600">
-                    <a href="/" class="px-3 py-2 rounded-lg hover:text-blue-600 hover:bg-slate-50 transition">হোম</a>
-                    <a href="/qa" class="px-3 py-2 rounded-lg text-blue-600 bg-blue-50/60 font-bold transition">প্রশ্নোত্তর হাব</a>
-                    <a href="/directory" class="px-3 py-2 rounded-lg hover:text-blue-600 hover:bg-slate-50 transition">প্রতিষ্ঠান ও স্কুল</a>
-                    <a href="/professionals" class="px-3 py-2 rounded-lg hover:text-blue-600 hover:bg-slate-50 transition">ডাক্তার ও থেরাপিস্ট</a>
-                    <a href="/hire" class="px-3 py-2 rounded-lg hover:text-blue-600 hover:bg-slate-50 transition">হায়ার করুন</a>
-                    <a href="/screening" class="px-3 py-2 rounded-lg hover:text-blue-600 hover:bg-slate-50 transition">স্ক্রিনিং টুল</a>
-                    <a href="https://shop.autism.info.bd" target="_blank" rel="noopener noreferrer" class="ml-2 px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-600 font-bold hover:bg-indigo-100 transition flex items-center gap-1">
-                        শপ ↗
+                <!-- মেনু লিঙ্কসমূহ (প্রশ্নোত্তর একটিভ) -->
+                <nav class="hidden xl:flex items-center gap-1 text-[13px] font-semibold text-slate-600 shrink-0">
+                    <a href="/" class="px-2 py-1.5 rounded-lg hover:text-blue-600 hover:bg-slate-100/70 transition whitespace-nowrap shrink-0">হোম</a>
+                    <a href="/directory" class="px-2 py-1.5 rounded-lg hover:text-blue-600 hover:bg-slate-100/70 transition whitespace-nowrap shrink-0">সেন্টার</a>
+                    <a href="/doctors" class="px-2 py-1.5 rounded-lg hover:text-blue-600 hover:bg-slate-100/70 transition whitespace-nowrap shrink-0">ডক্টর</a>
+                    <a href="/therapists" class="px-2 py-1.5 rounded-lg hover:text-blue-600 hover:bg-slate-100/70 transition whitespace-nowrap shrink-0">থেরাপিস্ট</a>
+                    <a href="/educators" class="px-2 py-1.5 rounded-lg hover:text-blue-600 hover:bg-slate-100/70 transition whitespace-nowrap shrink-0">এডুকেটর</a>
+                    <a href="/research" class="px-2 py-1.5 rounded-lg hover:text-blue-600 hover:bg-slate-100/70 transition whitespace-nowrap shrink-0">বই ও গবেষণা</a>
+                    <a href="/articles" class="px-2 py-1.5 rounded-lg hover:text-blue-600 hover:bg-slate-100/70 transition whitespace-nowrap shrink-0">আর্টিকেল</a>
+                    <a href="/qa" class="px-2 py-1.5 rounded-lg text-blue-600 bg-blue-50/80 font-bold whitespace-nowrap shrink-0">প্রশ্নোত্তর</a>
+                    <a href="/screening" class="px-2 py-1.5 rounded-lg hover:text-blue-600 hover:bg-slate-100/70 transition whitespace-nowrap shrink-0">স্ক্রিনিং</a>
+                    <a href="/contact" class="px-2 py-1.5 rounded-lg hover:text-blue-600 hover:bg-slate-100/70 transition whitespace-nowrap shrink-0">যোগাযোগ</a>
+                    <a href="https://shop.autism.info.bd" target="_blank" rel="noopener noreferrer" class="ml-1 px-2.5 py-1.5 rounded-lg bg-blue-600 text-white font-bold hover:bg-blue-700 transition shadow-xs text-xs whitespace-nowrap shrink-0 inline-flex items-center gap-1">
+                        <span>রিসোর্স শপ</span>
+                        <span class="text-[11px]">↗</span>
                     </a>
                 </nav>
 
-                <!-- মোবাইল মেনু টগল বাটন -->
-                <div class="flex md:hidden">
-                    <button type="button" onclick="toggleNavMenu()" class="p-2 rounded-xl text-slate-600 hover:text-slate-900 hover:bg-slate-100 focus:outline-none transition">
-                        <svg id="nav-open-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                        </svg>
-                        <svg id="nav-close-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                        </svg>
+                <!-- ভাষা পরিবর্তন বাটন ও মোবাইল মেনু টগল -->
+                <div class="flex items-center gap-2 shrink-0">
+                    <button onclick="toggleSiteLanguage()" class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-white/80 hover:bg-white text-slate-800 text-xs font-bold border border-slate-200 shadow-2xs transition cursor-pointer select-none whitespace-nowrap shrink-0">
+                        <span class="text-xs">🌐</span>
+                        <span id="currentLangLabel">English</span>
                     </button>
+
+                    <div class="flex xl:hidden">
+                        <button type="button" onclick="toggleNavMenu()" class="p-1.5 rounded-xl text-slate-700 hover:bg-slate-100/80 transition" aria-label="Toggle Navigation">
+                            <svg id="nav-open-icon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                            </svg>
+                            <svg id="nav-close-icon" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
                 </div>
 
             </div>
         </div>
 
-        <!-- মোবাইল ড্রপডাউন মেনু -->
-        <div id="nav-mobile-dropdown" class="hidden md:hidden border-t border-slate-100 bg-white px-4 pt-3 pb-5 space-y-1 shadow-lg">
-            <a href="/" class="block px-3 py-2 rounded-xl text-sm font-semibold text-slate-700 hover:bg-slate-50">হোম</a>
-            <a href="/qa" class="block px-3 py-2 rounded-xl text-sm font-bold text-blue-600 bg-blue-50/70">প্রশ্নোত্তর হাব</a>
-            <a href="/directory" class="block px-3 py-2 rounded-xl text-sm font-semibold text-slate-700 hover:bg-slate-50">প্রতিষ্ঠান ও স্কুল</a>
-            <a href="/professionals" class="block px-3 py-2 rounded-xl text-sm font-semibold text-slate-700 hover:bg-slate-50">ডাক্তার ও থেরাপিস্ট</a>
-            <a href="/hire" class="block px-3 py-2 rounded-xl text-sm font-semibold text-slate-700 hover:bg-slate-50">হায়ার করুন</a>
-            <a href="/screening" class="block px-3 py-2 rounded-xl text-sm font-semibold text-slate-700 hover:bg-slate-50">স্ক্রিনিং টুল</a>
-            <a href="https://shop.autism.info.bd" target="_blank" rel="noopener noreferrer" class="block px-3 py-2 rounded-xl text-sm font-bold text-indigo-600 bg-indigo-50/70 mt-2">
-                শপ ↗
+        <div id="google_translate_element" class="hidden"></div>
+
+        <!-- মোবাইল মেনু ড্রপডাউন -->
+        <div id="nav-mobile-dropdown" class="hidden xl:hidden border-t border-slate-200 bg-white/95 px-6 pt-3 pb-5 space-y-1 backdrop-blur-xl shadow-lg">
+            <a href="/" class="block px-3 py-1.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50">হোম</a>
+            <a href="/directory" class="block px-3 py-1.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50">সেন্টার</a>
+            <a href="/doctors" class="block px-3 py-1.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50">ডক্টর</a>
+            <a href="/therapists" class="block px-3 py-1.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50">থেরাপিস্ট</a>
+            <a href="/educators" class="block px-3 py-1.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50">এডুকেটর</a>
+            <a href="/research" class="block px-3 py-1.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50">বই ও গবেষণা</a>
+            <a href="/articles" class="block px-3 py-1.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50">আর্টিকেল</a>
+            <a href="/qa" class="block px-3 py-1.5 rounded-lg text-sm font-bold text-blue-600 bg-blue-50">প্রশ্নোত্তর</a>
+            <a href="/screening" class="block px-3 py-1.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50">স্ক্রিনিং</a>
+            <a href="/contact" class="block px-3 py-1.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50">যোগাযোগ</a>
+            <a href="https://shop.autism.info.bd" target="_blank" rel="noopener noreferrer" class="block px-3 py-2 rounded-lg text-sm font-bold text-white bg-blue-600 mt-2 text-center">
+                রিসোর্স শপ ↗
             </a>
         </div>
     </header>
 
-    <!-- Main Container -->
-    <main class="max-w-3xl mx-auto px-4 py-6 flex-grow w-full flex flex-col">
-        
-        <!-- Chat Header -->
-        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm mb-4 flex items-center gap-3">
-            <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-2xl border border-blue-100">
-                🤖
+    <!-- মূল কন্টেন্ট সেকশন -->
+    <main class="relative z-10 flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full">
+        <div class="text-center max-w-2xl mx-auto space-y-3 mb-10">
+            <span class="inline-block text-xs font-bold text-blue-800 bg-blue-100/80 px-4 py-1.5 rounded-full border border-blue-200">
+                অভিভাবক প্রশ্নোত্তর ও সমাধান
+            </span>
+            <h1 class="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
+                প্রশ্নোত্তর ও বিশেষজ্ঞ পরামর্শ হাব
+            </h1>
+            <p class="text-slate-600 text-xs sm:text-sm leading-relaxed px-2">
+                শিশুর বিকাশ, আচরণ ও থেরাপি সম্পর্কিত প্রশ্ন সরাসরি উত্থাপন করুন এবং বিশেষজ্ঞ চিকিৎসকদের সত্যায়িত উত্তর ও গাইডলাইন খুঁজুন।
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <!-- বাম পাশে: প্রশ্ন করার ফর্ম (সরাসরি সুপাবেসে এন্ট্রি হবে) -->
+            <div class="lg:col-span-1">
+                <div class="glass-panel p-6 rounded-3xl sticky top-24 border border-white/90 shadow-md">
+                    <div class="flex items-center gap-2.5 mb-4">
+                        <span class="text-2xl">✍️</span>
+                        <h3 class="text-base font-black text-slate-900">আপনার প্রশ্নটি লিখুন</h3>
+                    </div>
+                    <p class="text-xs text-slate-500 mb-5 leading-relaxed">
+                        আপনার শিশুর যেকোনো লক্ষণ বা জিজ্ঞাসা এখানে লিখুন। আমাদের প্যানেল বিশেষজ্ঞ পর্যালোচনা করে দ্রুত উত্তর প্রকাশ করবেন।
+                    </p>
+
+                    <form id="question-form" onsubmit="submitQuestion(event)" class="space-y-4 text-xs">
+                        <div>
+                            <label class="block font-bold text-slate-700 mb-1">আপনার নাম / অভিভাবকের নাম</label>
+                            <input type="text" id="q-name" required placeholder="উদাঃ মোঃ রহিম" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-white/90 focus:outline-blue-500">
+                        </div>
+
+                        <div>
+                            <label class="block font-bold text-slate-700 mb-1">বিস্তারিত প্রশ্ন</label>
+                            <textarea id="q-text" rows="4" required placeholder="শিশুর বয়স কত এবং কী ধরনের আচরণ বা সমস্যা লক্ষ্য করছেন স্পষ্টভাবে লিখুন..." class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-white/90 focus:outline-blue-500"></textarea>
+                        </div>
+
+                        <button type="submit" id="btn-submit-q" class="w-full py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl transition shadow-xs cursor-pointer flex items-center justify-center gap-1.5">
+                            <span>প্রশ্ন সাবমিট করুন</span>
+                            <span>➔</span>
+                        </button>
+                    </form>
+
+                    <div id="q-success" class="hidden mt-4 p-3 bg-teal-50 border border-teal-200 text-teal-800 text-[11px] rounded-xl font-bold text-center">
+                        ✓ আপনার প্রশ্নটি গৃহীত হয়েছে! অ্যাডমিন রিভিউ শেষে এটি দ্রুত সাইটে দৃশ্যমান হবে।
+                    </div>
+                </div>
             </div>
-            <div>
-                <h1 class="text-lg font-bold text-slate-900 leading-tight">অটিজম এআই সহায়তা বট</h1>
-                <p class="text-xs text-slate-500">শুধুমাত্র অটিজম, লক্ষণ ও থেরাপি সংক্রান্ত প্রশ্নের নির্ভরযোগ্য উত্তর দেয়</p>
+
+            <!-- ডান পাশে: অনুমোদিত ও উত্তর দেওয়া প্রশ্নোত্তর তালিকা -->
+            <div class="lg:col-span-2 space-y-6">
+                <!-- সার্চ বার -->
+                <div class="glass-panel p-3.5 rounded-2xl flex items-center gap-3">
+                    <span class="text-slate-400 pl-2">🔍</span>
+                    <input type="text" id="search-q" onkeyup="filterQuestions()" placeholder="পূর্বে উত্তর দেওয়া প্রশ্নাবলী খুঁজুন..." class="w-full bg-transparent text-xs sm:text-sm text-slate-800 focus:outline-none">
+                </div>
+
+                <!-- কাউন্টার -->
+                <div class="flex justify-between items-center px-1">
+                    <span class="text-xs font-bold text-slate-500">
+                        উত্তরসহ প্রকাশিত প্রশ্ন: <span id="count-display" class="text-blue-600 font-extrabold text-sm">০</span> টি
+                    </span>
+                </div>
+
+                <!-- প্রশ্নোত্তর কন্টেইনার -->
+                <div id="qa-container" class="space-y-4">
+                    <div class="py-16 text-center text-slate-400 text-sm glass-panel rounded-2xl">
+                        সুপাবেস থেকে প্রশ্নোত্তর লোড হচ্ছে...
+                    </div>
+                </div>
+
+                <!-- রেজাল্ট খালি থাকলে -->
+                <div id="no-results" class="hidden py-16 text-center space-y-2 glass-panel rounded-2xl">
+                    <div class="text-3xl">💬</div>
+                    <h3 class="text-base font-bold text-slate-700">কোনো প্রশ্নোত্তর পাওয়া যায়নি</h3>
+                    <p class="text-xs text-slate-400">বানান সঠিক আছে কি না দেখে পুনরায় সার্চ করুন।</p>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- ফুটার (মূল ল্যান্ডিং পেজের সাথে ১০০% এক) -->
+    <footer class="relative z-10 glass-panel border-t border-slate-200 pt-12 pb-10 px-4 mt-16 text-slate-600 text-sm">
+        <div class="max-w-2xl mx-auto text-center space-y-3 mb-10">
+            <a href="/" class="inline-flex items-center justify-center gap-3 select-none notranslate" translate="no">
+                <svg width="38" height="38" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" class="shrink-0 drop-shadow-sm">
+                    <path d="M50 10 L53.5 21 L64 21.5 L55.5 28 L59 38 L50 32 L41 38 L44.5 28 L36 21.5 L46.5 21 Z" fill="#F59E0B"/>
+                    <circle cx="50" cy="24" r="2.5" fill="#FDE68A"/>
+                    <path d="M30 76 C20 62 20 44 32 32 C34 38 38 43 45 46 C38 48 32 54 30 76 Z" fill="#0D9488"/>
+                    <path d="M48 64 C43 54 37 46 38 36 C42 41 46 45 50 49 C49 54 49 59 48 64 Z" fill="#14B8A6"/>
+                    <path d="M22 64 C16 52 22 38 27 33 C27 40 30 46 36 50 C30 54 25 58 22 64 Z" fill="#10B981" opacity="0.85"/>
+                    <path d="M70 76 C80 62 80 44 68 32 C66 38 62 43 55 46 C62 48 68 54 70 76 Z" fill="#2563EB"/>
+                    <path d="M52 64 C57 54 63 46 62 36 C58 41 54 45 50 49 C51 54 51 59 52 64 Z" fill="#3B82F6"/>
+                    <path d="M78 64 C84 52 78 38 73 33 C73 40 70 46 64 50 C70 54 75 58 78 64 Z" fill="#60A5FA" opacity="0.85"/>
+                    <path d="M50 78 C46 72 45 62 48 54 C50 56 50 56 52 54 C55 62 54 72 50 78 Z" fill="#0F766E"/>
+                </svg>
+                <div class="text-2xl font-black tracking-tight flex items-baseline">
+                    <span class="text-slate-900">Autism</span>
+                    <span class="text-[#16a34a] font-extrabold ml-0.5">.info</span>
+                    <span class="text-[#dc2626] font-extrabold">.bd</span>
+                </div>
+            </a>
+            <p class="text-slate-500 text-xs sm:text-sm leading-relaxed px-2">
+                বাংলাদেশে অটিজম ও নিউরো-ডেভেলপমেন্টাল বৈচিত্র্যযুক্ত শিশু এবং তাদের পরিবারের জন্য একটি অলাভজনক ও তথ্যভিত্তিক সহায়ক পোর্টাল। সঠিক সময়ে সঠিক বৈজ্ঞানিক দিকনির্দেশনা পৌঁছে দেওয়াই আমাদের লক্ষ্য।
+            </p>
+            <div class="flex items-center justify-center gap-4 text-xs text-slate-500 pt-1">
+                <span>📍 ঢাকা, বাংলাদেশ</span>
+                <span>•</span>
+                <span>✉️ contact@autism.info.bd</span>
             </div>
         </div>
 
-        <!-- Chat Messages Box -->
-        <div id="chat-box" class="flex-grow bg-white border border-slate-200 rounded-2xl p-4 overflow-y-auto space-y-4 mb-4 shadow-sm min-h-[420px] max-h-[550px]">
-            <!-- Welcome Bot Message -->
-            <div class="flex items-start gap-2.5">
-                <div class="w-8 h-8 rounded-lg bg-blue-600 text-white flex items-center justify-center text-xs font-bold shrink-0">AI</div>
-                <div class="bg-slate-100 text-slate-800 p-3.5 rounded-2xl rounded-tl-none text-sm leading-relaxed max-w-[85%]">
-                    আসসালামু আলাইকুম। আমি অটিজম ও বিশেষ শিশু বিষয়ক সহায়তা এআই। অটিজমের প্রাথমিক লক্ষণ, স্পিচ ও অকুপেশনাল থেরাপি, আচরণ বা দৈনন্দিন গাইডলাইন সংক্রান্ত যেকোনো প্রশ্ন আপনি আমাকে করতে পারেন।
+        <div class="max-w-6xl mx-auto grid grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mb-10 text-center">
+            <!-- কলাম ১ -->
+            <div class="space-y-3">
+                <h4 class="font-extrabold text-slate-900 text-xs sm:text-sm tracking-wide border-b border-slate-200/80 pb-2 inline-block px-3">
+                    সেবা ও ডিরেক্টরি
+                </h4>
+                <ul class="space-y-2 text-[11px] sm:text-xs">
+                    <li><a href="/directory" class="hover:text-blue-600 transition block">বিশেষ স্কুল ও সেন্টার ডিরেক্টরি</a></li>
+                    <li><a href="/doctors" class="hover:text-blue-600 transition block">চাইল্ড সাইকিয়াট্রিস্ট ও পেডিয়াট্রিকস</a></li>
+                    <li><a href="/therapists" class="hover:text-blue-600 transition block">স্পিচ ও অকুপেশনাল থেরাপিস্ট হাব</a></li>
+                    <li><a href="/educators" class="hover:text-blue-600 transition block">সার্টিফাইড স্পেশাল এডুকেটরস</a></li>
+                    <li><a href="/screening" class="hover:text-blue-600 transition block">M-CHAT-R প্রাথমিক স্ক্রিনিং</a></li>
+                </ul>
+            </div>
+
+            <!-- কলাম ২ -->
+            <div class="space-y-3">
+                <h4 class="font-extrabold text-slate-900 text-xs sm:text-sm tracking-wide border-b border-slate-200/80 pb-2 inline-block px-3">
+                    রিসোর্স ও সহায়তা
+                </h4>
+                <ul class="space-y-2 text-[11px] sm:text-xs">
+                    <li><a href="/research" class="hover:text-blue-600 transition block">বৈজ্ঞানিক গবেষণা ও কেস স্টাডি</a></li>
+                    <li><a href="/articles" class="hover:text-blue-600 transition block">অভিভাবক গাইডলাইন ও প্রবন্ধ</a></li>
+                    <li><a href="/qa" class="hover:text-blue-600 transition block">সাধারণ প্রশ্নোত্তর ও পরামর্শ</a></li>
+                    <li><a href="https://shop.autism.info.bd" target="_blank" rel="noopener noreferrer" class="hover:text-blue-600 transition block">সেন্সরি ও থেরাপিউটিক মেটেরিয়াল শপ ↗</a></li>
+                    <li><a href="/contact" class="hover:text-blue-600 transition block">সরাসরি যোগাযোগ ও মতামত</a></li>
+                </ul>
+            </div>
+
+            <!-- কলাম ৩ -->
+            <div class="col-span-2 lg:col-span-1 space-y-3 max-w-md mx-auto w-full">
+                <h4 class="font-extrabold text-slate-900 text-xs sm:text-sm tracking-wide border-b border-slate-200/80 pb-2 inline-block px-3">
+                    জরুরি নোটিশ ও পরামর্শ
+                </h4>
+                <div class="bg-amber-50/70 border border-amber-200/70 rounded-2xl p-4 text-[11px] sm:text-xs text-amber-900 leading-relaxed text-center">
+                    <p class="font-bold mb-1">⚠️ চিকিৎসা সংক্রান্ত সতর্কতা:</p>
+                    <p>
+                        এই পোর্টালে প্রকাশিত কোনো তথ্য বা স্ক্রিনিং ফলাফল ক্লিনিক্যাল ডায়াগনস্টিক রিপোর্ট নয়। চূড়ান্ত যাচাই ও থেরাপিউটিক ইন্টারভেনশনের জন্য সরাসরি অভিজ্ঞ নিউরোলজিস্ট বা শিশু বিকাশ বিশেষজ্ঞের শরণাপন্ন হোন।
+                    </p>
                 </div>
             </div>
         </div>
 
-        <!-- Quick Suggestions -->
-        <div class="flex gap-2 overflow-x-auto pb-2 mb-2 no-scrollbar text-xs">
-            <button onclick="sendQuickPrompt('অটিজমের প্রাথমিক লক্ষণগুলো কী কী?')" class="whitespace-nowrap px-3 py-1.5 bg-blue-50 text-blue-700 rounded-full border border-blue-100 hover:bg-blue-100 transition">
-                🔹 অটিজমের প্রাথমিক লক্ষণ?
-            </button>
-            <button onclick="sendQuickPrompt('কথা বলতে দেরি হলে কী করা উচিত?')" class="whitespace-nowrap px-3 py-1.5 bg-blue-50 text-blue-700 rounded-full border border-blue-100 hover:bg-blue-100 transition">
-                🔹 কথা বলতে দেরি হলে করণীয়?
-            </button>
-            <button onclick="sendQuickPrompt('আই কন্টাক্ট বাড়ানোর উপায় কী?')" class="whitespace-nowrap px-3 py-1.5 bg-blue-50 text-blue-700 rounded-full border border-blue-100 hover:bg-blue-100 transition">
-                🔹 আই কন্টাক্ট বাড়ানোর উপায়?
-            </button>
+        <div class="max-w-6xl mx-auto border-t border-slate-200/80 pt-6 flex flex-col sm:flex-row justify-between items-center gap-3 text-[11px] sm:text-xs text-slate-500 text-center">
+            <p>© 2026 Autism.info.bd. সর্বস্বত্ব সংরক্ষিত।</p>
+            <div class="flex items-center justify-center gap-5">
+                <a href="/privacy" class="hover:text-slate-800 transition">গোপনীয়তা নীতি</a>
+                <a href="/terms" class="hover:text-slate-800 transition">শর্তাবলী</a>
+                <a href="/contact" class="hover:text-slate-800 transition">যোগাযোগ</a>
+            </div>
         </div>
-
-        <!-- Input Area -->
-        <form onsubmit="handleChatSubmit(event)" class="flex gap-2">
-            <input type="text" id="user-input" required placeholder="অটিজম সংক্রান্ত আপনার প্রশ্নটি লিখুন..." class="flex-grow px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
-            <button type="submit" id="send-btn" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-5 rounded-xl transition flex items-center justify-center shadow-sm text-sm">
-                পাঠান
-            </button>
-        </form>
-
-    </main>
-
-    <!-- Footer -->
-    <footer class="bg-white border-t border-slate-200 py-4 text-center text-xs text-slate-500">
-        <p>© 2026 Autism.info.bd | জরুরি প্রয়োজনে বিশেষজ্ঞ চিকিৎসকের পরামর্শ গ্রহণ করুন।</p>
     </footer>
 
+    <!-- স্ক্রিপ্টসমূহ -->
     <script>
-        // নেভিগেশন বার টগল
         function toggleNavMenu() {
             const menu = document.getElementById('nav-mobile-dropdown');
             const openIcon = document.getElementById('nav-open-icon');
@@ -136,108 +334,242 @@
             closeIcon.classList.toggle('hidden');
         }
 
-        // Gemini API Configuration
-        const GEMINI_API_KEY = "AQ.Ab8RN6K20NVxbWM-RQZ-GBgqU6TGyYD3DnKHTolVy7rdc4n9BA"; 
+        // ফুল-পেইজ পাতা ঝরার অ্যানিমেশন ইঞ্জিন
+        const leafCanvas = document.getElementById('fallingLeavesCanvas');
+        const leafCtx = leafCanvas.getContext('2d');
 
-        const SYSTEM_INSTRUCTION = `
-        তুমি Autism.info.bd-এর একজন দক্ষ ও সহানুভূতিশীল অটিজম বিশেষজ্ঞ এআই সহকারী। 
-        তোমার মূল লক্ষ্য হলো অভিভাবক এবং পেশাজীবীদের অটিজম স্পেকট্রাম ডিজঅর্ডার (ASD), শিশু বিকাশ, মাইলস্টোন, স্পিচ ও ল্যাঙ্গুয়েজ থেরাপি, অকুপেশনাল থেরাপি, সেন্সরি সমস্যা এবং বিশেষ শিক্ষা বিষয়ে বিজ্ঞানসম্মত ও সহজ বাংলায় তথ্য দেওয়া।
+        let leafWidth = leafCanvas.width = window.innerWidth;
+        let leafHeight = leafCanvas.height = window.innerHeight;
 
-        কঠোর নিয়মাবলী:
-        ১. যদি ব্যবহারকারী অটিজম, নিউরোডাইভারসিটি, শিশু বিকাশ, আচরণ বা থেরাপিউটিক বিষয়ে প্রশ্ন করে, তবে আন্তরিক ও গোছানো পয়েন্ট আকারে উত্তর দাও।
-        ২. যদি ব্যবহারকারী অটিজম বা শিশু বিকাশ সম্পর্কিত বিষয়ের বাইরে কোনো অপ্রাসঙ্গিক প্রশ্ন করে (যেমন: ক্রিকেট, সিনেমা, রাজনীতি, রান্না, সাধারণ বিজ্ঞান, সাধারণ জ্ঞান ইত্যাদি), তবে বিনীতভাবে ঠিক এই কথাটি বলবে: "আমি দুঃখিত, আমি কেবলমাত্র অটিজম ও বিশেষ শিশু বিষয়ক পরামর্শ ও তথ্যের জন্য নিবেদিত একটি এআই। অনুগ্রহ করে অটিজম বা চাইল্ড ডেভেলপমেন্ট সংক্রান্ত প্রশ্ন করুন।"
-        ৩. কোনো অবস্থাতেই প্রেসক্রিপশন বা ওষুধ সেবনের চূড়ান্ত নির্দেশ দেবে না।
-        `;
+        window.addEventListener('resize', () => {
+            leafWidth = leafCanvas.width = window.innerWidth;
+            leafHeight = leafCanvas.height = window.innerHeight;
+            generateLeaves();
+        });
 
-        const chatBox = document.getElementById('chat-box');
-        const userInput = document.getElementById('user-input');
-        const sendBtn = document.getElementById('send-btn');
+        const leafColors = [
+            'rgba(34, 197, 94, 0.40)',
+            'rgba(16, 185, 129, 0.35)',
+            'rgba(245, 158, 11, 0.35)',
+            'rgba(59, 130, 246, 0.30)'
+        ];
 
-        let chatHistory = [];
+        let leafArray = [];
+        const totalLeaves = 32;
 
-        function appendMessage(sender, text) {
-            const isUser = sender === 'user';
-            const msgWrapper = document.createElement('div');
-            msgWrapper.className = `flex items-start gap-2.5 ${isUser ? 'flex-row-reverse' : ''}`;
-
-            const avatar = document.createElement('div');
-            avatar.className = `w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold shrink-0 ${isUser ? 'bg-slate-800 text-white' : 'bg-blue-600 text-white'}`;
-            avatar.innerText = isUser ? 'আপ' : 'AI';
-
-            const bubble = document.createElement('div');
-            bubble.className = `p-3.5 rounded-2xl text-sm leading-relaxed max-w-[85%] ${
-                isUser ? 'bg-blue-600 text-white rounded-tr-none' : 'bg-slate-100 text-slate-800 rounded-tl-none border border-slate-200/60'
-            }`;
-
-            if (isUser) {
-                bubble.innerText = text;
-            } else {
-                bubble.innerHTML = marked.parse(text);
+        class FallingLeaf {
+            constructor() {
+                this.reset(true);
             }
 
-            msgWrapper.appendChild(avatar);
-            msgWrapper.appendChild(bubble);
-            chatBox.appendChild(msgWrapper);
-            chatBox.scrollTop = chatBox.scrollHeight;
+            reset(isInitial = false) {
+                this.x = Math.random() * leafWidth;
+                this.y = isInitial ? Math.random() * leafHeight : -30;
+                this.size = Math.random() * 10 + 12;
+                this.speedY = Math.random() * 0.9 + 0.5;
+                this.speedX = (Math.random() - 0.5) * 0.7;
+                this.angle = Math.random() * Math.PI * 2;
+                this.angularSpeed = (Math.random() - 0.5) * 0.025;
+                this.color = leafColors[Math.floor(Math.random() * leafColors.length)];
+                this.swingSpeed = Math.random() * 0.02 + 0.01;
+                this.swingDistance = Math.random() * 2 + 1;
+            }
+
+            update() {
+                this.y += this.speedY;
+                this.x += Math.sin(this.y * this.swingSpeed) * this.swingDistance + this.speedX;
+                this.angle += this.angularSpeed;
+
+                if (this.y > leafHeight + 40 || this.x < -40 || this.x > leafWidth + 40) {
+                    this.reset(false);
+                }
+            }
+
+            draw() {
+                leafCtx.save();
+                leafCtx.translate(this.x, this.y);
+                leafCtx.rotate(this.angle);
+                leafCtx.fillStyle = this.color;
+
+                leafCtx.beginPath();
+                leafCtx.moveTo(0, -this.size);
+                leafCtx.quadraticCurveTo(this.size * 0.75, -this.size * 0.3, 0, this.size);
+                leafCtx.quadraticCurveTo(-this.size * 0.75, -this.size * 0.3, 0, -this.size);
+                leafCtx.closePath();
+                leafCtx.fill();
+
+                leafCtx.strokeStyle = 'rgba(255, 255, 255, 0.35)';
+                leafCtx.lineWidth = 1;
+                leafCtx.beginPath();
+                leafCtx.moveTo(0, -this.size * 0.8);
+                leafCtx.lineTo(0, this.size * 0.8);
+                leafCtx.stroke();
+
+                leafCtx.restore();
+            }
         }
 
-        async function handleChatSubmit(e) {
-            if (e) e.preventDefault();
-            const message = userInput.value.trim();
-            if (!message) return;
+        function generateLeaves() {
+            leafArray = [];
+            for (let i = 0; i < totalLeaves; i++) {
+                leafArray.push(new FallingLeaf());
+            }
+        }
 
-            appendMessage('user', message);
-            userInput.value = '';
-            userInput.disabled = true;
-            sendBtn.disabled = true;
-            sendBtn.innerText = 'ভাবছে...';
+        function renderLeaves() {
+            leafCtx.clearRect(0, 0, leafWidth, leafHeight);
+            for (let i = 0; i < leafArray.length; i++) {
+                leafArray[i].update();
+                leafArray[i].draw();
+            }
+            requestAnimationFrame(renderLeaves);
+        }
 
-            chatHistory.push({ role: "user", parts: [{ text: message }] });
+        generateLeaves();
+        renderLeaves();
+    </script>
 
-            const payload = {
-                system_instruction: {
-                    parts: [{ text: SYSTEM_INSTRUCTION }]
-                },
-                contents: chatHistory
-            };
+    <!-- গুগল অনুবাদ স্ক্রিপ্ট -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'bn',
+                includedLanguages: 'en,bn',
+                autoDisplay: false
+            }, 'google_translate_element');
+        }
 
-            try {
-                const response = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "x-goog-api-key": GEMINI_API_KEY
-                    },
-                    body: JSON.stringify(payload)
-                });
-
-                const data = await response.json();
-
-                if (data.error) {
-                    console.error("Gemini API Error Detail:", data.error);
-                    appendMessage('ai', `দুঃখিত, ত্রুটি দেখা দিয়েছে: ${data.error.message || 'রিকোয়েস্ট সফল হয়নি।'}`);
+        function toggleSiteLanguage() {
+            const langLabel = document.getElementById('currentLangLabel');
+            const select = document.querySelector('.goog-te-combo');
+            
+            if (langLabel.innerText.trim() === 'English') {
+                if (!select) {
+                    alert('অনুবাদ ইঞ্জিন প্রস্তুত হচ্ছে, অনুগ্রহ করে ১ সেকেন্ড পর আবার চেষ্টা করুন।');
                     return;
                 }
-
-                const aiReply = data?.candidates?.[0]?.content?.parts?.[0]?.text || "দুঃখিত, কোনো উত্তর পাওয়া যায়নি।";
-                
-                appendMessage('ai', aiReply);
-                chatHistory.push({ role: "model", parts: [{ text: aiReply }] });
-
-            } catch (err) {
-                console.error("Fetch Error:", err);
-                appendMessage('ai', "সার্ভারের সাথে সংযোগ স্থাপন করা যায়নি। আপনার ইন্টারনেট সংযোগ যাচাই করুন।");
-            } finally {
-                userInput.disabled = false;
-                sendBtn.disabled = false;
-                sendBtn.innerText = 'পাঠান';
-                userInput.focus();
+                select.value = 'en';
+                select.dispatchEvent(new Event('change'));
+                langLabel.innerText = 'বাংলা';
+            } else {
+                document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=" + location.hostname + ";";
+                location.reload();
             }
         }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
-        function sendQuickPrompt(promptText) {
-            userInput.value = promptText;
-            handleChatSubmit();
+    <!-- সুপাবেস কানেকশন ও লাইভ প্রশ্নোত্তর স্ক্রিপ্ট -->
+    <script>
+        const SUPABASE_URL = 'https://nemgvzmhyidnbdxwqrvi.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_PrhWBDkEc7WyIL25SF66uQ_8DGUUhJ_';
+        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        let allQuestions = [];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchApprovedQuestions();
+        });
+
+        // সুপাবেস থেকে অ্যাপ্রুভড প্রশ্ন ও উত্তর আনা
+        async function fetchApprovedQuestions() {
+            const container = document.getElementById('qa-container');
+            const { data, error } = await _supabase
+                .from('questions')
+                .select('*')
+                .eq('is_approved', true)
+                .order('id', { ascending: false });
+
+            if (error || !data || data.length === 0) {
+                container.innerHTML = `
+                    <div class="py-16 text-center text-slate-400 text-sm glass-panel rounded-2xl">
+                        বর্তমানে কোনো প্রশ্নোত্তর প্রকাশিত নেই। আপনার প্রশ্নটি সাবমিট করে মতামত নিন।
+                    </div>`;
+                document.getElementById('count-display').innerText = '০';
+                return;
+            }
+
+            allQuestions = data;
+            renderQuestions(allQuestions);
+        }
+
+        function renderQuestions(list) {
+            const container = document.getElementById('qa-container');
+            const noResults = document.getElementById('no-results');
+            document.getElementById('count-display').innerText = list.length;
+
+            if (list.length === 0) {
+                container.innerHTML = '';
+                noResults.classList.remove('hidden');
+                return;
+            }
+
+            noResults.classList.add('hidden');
+            container.innerHTML = list.map(item => `
+                <div class="bg-white/75 backdrop-blur-md rounded-2xl p-6 border border-white/90 shadow-xs hover:border-blue-200 transition duration-300 space-y-4">
+                    <div>
+                        <div class="flex items-center justify-between gap-2 mb-2">
+                            <span class="inline-flex items-center gap-1 text-[10px] font-bold text-amber-800 bg-amber-50 border border-amber-200 px-2.5 py-0.5 rounded-full">
+                                ❓ প্রশ্ন
+                            </span>
+                            <span class="text-[11px] font-semibold text-slate-400">প্রেরক: ${item.asker_name || 'অভিভাবক'}</span>
+                        </div>
+                        <h4 class="text-sm sm:text-base font-bold text-slate-900 leading-snug">
+                            "${item.question}"
+                        </h4>
+                    </div>
+
+                    <div class="p-4 rounded-xl bg-blue-50/70 border border-blue-100 space-y-1.5">
+                        <div class="flex items-center gap-1.5 text-blue-700 text-xs font-bold">
+                            <span>🩺 বিশেষজ্ঞ পরামর্শ ও উত্তর:</span>
+                        </div>
+                        <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                            ${item.answer || 'এই প্রশ্নের উত্তরটি শীঘ্রই প্রকাশ করা হবে।'}
+                        </p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // লাইভ সার্চ
+        function filterQuestions() {
+            const query = document.getElementById('search-q').value.toLowerCase().trim();
+            const filtered = allQuestions.filter(item => {
+                return (item.question && item.question.toLowerCase().includes(query)) ||
+                       (item.answer && item.answer.toLowerCase().includes(query));
+            });
+            renderQuestions(filtered);
+        }
+
+        // প্রশ্ন সাবমিট করার লজিক (সরাসরি সুপাবেসে ইনসার্ট)
+        async function submitQuestion(e) {
+            e.preventDefault();
+            const btn = document.getElementById('btn-submit-q');
+            const successBox = document.getElementById('q-success');
+            
+            const asker_name = document.getElementById('q-name').value;
+            const question = document.getElementById('q-text').value;
+
+            btn.innerText = 'পাঠানো হচ্ছে...';
+            btn.disabled = true;
+
+            const { error } = await _supabase
+                .from('questions')
+                .insert([{ asker_name, question, is_approved: false }]);
+
+            btn.innerText = 'প্রশ্ন সাবমিট করুন ➔';
+            btn.disabled = false;
+
+            if (error) {
+                alert('প্রশ্ন পাঠানো যায়নি: ' + error.message);
+            } else {
+                document.getElementById('question-form').reset();
+                successBox.classList.remove('hidden');
+                setTimeout(() => {
+                    successBox.classList.add('hidden');
+                }, 5000);
+            }
         }
     </script>
 </body>
