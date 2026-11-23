@@ -3,371 +3,631 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>M-CHAT-R স্ক্রিনিং টুল | Autism.info.bd</title>
+    <title>অনলাইন প্রাথমিক অটিজম স্ক্রিনিং (M-CHAT-R) | Autism.info.bd</title>
+    
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- html2pdf Library for client-side PDF export -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-    <!-- Supabase JS Client -->
+    
+    <!-- সোলাইমান লিপি ফন্ট -->
+    <link href="https://fonts.maateen.me/solaiman-lipi/font.css" rel="stylesheet">
+
+    <!-- Supabase JS Client CDN -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
     <style>
-        body { font-family: 'Hind Siliguri', sans-serif; }
+        body {
+            font-family: 'SolaimanLipi', sans-serif;
+            top: 0px !important;
+        }
+
+        /* ক্রিস্টাল ক্লিয়ার গ্লাস-মর্ফিজম */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.75);
+            box-shadow: 0 10px 30px -5px rgba(148, 163, 184, 0.12);
+        }
+
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(226, 232, 240, 0.7);
+        }
+
+        /* গুগলের টেক্সট হাইলাইট ও অতিরিক্ত বার বন্ধের নিয়ম */
+        .goog-text-highlight {
+            background-color: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+        }
+        #goog-gt-tt, .goog-te-balloon-frame, .goog-tooltip, .goog-tooltip:hover {
+            display: none !important;
+        }
+        font {
+            background-color: transparent !important;
+            box-shadow: none !important;
+        }
+        .goog-te-banner-frame.skiptranslate, 
+        .goog-te-gadget-icon, 
+        body > .skiptranslate {
+            display: none !important;
+        }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between">
+<body class="bg-[#f8fafc] text-slate-800 flex flex-col min-h-screen relative overflow-x-hidden">
 
-    <!-- Header / Navbar -->
-  <!-- স্ট্যান্ডার্ড গ্লোবাল হেডার / নেভিগেশন বার -->
-<header class="bg-white border-b border-slate-200 sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex items-center justify-between h-16">
-            
-            <!-- ব্র্যান্ড লোগো ও টাইটেল -->
-            <a href="/" class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-cyan-500 flex items-center justify-center text-white text-xl font-black shadow-sm">
-                    🧩
+    <!-- পাতা ঝরার ফুল-পেইজ ক্যানভাস (মূল পেজের সাথে ১০০% এক) -->
+    <canvas id="fallingLeavesCanvas" class="fixed inset-0 pointer-events-none z-0 w-full h-full"></canvas>
+
+    <!-- নরম অ্যাম্বিয়েন্ট গ্লো -->
+    <div class="fixed top-[-10%] left-[-5%] w-[45vw] h-[45vw] rounded-full bg-blue-100/40 blur-[130px] pointer-events-none -z-10"></div>
+    <div class="fixed top-[25%] right-[-5%] w-[40vw] h-[40vw] rounded-full bg-emerald-100/40 blur-[140px] pointer-events-none -z-10"></div>
+
+    <!-- গ্লোবাল নেভিগেশন বার (মূল ল্যান্ডিং পেজের সাথে ১০০% এক) -->
+    <header class="glass-nav sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16 gap-2">
+
+                <!-- লোগো ও ব্র্যান্ড (notranslate যুক্ত) -->
+                <a href="/" class="flex items-center gap-2.5 select-none shrink-0 group notranslate" translate="no">
+                    <svg width="36" height="36" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" class="shrink-0 drop-shadow-sm transition-transform duration-300 group-hover:scale-105">
+                        <path d="M50 10 L53.5 21 L64 21.5 L55.5 28 L59 38 L50 32 L41 38 L44.5 28 L36 21.5 L46.5 21 Z" fill="#F59E0B"/>
+                        <circle cx="50" cy="24" r="2.5" fill="#FDE68A"/>
+                        <path d="M30 76 C20 62 20 44 32 32 C34 38 38 43 45 46 C38 48 32 54 30 76 Z" fill="#0D9488"/>
+                        <path d="M48 64 C43 54 37 46 38 36 C42 41 46 45 50 49 C49 54 49 59 48 64 Z" fill="#14B8A6"/>
+                        <path d="M22 64 C16 52 22 38 27 33 C27 40 30 46 36 50 C30 54 25 58 22 64 Z" fill="#10B981" opacity="0.85"/>
+                        <path d="M70 76 C80 62 80 44 68 32 C66 38 62 43 55 46 C62 48 68 54 70 76 Z" fill="#2563EB"/>
+                        <path d="M52 64 C57 54 63 46 62 36 C58 41 54 45 50 49 C51 54 51 59 52 64 Z" fill="#3B82F6"/>
+                        <path d="M78 64 C84 52 78 38 73 33 C73 40 70 46 64 50 C70 54 75 58 78 64 Z" fill="#60A5FA" opacity="0.85"/>
+                        <path d="M50 78 C46 72 45 62 48 54 C50 56 50 56 52 54 C55 62 54 72 50 78 Z" fill="#0F766E"/>
+                    </svg>
+
+                    <div class="flex flex-col leading-none notranslate" translate="no">
+                        <div class="text-xl sm:text-2xl font-black tracking-tight flex items-baseline">
+                            <span class="text-slate-900">Autism</span>
+                            <span class="text-[#16a34a] font-extrabold ml-0.5">.info</span>
+                            <span class="text-[#dc2626] font-extrabold">.bd</span>
+                        </div>
+                        <span class="text-[10px] font-medium text-slate-500 tracking-wider mt-0.5 block whitespace-nowrap">
+                            অটিজম তথ্য, সেবা ও সহায়তা পোর্টাল
+                        </span>
+                    </div>
+                </a>
+
+                <!-- মেনু লিঙ্কসমূহ (স্ক্রিনিং একটিভ) -->
+                <nav class="hidden xl:flex items-center gap-1 text-[13px] font-semibold text-slate-600 shrink-0">
+                    <a href="/" class="px-2 py-1.5 rounded-lg hover:text-blue-600 hover:bg-slate-100/70 transition whitespace-nowrap shrink-0">হোম</a>
+                    <a href="/directory" class="px-2 py-1.5 rounded-lg hover:text-blue-600 hover:bg-slate-100/70 transition whitespace-nowrap shrink-0">সেন্টার</a>
+                    <a href="/doctors" class="px-2 py-1.5 rounded-lg hover:text-blue-600 hover:bg-slate-100/70 transition whitespace-nowrap shrink-0">ডক্টর</a>
+                    <a href="/therapists" class="px-2 py-1.5 rounded-lg hover:text-blue-600 hover:bg-slate-100/70 transition whitespace-nowrap shrink-0">থেরাপিস্ট</a>
+                    <a href="/educators" class="px-2 py-1.5 rounded-lg hover:text-blue-600 hover:bg-slate-100/70 transition whitespace-nowrap shrink-0">এডুকেটর</a>
+                    <a href="/research" class="px-2 py-1.5 rounded-lg hover:text-blue-600 hover:bg-slate-100/70 transition whitespace-nowrap shrink-0">বই ও গবেষণা</a>
+                    <a href="/articles" class="px-2 py-1.5 rounded-lg hover:text-blue-600 hover:bg-slate-100/70 transition whitespace-nowrap shrink-0">আর্টিকেল</a>
+                    <a href="/qa" class="px-2 py-1.5 rounded-lg hover:text-blue-600 hover:bg-slate-100/70 transition whitespace-nowrap shrink-0">প্রশ্নোত্তর</a>
+                    <a href="/screening" class="px-2 py-1.5 rounded-lg text-blue-600 bg-blue-50/80 font-bold whitespace-nowrap shrink-0">স্ক্রিনিং</a>
+                    <a href="/contact" class="px-2 py-1.5 rounded-lg hover:text-blue-600 hover:bg-slate-100/70 transition whitespace-nowrap shrink-0">যোগাযোগ</a>
+                    <a href="https://shop.autism.info.bd" target="_blank" rel="noopener noreferrer" class="ml-1 px-2.5 py-1.5 rounded-lg bg-blue-600 text-white font-bold hover:bg-blue-700 transition shadow-xs text-xs whitespace-nowrap shrink-0 inline-flex items-center gap-1">
+                        <span>রিসোর্স শপ</span>
+                        <span class="text-[11px]">↗</span>
+                    </a>
+                </nav>
+
+                <!-- ভাষা পরিবর্তন বাটন ও মোবাইল মেনু টগল -->
+                <div class="flex items-center gap-2 shrink-0">
+                    <button onclick="toggleSiteLanguage()" class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-white/80 hover:bg-white text-slate-800 text-xs font-bold border border-slate-200 shadow-2xs transition cursor-pointer select-none whitespace-nowrap shrink-0">
+                        <span class="text-xs">🌐</span>
+                        <span id="currentLangLabel">English</span>
+                    </button>
+
+                    <div class="flex xl:hidden">
+                        <button type="button" onclick="toggleNavMenu()" class="p-1.5 rounded-xl text-slate-700 hover:bg-slate-100/80 transition" aria-label="Toggle Navigation">
+                            <svg id="nav-open-icon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                            </svg>
+                            <svg id="nav-close-icon" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
                 </div>
-                <div>
-                    <span class="text-xl font-bold tracking-tight text-slate-900 block leading-tight">Autism<span class="text-blue-600">.info.bd</span></span>
-                    <span class="text-[11px] text-slate-500 hidden sm:block">অটিজম তথ্য, সেবা ও সহায়তা পোর্টাল</span>
-                </div>
+
+            </div>
+        </div>
+
+        <div id="google_translate_element" class="hidden"></div>
+
+        <!-- মোবাইল মেনু ড্রপডাউন -->
+        <div id="nav-mobile-dropdown" class="hidden xl:hidden border-t border-slate-200 bg-white/95 px-6 pt-3 pb-5 space-y-1 backdrop-blur-xl shadow-lg">
+            <a href="/" class="block px-3 py-1.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50">হোম</a>
+            <a href="/directory" class="block px-3 py-1.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50">সেন্টার</a>
+            <a href="/doctors" class="block px-3 py-1.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50">ডক্টর</a>
+            <a href="/therapists" class="block px-3 py-1.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50">থেরাপিস্ট</a>
+            <a href="/educators" class="block px-3 py-1.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50">এডুকেটর</a>
+            <a href="/research" class="block px-3 py-1.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50">বই ও গবেষণা</a>
+            <a href="/articles" class="block px-3 py-1.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50">আর্টিকেল</a>
+            <a href="/qa" class="block px-3 py-1.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50">প্রশ্নোত্তর</a>
+            <a href="/screening" class="block px-3 py-1.5 rounded-lg text-sm font-bold text-blue-600 bg-blue-50">স্ক্রিনিং</a>
+            <a href="/contact" class="block px-3 py-1.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50">যোগাযোগ</a>
+            <a href="https://shop.autism.info.bd" target="_blank" rel="noopener noreferrer" class="block px-3 py-2 rounded-lg text-sm font-bold text-white bg-blue-600 mt-2 text-center">
+                রিসোর্স শপ ↗
             </a>
-
-            <!-- ডেস্কটপ মেনুবার -->
-            <nav class="hidden md:flex items-center gap-1 text-sm font-semibold text-slate-600">
-                <a href="/" class="px-3 py-2 rounded-lg hover:text-blue-600 hover:bg-slate-50 transition">হোম</a>
-                <a href="/#qa" class="px-3 py-2 rounded-lg hover:text-blue-600 hover:bg-slate-50 transition">প্রশ্নোত্তর হাব</a>
-                <a href="/directory" class="px-3 py-2 rounded-lg hover:text-blue-600 hover:bg-slate-50 transition">প্রতিষ্ঠান ও স্কুল</a>
-                <a href="/professionals" class="px-3 py-2 rounded-lg hover:text-blue-600 hover:bg-slate-50 transition">ডাক্তার ও থেরাপিস্ট</a>
-                <a href="/hire" class="px-3 py-2 rounded-lg hover:text-blue-600 hover:bg-slate-50 transition">হায়ার করুন</a>
-                <a href="/screening" class="px-3 py-2 rounded-lg hover:text-blue-600 hover:bg-slate-50 transition">স্ক্রিনিং টুল</a>
-                <a href="https://shop.autism.info.bd" target="_blank" rel="noopener noreferrer" class="ml-2 px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-600 font-bold hover:bg-indigo-100 transition flex items-center gap-1">
-                    শপ ↗
-                </a>
-            </nav>
-
-            <!-- মোবাইল মেনু টগল বাটন -->
-            <div class="flex md:hidden">
-                <button type="button" onclick="toggleNavMenu()" class="p-2 rounded-xl text-slate-600 hover:text-slate-900 hover:bg-slate-100 focus:outline-none transition">
-                    <svg id="nav-open-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                    </svg>
-                    <svg id="nav-close-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                    </svg>
-                </button>
-            </div>
-
         </div>
-    </div>
+    </header>
 
-    <!-- মোবাইল ড্রপডাউন মেনু -->
-    <div id="nav-mobile-dropdown" class="hidden md:hidden border-t border-slate-100 bg-white px-4 pt-3 pb-5 space-y-1 shadow-lg">
-        <a href="/" class="block px-3 py-2 rounded-xl text-sm font-semibold text-slate-700 hover:bg-slate-50">হোম</a>
-        <a href="/#qa" class="block px-3 py-2 rounded-xl text-sm font-semibold text-slate-700 hover:bg-slate-50">প্রশ্নোত্তর হাব</a>
-        <a href="/directory" class="block px-3 py-2 rounded-xl text-sm font-semibold text-slate-700 hover:bg-slate-50">প্রতিষ্ঠান ও স্কুল</a>
-        <a href="/professionals" class="block px-3 py-2 rounded-xl text-sm font-semibold text-slate-700 hover:bg-slate-50">ডাক্তার ও থেরাপিস্ট</a>
-        <a href="/hire" class="block px-3 py-2 rounded-xl text-sm font-semibold text-slate-700 hover:bg-slate-50">হায়ার করুন</a>
-        <a href="/screening" class="block px-3 py-2 rounded-xl text-sm font-semibold text-slate-700 hover:bg-slate-50">স্ক্রিনিং টুল</a>
-        <a href="https://shop.autism.info.bd" target="_blank" rel="noopener noreferrer" class="block px-3 py-2 rounded-xl text-sm font-bold text-indigo-600 bg-indigo-50/70 mt-2">
-            শপ ↗
-        </a>
-    </div>
-</header>
-
-<script>
-    function toggleNavMenu() {
-        const menu = document.getElementById('nav-mobile-dropdown');
-        const openIcon = document.getElementById('nav-open-icon');
-        const closeIcon = document.getElementById('nav-close-icon');
-        menu.classList.toggle('hidden');
-        openIcon.classList.toggle('hidden');
-        closeIcon.classList.toggle('hidden');
-    }
-</script>
-    <!-- Main Container -->
-    <main class="max-w-3xl mx-auto px-4 py-8 flex-grow w-full">
-        
-        <!-- Step 1: Info Screen (Mandatory Form) -->
-        <div id="intro-card" class="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200 mb-8">
-            <h1 class="text-2xl md:text-3xl font-bold text-slate-900 mb-3">M-CHAT-R অটিজম প্রাথমিক স্ক্রিনিং</h1>
-            <p class="text-slate-600 text-sm md:text-base leading-relaxed mb-6">
-                মডিফাইড চেক-লিস্ট ফর অটিজম ইন টডলার্স (M-CHAT-R) ১৬ থেকে ৩০ মাস বয়সী শিশুদের সামাজিক ও যোগাযোগমূলক বিকাশ যাচাইয়ের প্রমিত পদ্ধতি। স্ক্রিনিং শুরু করতে নিচের তথ্যগুলো নির্ভুলভাবে পূরণ করুন।
+    <!-- মূল কন্টেন্ট সেকশন -->
+    <main class="relative z-10 flex-1 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full">
+        <div class="text-center space-y-3 mb-10">
+            <span class="inline-block text-xs font-bold text-blue-800 bg-blue-100/80 px-4 py-1.5 rounded-full border border-blue-200">
+                আন্তর্জাতিক প্রমিত স্ক্রিনিং (১৬-৩০ মাস বয়সী শিশুর জন্য)
+            </span>
+            <h1 class="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
+                M-CHAT-R প্রাথমিক অটিজম স্ক্রিনিং
+            </h1>
+            <p class="text-slate-600 text-xs sm:text-sm leading-relaxed max-w-2xl mx-auto px-2">
+                নিচের ২০টি প্রশ্নের সঠিক উত্তর দিয়ে আপনার শিশুর অটিজম সংক্রান্ত প্রাথমিক ঝুঁকির মাত্রা যাচাই করুন। এটি কোনো চূড়ান্ত ডায়াগনোসিস নয়, বরং প্রাথমিক মূল্যায়নের সহায়িকা।
             </p>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                <div>
-                    <label class="block text-sm font-semibold text-slate-700 mb-1">শিশুর নাম <span class="text-red-500">*</span></label>
-                    <input type="text" id="child-name" placeholder="যেমন: আয়ান" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                </div>
-                <div>
-                    <label class="block text-sm font-semibold text-slate-700 mb-1">শিশুর বয়স (মাসে) <span class="text-red-500">*</span></label>
-                    <input type="number" id="child-age" placeholder="যেমন: ২৪" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                </div>
-                <div>
-                    <label class="block text-sm font-semibold text-slate-700 mb-1">অভিভাবকের মোবাইল নম্বর <span class="text-red-500">*</span></label>
-                    <input type="tel" id="parent-phone" placeholder="01XXXXXXXXX" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                </div>
-            </div>
-
-            <div class="bg-amber-50 border-l-4 border-amber-400 p-4 rounded-r-xl mb-6 text-sm text-amber-800 leading-relaxed">
-                <strong>সতর্কতা:</strong> এটি কোনো আনুষ্ঠানিক ক্লিনিক্যাল ডায়াগনস্টিক রিপোর্ট নয়। এটি কেবল প্রাথমিক ঝুঁকি যাচাইয়ের টুল। যেকোনো সিদ্ধান্তের জন্য নিবন্ধিত বিশেষজ্ঞ চিকিৎসকের শরণাপন্ন হোন।
-            </div>
-
-            <button onclick="startScreening()" class="w-full bg-blue-600 text-white font-semibold py-3.5 px-6 rounded-xl hover:bg-blue-700 transition shadow-sm">
-                স্ক্রিনিং শুরু করুন ➔
-            </button>
         </div>
 
-        <!-- Step 2: Questionnaire Form (Hidden by default) -->
-        <div id="quiz-container" class="hidden">
-            <div class="mb-4 flex items-center justify-between text-sm text-slate-500 bg-white p-4 rounded-xl border border-slate-200">
-                <span class="font-medium text-slate-700">প্রশ্নের উত্তর দিন (মোট ২০টি)</span>
-                <span id="progress-indicator" class="font-semibold text-blue-600">উত্তর দেওয়া হয়েছে: ০/২০</span>
-            </div>
-
-            <form id="screening-form" class="space-y-4">
-                <!-- Questions injected via JS -->
-            </form>
-
-            <button onclick="calculateResult()" id="submit-btn" class="w-full mt-8 bg-blue-600 text-white font-semibold py-3.5 px-6 rounded-xl hover:bg-blue-700 transition shadow-sm flex items-center justify-center">
-                ফলাফল দেখুন
-            </button>
-        </div>
-
-        <!-- Step 3: Result Card & Printable PDF Section (Hidden by default) -->
-        <div id="result-container" class="hidden">
-            <div id="pdf-content" class="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200 mb-6">
-                <div class="border-b border-slate-200 pb-4 mb-6 flex justify-between items-center">
-                    <div>
-                        <h2 class="text-xl font-bold text-blue-600">Autism.info.bd</h2>
-                        <p class="text-xs text-slate-500">M-CHAT-R স্ক্রিনিং সামারি রিপোর্ট</p>
-                    </div>
-                    <div class="text-right text-xs text-slate-500 space-y-0.5">
-                        <p>তারিখ: <span id="report-date"></span></p>
-                        <p>শিশুর নাম: <strong id="report-name" class="text-slate-700"></strong></p>
-                        <p>শিশুর বয়স: <span id="report-age">--</span> মাস</p>
-                    </div>
-                </div>
-
-                <div class="text-center mb-6">
-                    <span class="text-xs uppercase tracking-wider font-semibold text-slate-500">স্ক্রিনিং ফলাফল</span>
-                    <h3 id="result-title" class="text-2xl md:text-3xl font-bold mt-1"></h3>
-                    <p class="text-slate-600 text-sm mt-1">মোট স্কোর: <span id="result-score" class="font-bold text-slate-900"></span> / ২০</p>
-                </div>
-
-                <div id="result-advice-box" class="p-4 rounded-xl text-sm leading-relaxed mb-6">
-                    <!-- Dynamic advice -->
-                </div>
-
-                <div class="text-xs text-slate-500 border-t border-slate-100 pt-3">
-                    <p><strong>ডিসক্লেইমার:</strong> এই ফলাফল শিশুর আনুষ্ঠানিক অটিজম নির্ণয় নির্দেশ করে না। এটি কেবল প্রাথমিক ঝুঁকি পর্যবেক্ষণের সারাংশ, যা বিশেষজ্ঞ চিকিৎসকের সঙ্গে আলোচনার সময় প্রদর্শন করা যেতে পারে।</p>
-                </div>
-            </div>
-
-            <!-- Action Buttons -->
-            <div class="flex flex-col sm:flex-row gap-4">
-                <button onclick="downloadPDF()" class="flex-1 bg-slate-900 text-white font-semibold py-3.5 px-6 rounded-xl hover:bg-slate-800 transition flex items-center justify-center gap-2">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-                    রিপোর্ট ডাউনলোড করুন (PDF)
-                </button>
-                <a href="/directory" class="flex-1 bg-blue-600 text-white font-semibold py-3.5 px-6 rounded-xl hover:bg-blue-700 transition text-center flex items-center justify-center">
-                    নিকটস্থ বিশেষজ্ঞ বা সেন্টার খুঁজুন ➔
-                </a>
-            </div>
+        <!-- স্ক্রিনিং ফর্ম -->
+        <div id="screening-box" class="glass-panel p-6 sm:p-8 rounded-3xl border border-white/90 shadow-xl space-y-8">
             
-            <button onclick="location.reload()" class="w-full mt-4 text-center text-sm text-slate-500 hover:text-slate-800">
-                পুনরায় স্ক্রিনিং করুন
-            </button>
+            <!-- শিশুর প্রাথমিক তথ্য -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pb-6 border-b border-slate-200/80 text-xs">
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">শিশুর নাম (ঐচ্ছিক)</label>
+                    <input type="text" id="child-name" placeholder="নাম লিখুন" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-white/90 focus:outline-blue-500">
+                </div>
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">শিশুর বয়স (মাসে) *</label>
+                    <input type="number" id="child-age" min="16" max="60" required placeholder="উদাঃ ২৪" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-white/90 focus:outline-blue-500 font-bold">
+                </div>
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">অভিভাবকের মোবাইল নম্বর *</label>
+                    <input type="text" id="parent-phone" required placeholder="017xxxxxxxx" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-white/90 focus:outline-blue-500 font-mono">
+                </div>
+            </div>
+
+            <!-- ২০টি প্রশ্নাবলি কন্টেইনার -->
+            <div id="questions-list" class="space-y-5">
+                <!-- জাভাস্ক্রিপ্টের মাধ্যমে প্রশ্নগুলো রেন্ডার হবে -->
+            </div>
+
+            <!-- সাবমিট বাটন -->
+            <div class="pt-6 border-t border-slate-200/80 flex flex-col sm:flex-row justify-between items-center gap-4">
+                <span class="text-xs text-slate-500">সকল প্রশ্নের উত্তর দেওয়া আবশ্যক।</span>
+                <button onclick="calculateAndSubmitScreening()" id="btn-submit-screen" class="w-full sm:w-auto px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl transition shadow-md text-xs cursor-pointer flex items-center justify-center gap-2">
+                    <span>ফলাফল বিশ্লেষণ করুন</span>
+                    <span>➔</span>
+                </button>
+            </div>
         </div>
 
+        <!-- ফলাফল প্রদর্শন কার্ড (Result Card - প্রাথমিক অবস্থায় লুকানো) -->
+        <div id="result-box" class="hidden glass-panel p-6 sm:p-8 rounded-3xl border border-white/90 shadow-2xl space-y-6">
+            <div class="text-center space-y-2">
+                <span id="result-badge" class="inline-block text-xs font-black px-4 py-1.5 rounded-full border"></span>
+                <h2 id="result-title" class="text-2xl font-black text-slate-900 tracking-tight"></h2>
+                <p id="result-score" class="text-xs font-bold text-slate-500"></p>
+            </div>
+
+            <div id="result-desc" class="p-5 rounded-2xl text-xs sm:text-sm leading-relaxed border space-y-2"></div>
+
+            <!-- পরবর্তী করণীয় -->
+            <div class="p-5 bg-white/80 rounded-2xl border border-slate-200 space-y-3">
+                <h4 class="text-xs font-bold text-slate-900 uppercase tracking-wider">পরবর্তী পদক্ষেপ ও সুপারিশ:</h4>
+                <div class="flex flex-wrap gap-3">
+                    <a href="/doctors" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl text-xs transition inline-flex items-center gap-1.5">
+                        <span>শিশু বিশেষজ্ঞ খুঁজুন</span>
+                        <span>👨‍⚕️</span>
+                    </a>
+                    <a href="/therapists" class="px-4 py-2 bg-teal-600 hover:bg-teal-700 text-white font-bold rounded-xl text-xs transition inline-flex items-center gap-1.5">
+                        <span>নিকটস্থ থেরাপিস্ট হাব</span>
+                        <span>🧘‍♂️</span>
+                    </a>
+                    <a href="/directory" class="px-4 py-2 bg-slate-800 hover:bg-slate-900 text-white font-bold rounded-xl text-xs transition inline-flex items-center gap-1.5">
+                        <span>বিশেষায়িত সেন্টার তালিকা</span>
+                        <span>🏫</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="text-center pt-2">
+                <button onclick="resetScreening()" class="text-xs font-bold text-blue-600 hover:underline cursor-pointer">
+                    পুনরায় নতুন স্ক্রিনিং করুন ↺
+                </button>
+            </div>
+        </div>
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-500">
-        <p>© 2026 Autism.info.bd | সার্বিক সহায়তায়: contact@autism.info.bd</p>
+    <!-- ফুটার (মূল ল্যান্ডিং পেজের সাথে ১০০% এক) -->
+    <footer class="relative z-10 glass-panel border-t border-slate-200 pt-12 pb-10 px-4 mt-16 text-slate-600 text-sm">
+        <div class="max-w-2xl mx-auto text-center space-y-3 mb-10">
+            <a href="/" class="inline-flex items-center justify-center gap-3 select-none notranslate" translate="no">
+                <svg width="38" height="38" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" class="shrink-0 drop-shadow-sm">
+                    <path d="M50 10 L53.5 21 L64 21.5 L55.5 28 L59 38 L50 32 L41 38 L44.5 28 L36 21.5 L46.5 21 Z" fill="#F59E0B"/>
+                    <circle cx="50" cy="24" r="2.5" fill="#FDE68A"/>
+                    <path d="M30 76 C20 62 20 44 32 32 C34 38 38 43 45 46 C38 48 32 54 30 76 Z" fill="#0D9488"/>
+                    <path d="M48 64 C43 54 37 46 38 36 C42 41 46 45 50 49 C49 54 49 59 48 64 Z" fill="#14B8A6"/>
+                    <path d="M22 64 C16 52 22 38 27 33 C27 40 30 46 36 50 C30 54 25 58 22 64 Z" fill="#10B981" opacity="0.85"/>
+                    <path d="M70 76 C80 62 80 44 68 32 C66 38 62 43 55 46 C62 48 68 54 70 76 Z" fill="#2563EB"/>
+                    <path d="M52 64 C57 54 63 46 62 36 C58 41 54 45 50 49 C51 54 51 59 52 64 Z" fill="#3B82F6"/>
+                    <path d="M78 64 C84 52 78 38 73 33 C73 40 70 46 64 50 C70 54 75 58 78 64 Z" fill="#60A5FA" opacity="0.85"/>
+                    <path d="M50 78 C46 72 45 62 48 54 C50 56 50 56 52 54 C55 62 54 72 50 78 Z" fill="#0F766E"/>
+                </svg>
+                <div class="text-2xl font-black tracking-tight flex items-baseline">
+                    <span class="text-slate-900">Autism</span>
+                    <span class="text-[#16a34a] font-extrabold ml-0.5">.info</span>
+                    <span class="text-[#dc2626] font-extrabold">.bd</span>
+                </div>
+            </a>
+            <p class="text-slate-500 text-xs sm:text-sm leading-relaxed px-2">
+                বাংলাদেশে অটিজম ও নিউরো-ডেভেলপমেন্টাল বৈচিত্র্যযুক্ত শিশু এবং তাদের পরিবারের জন্য একটি অলাভজনক ও তথ্যভিত্তিক সহায়ক পোর্টাল। সঠিক সময়ে সঠিক বৈজ্ঞানিক দিকনির্দেশনা পৌঁছে দেওয়াই আমাদের লক্ষ্য।
+            </p>
+            <div class="flex items-center justify-center gap-4 text-xs text-slate-500 pt-1">
+                <span>📍 ঢাকা, বাংলাদেশ</span>
+                <span>•</span>
+                <span>✉️ contact@autism.info.bd</span>
+            </div>
+        </div>
+
+        <div class="max-w-6xl mx-auto grid grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mb-10 text-center">
+            <!-- কলাম ১ -->
+            <div class="space-y-3">
+                <h4 class="font-extrabold text-slate-900 text-xs sm:text-sm tracking-wide border-b border-slate-200/80 pb-2 inline-block px-3">
+                    সেবা ও ডিরেক্টরি
+                </h4>
+                <ul class="space-y-2 text-[11px] sm:text-xs">
+                    <li><a href="/directory" class="hover:text-blue-600 transition block">বিশেষ স্কুল ও সেন্টার ডিরেক্টরি</a></li>
+                    <li><a href="/doctors" class="hover:text-blue-600 transition block">চাইল্ড সাইকিয়াট্রিস্ট ও পেডিয়াট্রিকস</a></li>
+                    <li><a href="/therapists" class="hover:text-blue-600 transition block">স্পিচ ও অকুপেশনাল থেরাপিস্ট হাব</a></li>
+                    <li><a href="/educators" class="hover:text-blue-600 transition block">সার্টিফাইড স্পেশাল এডুকেটরস</a></li>
+                    <li><a href="/screening" class="hover:text-blue-600 transition block">M-CHAT-R প্রাথমিক স্ক্রিনিং</a></li>
+                </ul>
+            </div>
+
+            <!-- কলাম ২ -->
+            <div class="space-y-3">
+                <h4 class="font-extrabold text-slate-900 text-xs sm:text-sm tracking-wide border-b border-slate-200/80 pb-2 inline-block px-3">
+                    রিসোর্স ও সহায়তা
+                </h4>
+                <ul class="space-y-2 text-[11px] sm:text-xs">
+                    <li><a href="/research" class="hover:text-blue-600 transition block">বৈজ্ঞানিক গবেষণা ও কেস স্টাডি</a></li>
+                    <li><a href="/articles" class="hover:text-blue-600 transition block">অভিভাবক গাইডলাইন ও প্রবন্ধ</a></li>
+                    <li><a href="/qa" class="hover:text-blue-600 transition block">সাধারণ প্রশ্নোত্তর ও পরামর্শ</a></li>
+                    <li><a href="https://shop.autism.info.bd" target="_blank" rel="noopener noreferrer" class="hover:text-blue-600 transition block">সেন্সরি ও থেরাপিউটিক মেটেরিয়াল শপ ↗</a></li>
+                    <li><a href="/contact" class="hover:text-blue-600 transition block">সরাসরি যোগাযোগ ও মতামত</a></li>
+                </ul>
+            </div>
+
+            <!-- কলাম ৩ -->
+            <div class="col-span-2 lg:col-span-1 space-y-3 max-w-md mx-auto w-full">
+                <h4 class="font-extrabold text-slate-900 text-xs sm:text-sm tracking-wide border-b border-slate-200/80 pb-2 inline-block px-3">
+                    জরুরি নোটিশ ও পরামর্শ
+                </h4>
+                <div class="bg-amber-50/70 border border-amber-200/70 rounded-2xl p-4 text-[11px] sm:text-xs text-amber-900 leading-relaxed text-center">
+                    <p class="font-bold mb-1">⚠️ চিকিৎসা সংক্রান্ত সতর্কতা:</p>
+                    <p>
+                        এই পোর্টালে প্রকাশিত কোনো তথ্য বা স্ক্রিনিং ফলাফল ক্লিনিক্যাল ডায়াগনস্টিক রিপোর্ট নয়। চূড়ান্ত যাচাই ও থেরাপিউটিক ইন্টারভেনশনের জন্য সরাসরি অভিজ্ঞ নিউরোলজিস্ট বা শিশু বিকাশ বিশেষজ্ঞের শরণাপন্ন হোন।
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="max-w-6xl mx-auto border-t border-slate-200/80 pt-6 flex flex-col sm:flex-row justify-between items-center gap-3 text-[11px] sm:text-xs text-slate-500 text-center">
+            <p>© 2026 Autism.info.bd. সর্বস্বত্ব সংরক্ষিত।</p>
+            <div class="flex items-center justify-center gap-5">
+                <a href="/privacy" class="hover:text-slate-800 transition">গোপনীয়তা নীতি</a>
+                <a href="/terms" class="hover:text-slate-800 transition">শর্তাবলী</a>
+                <a href="/contact" class="hover:text-slate-800 transition">যোগাযোগ</a>
+            </div>
+        </div>
     </footer>
 
+    <!-- স্ক্রিপ্টসমূহ -->
     <script>
-        // Supabase Credentials
-        const SUPABASE_URL = 'YOUR_SUPABASE_PROJECT_URL';
-        const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        function toggleNavMenu() {
+            const menu = document.getElementById('nav-mobile-dropdown');
+            const openIcon = document.getElementById('nav-open-icon');
+            const closeIcon = document.getElementById('nav-close-icon');
+            menu.classList.toggle('hidden');
+            openIcon.classList.toggle('hidden');
+            closeIcon.classList.toggle('hidden');
+        }
 
-        // M-CHAT-R 20 Questions
-        const questions = [
-            { id: 1, text: "আপনি যদি ঘরের কোনো জিনিসের দিকে আঙুল তোলেন, আপনার সন্তান কি সেটির দিকে তাকায়? (যেমন: কোনো খেলনা বা প্রাণীর দিকে)", atRisk: "no" },
-            { id: 2, text: "আপনার কি কখনো মনে হয়েছে আপনার সন্তান শুনতে পায় না বা কানে কম শোনে?", atRisk: "yes" },
-            { id: 3, text: "আপনার সন্তান কি কোনো কিছু নিয়ে ভান করে খেলে? (যেমন: খালি কাপ থেকে চা খাওয়ার ভান করা, পুতুলকে খাওয়ানো)", atRisk: "no" },
-            { id: 4, text: "আপনার সন্তান কি বিভিন্ন জিনিসের উপর উঠতে বা চড়তে পছন্দ করে? (যেমন: আসবাবপত্র, সিঁড়ি বা খেলার কাঠামো)", atRisk: "no" },
-            { id: 5, text: "আপনার সন্তান কি তার চোখের সামনে আঙুল অদ্ভুতভাবে নাড়ায় বা চোখের কাছে হাত নিয়ে অদ্ভুত খেলা করে?", atRisk: "yes" },
-            { id: 6, text: "আপনার সন্তান কি কোনো কিছু চাওয়ার জন্য বা সাহায্য পাওয়ার জন্য আঙুল দিয়ে নির্দেশ করে? (যেমন: নাগালে না থাকা খাবারের দিকে)", atRisk: "no" },
-            { id: 7, text: "আপনার সন্তান কি আগ্রহ প্রকাশ করার জন্য কোনো কিছু নির্দেশ করে দেখায়? (যেমন: আকাশে প্লেন বা রাস্তায় গাড়ি দেখলে আঙুল তুলে দেখানো)", atRisk: "no" },
-            { id: 8, text: "আপনার সন্তান কি অন্য শিশুদের প্রতি আগ্রহ দেখায়? (যেমন: অন্য শিশুদের দিকে তাকানো, তাদের কাছে যাওয়া)", atRisk: "no" },
-            { id: 9, text: "আপনার সন্তান কি আপনাকে কোনো জিনিস এনে দেখায় শুধুমাত্র শেয়ার করার জন্য? (কোনো সাহায্যের জন্য নয়, যেমন: কুড়িয়ে পাওয়া ফুল এনে দেখানো)", atRisk: "no" },
-            { id: 10, text: "আপনি যখন তার নাম ধরে ডাকেন, সে কি আপনার দিকে তাকায় বা প্রতিক্রিয়া দেখায়?", atRisk: "no" },
-            { id: 11, text: "আপনি যখন তার দিকে তাকিয়ে হাসেন, সে কি পাল্টা হাসে?", atRisk: "no" },
-            { id: 12, text: "আপনার সন্তান কি প্রতিদিনের সাধারণ শব্দে অতিরিক্ত বিরক্ত বা আতঙ্কিত হয়? (যেমন: ব্লেন্ডার বা ভ্যাকুয়াম ক্লিনারের আওয়াজে কান চেপে ধরা)", atRisk: "yes" },
-            { id: 13, text: "আপনার সন্তান কি হাঁটতে পারে?", atRisk: "no" },
-            { id: 14, text: "আপনি যখন তার সাথে কথা বলেন বা খেলা করেন, সে কি আপনার চোখের দিকে সরাসরি তাকায় (আই কন্টাক্ট)?", atRisk: "no" },
-            { id: 15, text: "আপনার সন্তান কি আপনার কাজের অনুকরণ করার চেষ্টা করে? (যেমন: হাত নাড়িয়ে বিদায় জানানো, হাততালি দেওয়া)", atRisk: "no" },
-            { id: 16, text: "আপনি কোনো দিকে তাকালে আপনার সন্তান কি দেখার চেষ্টা করে আপনি কোন দিকে তাকাচ্ছেন?", atRisk: "no" },
-            { id: 17, text: "আপনার সন্তান কি আপনার দৃষ্টি আকর্ষণ করার চেষ্টা করে? (যেমন: সে কোনো কাজ করার সময় আপনাকে দেখতে বলা)", atRisk: "no" },
-            { id: 18, text: "আপনি যখন তাকে কিছু করতে বলেন, সে কি অঙ্গভঙ্গি ছাড়া শুধু কথায় তা বুঝতে পারে? (যেমন: 'বইটা দাও' বললে দেওয়া)", atRisk: "no" },
-            { id: 19, text: "নতুন কোনো পরিস্থিতি তৈরি হলে আপনার সন্তান কি আপনার মুখের দিকে তাকায় বোঝার জন্য যে আপনি কেমন প্রতিক্রিয়া দেখাচ্ছেন?", atRisk: "no" },
-            { id: 20, text: "আপনার সন্তান কি গতিময় খেলার আনন্দ উপভোগ করে? (যেমন: দোল খাওয়া বা কোলে নিয়ে নাচানো)", atRisk: "no" }
+        // পাতা ঝরার ফুল-পেইজ অ্যানিমেশন
+        const leafCanvas = document.getElementById('fallingLeavesCanvas');
+        const leafCtx = leafCanvas.getContext('2d');
+
+        let leafWidth = leafCanvas.width = window.innerWidth;
+        let leafHeight = leafCanvas.height = window.innerHeight;
+
+        window.addEventListener('resize', () => {
+            leafWidth = leafCanvas.width = window.innerWidth;
+            leafHeight = leafCanvas.height = window.innerHeight;
+            generateLeaves();
+        });
+
+        const leafColors = [
+            'rgba(34, 197, 94, 0.40)',
+            'rgba(16, 185, 129, 0.35)',
+            'rgba(245, 158, 11, 0.35)',
+            'rgba(59, 130, 246, 0.30)'
         ];
 
-        function startScreening() {
-            const name = document.getElementById('child-name').value.trim();
-            const age = document.getElementById('child-age').value.trim();
-            const phone = document.getElementById('parent-phone').value.trim();
+        let leafArray = [];
+        const totalLeaves = 32;
 
-            if (!name) {
-                alert("অনুগ্রহ করে শিশুর নাম লিখুন।");
-                document.getElementById('child-name').focus();
-                return;
-            }
-            if (!age || age <= 0) {
-                alert("অনুগ্রহ করে শিশুর সঠিক বয়স (মাসে) লিখুন।");
-                document.getElementById('child-age').focus();
-                return;
-            }
-            if (!phone || phone.length < 11) {
-                alert("অনুগ্রহ করে অভিভাবকের সঠিক ১১ ডিজিটের মোবাইল নম্বর প্রদান করুন।");
-                document.getElementById('parent-phone').focus();
-                return;
+        class FallingLeaf {
+            constructor() {
+                this.reset(true);
             }
 
-            document.getElementById('intro-card').classList.add('hidden');
-            const quizContainer = document.getElementById('quiz-container');
-            const form = document.getElementById('screening-form');
-            quizContainer.classList.remove('hidden');
+            reset(isInitial = false) {
+                this.x = Math.random() * leafWidth;
+                this.y = isInitial ? Math.random() * leafHeight : -30;
+                this.size = Math.random() * 10 + 12;
+                this.speedY = Math.random() * 0.9 + 0.5;
+                this.speedX = (Math.random() - 0.5) * 0.7;
+                this.angle = Math.random() * Math.PI * 2;
+                this.angularSpeed = (Math.random() - 0.5) * 0.025;
+                this.color = leafColors[Math.floor(Math.random() * leafColors.length)];
+                this.swingSpeed = Math.random() * 0.02 + 0.01;
+                this.swingDistance = Math.random() * 2 + 1;
+            }
 
-            form.innerHTML = questions.map((q, index) => `
-                <div class="bg-white p-5 rounded-2xl border border-slate-200">
-                    <p class="font-medium text-slate-800 text-sm md:text-base mb-3 leading-snug">
-                        <span class="text-blue-600 font-bold mr-1">${index + 1}.</span> ${q.text}
+            update() {
+                this.y += this.speedY;
+                this.x += Math.sin(this.y * this.swingSpeed) * this.swingDistance + this.speedX;
+                this.angle += this.angularSpeed;
+
+                if (this.y > leafHeight + 40 || this.x < -40 || this.x > leafWidth + 40) {
+                    this.reset(false);
+                }
+            }
+
+            draw() {
+                leafCtx.save();
+                leafCtx.translate(this.x, this.y);
+                leafCtx.rotate(this.angle);
+                leafCtx.fillStyle = this.color;
+
+                leafCtx.beginPath();
+                leafCtx.moveTo(0, -this.size);
+                leafCtx.quadraticCurveTo(this.size * 0.75, -this.size * 0.3, 0, this.size);
+                leafCtx.quadraticCurveTo(-this.size * 0.75, -this.size * 0.3, 0, -this.size);
+                leafCtx.closePath();
+                leafCtx.fill();
+
+                leafCtx.strokeStyle = 'rgba(255, 255, 255, 0.35)';
+                leafCtx.lineWidth = 1;
+                leafCtx.beginPath();
+                leafCtx.moveTo(0, -this.size * 0.8);
+                leafCtx.lineTo(0, this.size * 0.8);
+                leafCtx.stroke();
+
+                leafCtx.restore();
+            }
+        }
+
+        function generateLeaves() {
+            leafArray = [];
+            for (let i = 0; i < totalLeaves; i++) {
+                leafArray.push(new FallingLeaf());
+            }
+        }
+
+        function renderLeaves() {
+            leafCtx.clearRect(0, 0, leafWidth, leafHeight);
+            for (let i = 0; i < leafArray.length; i++) {
+                leafArray[i].update();
+                leafArray[i].draw();
+            }
+            requestAnimationFrame(renderLeaves);
+        }
+
+        generateLeaves();
+        renderLeaves();
+    </script>
+
+    <!-- গুগল অনুবাদ স্ক্রিপ্ট -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'bn',
+                includedLanguages: 'en,bn',
+                autoDisplay: false
+            }, 'google_translate_element');
+        }
+
+        function toggleSiteLanguage() {
+            const langLabel = document.getElementById('currentLangLabel');
+            const select = document.querySelector('.goog-te-combo');
+            
+            if (langLabel.innerText.trim() === 'English') {
+                if (!select) {
+                    alert('অনুবাদ ইঞ্জিন প্রস্তুত হচ্ছে, অনুগ্রহ করে ১ সেকেন্ড পর আবার চেষ্টা করুন।');
+                    return;
+                }
+                select.value = 'en';
+                select.dispatchEvent(new Event('change'));
+                langLabel.innerText = 'বাংলা';
+            } else {
+                document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=" + location.hostname + ";";
+                location.reload();
+            }
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <!-- M-CHAT-R স্ক্রিনিং ইঞ্জিন ও সুপাবেস কানেকশন -->
+    <script>
+        const SUPABASE_URL = 'https://nemgvzmhyidnbdxwqrvi.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_PrhWBDkEc7WyIL25SF66uQ_8DGUUhJ_';
+        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // M-CHAT-R বৈজ্ঞানিক ২০টি প্রশ্ন ও স্কোরিং নিয়মাবলী (হ্যাঁ=০, না=১; ২, ৫ ও ১২ নং প্রশ্নে হ্যাঁ=১, না=০)
+        const questionsData = [
+            { id: 1, text: "আপনি ঘরের কোনো জিনিসের দিকে আঙুল দিয়ে নির্দেশ করলে আপনার শিশু কি সেদিকে তাকায়?", reverse: false },
+            { id: 2, text: "আপনার কি কখনো মনে হয়েছে আপনার শিশু বধির বা কানে কম শোনে?", reverse: true },
+            { id: 3, text: "আপনার শিশু কি কাল্পনিক খেলা (যেমন: পুতুলকে খাওয়ানো, খেলনা ফোনে কথা বলা) খেলে?", reverse: false },
+            { id: 4, text: "আপনার শিশু কি কোনো উঁচু জায়গায় (যেমন: চেয়ার, আসবাবপত্র) উঠতে ভালোবাসে?", reverse: false },
+            { id: 5, text: "আপনার শিশু কি চোখের সামনে আঙুল নিয়ে অস্বাভাবিক অঙ্গভঙ্গি করে?", reverse: true },
+            { id: 6, text: "আপনার শিশু কি কোনো কিছু চাইতে বা সাহায্য নিতে আপনার দিকে আঙুল নির্দেশ করে?", reverse: false },
+            { id: 7, text: "আপনার শিশু কি কোনো আকর্ষণীয় জিনিস দেখে আপনাকে দেখানোর জন্য আঙুল দিয়ে নির্দেশ করে?", reverse: false },
+            { id: 8, text: "আপনার শিশু কি অন্যান্য শিশুদের প্রতি আগ্রহী বা তাদের সাথে খেলতে চায়?", reverse: false },
+            { id: 9, text: "আপনার শিশু কি কোনো খেলনা বা আকর্ষণীয় বস্তু নিজে এনে আপনাকে দেখায়?", reverse: false },
+            { id: 10, text: "নাম ধরে ডাকলে আপনার শিশু কি আপনার দিকে তাকায় বা সাড়া দেয়?", reverse: false },
+            { id: 11, text: "আপনি যখন তার দিকে তাকিয়ে হাসেন, সে-ও কি হাসিমুখে সাড়া দেয়?", reverse: false },
+            { id: 12, text: "দৈনন্দিন সাধারণ শব্দে (যেমন: ব্লেন্ডার, ভ্যাকুয়াম) কি শিশু অতিরিক্ত আতঙ্কিত হয় বা কানে হাত দেয়?", reverse: true },
+            { id: 13, text: "আপনার শিশু কি নিজে নিজে হাঁটতে পারে?", reverse: false },
+            { id: 14, text: "কথা বলার সময় বা খেলা করার সময় শিশু কি আপনার চোখের দিকে সরাসরি তাকায় (Eye contact)?", reverse: false },
+            { id: 15, text: "আপনার শিশু কি আপনার অঙ্গভঙ্গি অনুকরণ করতে চেষ্টা করে (যেমন: বাই-বাই করা)?", reverse: false },
+            { id: 16, text: "আপনি অন্য কোনো দিকে তাকালে শিশু কি বোঝার চেষ্টা করে আপনি কী দেখছেন?", reverse: false },
+            { id: 17, text: "আপনার শিশু কি আপনার দৃষ্টি আকর্ষণ করার চেষ্টা করে (যেমন: 'দেখো' বলে বা হাত ধরে)?", reverse: false },
+            { id: 18, text: "আপনি নির্দেশ দিলে (যেমন: 'জুতা আনো') সে কি কথা না বললেও বুঝতে পারে?", reverse: false },
+            { id: 19, text: "নতুন কোনো শব্দ বা ঘটনার মুখোমুখি হলে সে কি আপনার প্রতিক্রিয়া দেখার জন্য আপনার দিকে তাকায়?", reverse: false },
+            { id: 20, text: "আপনার শিশু কি দোল খাওয়া বা গতিশীল নড়াচড়া উপভোগ করে?", reverse: false }
+        ];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderScreeningQuestions();
+        });
+
+        function renderScreeningQuestions() {
+            const container = document.getElementById('questions-list');
+            container.innerHTML = questionsData.map((q, idx) => `
+                <div class="p-4 rounded-2xl bg-white/70 border border-white/80 space-y-3">
+                    <p class="text-xs sm:text-sm font-bold text-slate-800">
+                        <span class="text-blue-600 font-black">${idx + 1}.</span> ${q.text}
                     </p>
-                    <div class="flex gap-6">
-                        <label class="flex items-center gap-2 text-sm cursor-pointer font-medium text-slate-700">
-                            <input type="radio" name="q${q.id}" value="yes" onchange="updateProgress()" class="w-4 h-4 text-blue-600 focus:ring-blue-500">
+                    <div class="flex items-center gap-6 text-xs font-semibold">
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="radio" name="q_${q.id}" value="yes" class="w-4 h-4 text-blue-600 focus:ring-blue-500">
                             <span>হ্যাঁ</span>
                         </label>
-                        <label class="flex items-center gap-2 text-sm cursor-pointer font-medium text-slate-700">
-                            <input type="radio" name="q${q.id}" value="no" onchange="updateProgress()" class="w-4 h-4 text-blue-600 focus:ring-blue-500">
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="radio" name="q_${q.id}" value="no" class="w-4 h-4 text-blue-600 focus:ring-blue-500">
                             <span>না</span>
                         </label>
                     </div>
                 </div>
             `).join('');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        function updateProgress() {
-            const answeredCount = questions.filter(q => document.querySelector(`input[name="q${q.id}"]:checked`)).length;
-            document.getElementById('progress-indicator').innerText = `উত্তর দেওয়া হয়েছে: ${answeredCount}/২০`;
-        }
+        async function calculateAndSubmitScreening() {
+            const childAge = document.getElementById('child-age').value;
+            const parentPhone = document.getElementById('parent-phone').value;
+            const childName = document.getElementById('child-name').value || 'নাম প্রকাশে অনিচ্ছুক';
 
-        async function calculateResult() {
-            let answeredCount = 0;
-            let score = 0;
-
-            questions.forEach(q => {
-                const selected = document.querySelector(`input[name="q${q.id}"]:checked`);
-                if (selected) {
-                    answeredCount++;
-                    if (selected.value === q.atRisk) {
-                        score++;
-                    }
-                }
-            });
-
-            if (answeredCount < questions.length) {
-                alert(`অনুগ্রহ করে সব প্রশ্নের উত্তর দিন। এখনো ${questions.length - answeredCount} টি প্রশ্ন বাকি আছে।`);
+            if (!childAge || !parentPhone) {
+                alert('অনুগ্রহ করে শিশুর বয়স এবং আপনার মোবাইল নম্বরটি প্রদান করুন।');
                 return;
             }
 
-            const submitBtn = document.getElementById('submit-btn');
-            submitBtn.innerText = "সংরক্ষণ ও ফলাফল লোড হচ্ছে...";
-            submitBtn.disabled = true;
+            let score = 0;
+            let answersObj = {};
+            let unanswered = false;
 
-            const childName = document.getElementById('child-name').value.trim();
-            const childAge = document.getElementById('child-age').value.trim();
-            const parentPhone = document.getElementById('parent-phone').value.trim();
+            questionsData.forEach(q => {
+                const selected = document.querySelector(`input[name="q_${q.id}"]:checked`);
+                if (!selected) {
+                    unanswered = true;
+                    return;
+                }
+                const val = selected.value;
+                answersObj[q.id] = val;
 
-            let riskLevel = "";
-            let riskTitle = "";
-            let riskClass = "";
-            let adviceHtml = "";
-            let adviceClass = "";
+                if (q.reverse) {
+                    if (val === 'yes') score += 1;
+                } else {
+                    if (val === 'no') score += 1;
+                }
+            });
+
+            if (unanswered) {
+                alert('অনুগ্রহ করে প্রতিটি (২০টি) প্রশ্নের উত্তর দিন।');
+                return;
+            }
+
+            const btn = document.getElementById('btn-submit-screen');
+            btn.innerText = 'বিশ্লেষণ ও সংরক্ষণ হচ্ছে...';
+            btn.disabled = true;
+
+            let riskLevel = '';
+            let badgeClass = '';
+            let title = '';
+            let descHtml = '';
 
             if (score <= 2) {
-                riskLevel = "Low Risk";
-                riskTitle = "স্বাভাবিক বা কম ঝুঁকি (Low Risk)";
-                riskClass = "text-2xl md:text-3xl font-bold mt-1 text-emerald-600";
-                adviceClass = "p-4 rounded-xl text-sm leading-relaxed mb-6 bg-emerald-50 text-emerald-800 border border-emerald-200";
-                adviceHtml = "<strong>পরামর্শ:</strong> স্ক্রিনিং অনুযায়ী অটিজম লক্ষণের ঝুঁকি কম দেখা যাচ্ছে। শিশুর বয়স ২৪ মাসের নিচে হলে পরবর্তীতে স্বাভাবিক বিকাশ ও মাইলস্টোন পর্যবেক্ষণ অব্যাহত রাখুন।";
+                riskLevel = 'Low Risk (কম ঝুঁকি)';
+                badgeClass = 'bg-teal-50 text-teal-800 border-teal-200';
+                title = 'প্রাথমিক অটিজম ঝুঁকি নেই বললেই চলে';
+                descHtml = `
+                    <p class="text-teal-900 font-bold">স্কোর: ২০ এর মধ্যে ${score}</p>
+                    <p class="text-slate-600">আপনার শিশুর সামাজিক প্রতিক্রিয়া এবং যোগাযোগের বিকাশ স্বাভাবিক রয়েছে। যদি শিশুর বয়স ২৪ মাসের কম হয়, তবে ২৪ মাস পূর্ণ হওয়ার পর পুনরায় স্ক্রিনিং করে নেওয়া ভালো। সাধারণ বিকাশের প্রতি খেয়াল রাখুন।</p>
+                `;
             } else if (score >= 3 && score <= 7) {
-                riskLevel = "Medium Risk";
-                riskTitle = "মাঝারি ঝুঁকি (Medium Risk)";
-                riskClass = "text-2xl md:text-3xl font-bold mt-1 text-amber-600";
-                adviceClass = "p-4 rounded-xl text-sm leading-relaxed mb-6 bg-amber-50 text-amber-800 border border-amber-200";
-                adviceHtml = "<strong>পরামর্শ:</strong> কিছু সামাজিক বা যোগাযোগমূলক আচরণে অসংগতি দেখা যাচ্ছে। অবিলম্বে একজন শিশু বিকাশ বিশেষজ্ঞ (Child Development Specialist) বা থেরাপিস্টের সাথে ফলো-আপ পরামর্শ নেওয়ার সুপারিশ করা হচ্ছে।";
+                riskLevel = 'Medium Risk (মাঝারি ঝুঁকি)';
+                badgeClass = 'bg-amber-50 text-amber-800 border-amber-200';
+                title = 'মাঝারি মাত্রার ঝুঁকি লক্ষ্য করা গেছে';
+                descHtml = `
+                    <p class="text-amber-900 font-bold">স্কোর: ২০ এর মধ্যে ${score}</p>
+                    <p class="text-slate-600">কিছু ক্ষেত্রে স্বাভাবিক যোগাযোগের ঘাটতি রয়েছে। কোনো অবস্থাতেই আতঙ্কিত না হয়ে দ্রুত একজন শিশু বিকাশ বিশেষজ্ঞ বা চাইল্ড সাইকিয়াট্রিস্টকে দিয়ে ফলো-আপ (M-CHAT-R/F ইন্টারভিউ) করানো এবং স্পিচ বা অকুপেশনাল থেরাপির পরামর্শ নেওয়া উচিত।</p>
+                `;
             } else {
-                riskLevel = "High Risk";
-                riskTitle = "উচ্চ ঝুঁকি (High Risk)";
-                riskClass = "text-2xl md:text-3xl font-bold mt-1 text-rose-600";
-                adviceClass = "p-4 rounded-xl text-sm leading-relaxed mb-6 bg-rose-50 text-rose-800 border border-rose-200";
-                adviceHtml = "<strong>পরামর্শ:</strong> উল্লেখযোগ্য মাত্রায় ঝুঁকির লক্ষণ বিদ্যমান। কালক্ষেপণ না করে দ্রুত একজন পেডিয়াট্রিক নিউরোলজিস্ট বা চাইল্ড ডেভেলপমেন্ট সেন্টারে পূর্ণাঙ্গ ক্লিনিক্যাল মূল্যায়নের (Diagnostic Assessment) ব্যবস্থা গ্রহণ করুন।";
+                riskLevel = 'High Risk (উচ্চ ঝুঁকি)';
+                badgeClass = 'bg-red-50 text-red-800 border-red-200';
+                title = 'উচ্চ মাত্রার ঝুঁকি চিহ্নিত হয়েছে';
+                descHtml = `
+                    <p class="text-red-900 font-bold">স্কোর: ২০ এর মধ্যে ${score}</p>
+                    <p class="text-slate-600">দেরি না করে অতি দ্রুত একজন অভিজ্ঞ শিশু নিউরোলজিস্ট বা বিশেষায়িত শিশু বিকাশ কেন্দ্রে যোগাযোগ করা প্রয়োজন। মনে রাখবেন, আর্লি ইন্টারভেনশন (দ্রুত সঠিক থেরাপিউটিক সেবা শুরু করা) শিশুর ভবিষ্যৎ বিকাশের জন্য অত্যন্ত কার্যকর ভূমিকা রাখে।</p>
+                `;
             }
 
-            // Supabase-এ সংরক্ষণ
+            // সুপাবেসে রেজাল্ট সংরক্ষণ
             try {
-                await supabase.from('screening_submissions').insert([
-                    {
-                        child_name: childName,
-                        child_age: childAge,
-                        phone: parentPhone,
-                        score: score,
-                        risk_level: riskLevel
-                    }
-                ]);
+                await _supabase.from('screening_results').insert([{
+                    child_name: childName,
+                    child_age_months: parseInt(childAge),
+                    parent_phone: parentPhone,
+                    total_score: score,
+                    risk_level: riskLevel,
+                    answers: answersObj
+                }]);
             } catch (err) {
-                console.error("Supabase Save Error:", err);
+                console.error('Error saving screening data:', err);
             }
 
-            // রেজাল্ট দেখানো
-            document.getElementById('quiz-container').classList.add('hidden');
-            const resultContainer = document.getElementById('result-container');
-            resultContainer.classList.remove('hidden');
+            btn.innerText = 'ফলাফল বিশ্লেষণ করুন ➔';
+            btn.disabled = false;
 
-            document.getElementById('report-name').innerText = childName;
-            document.getElementById('report-age').innerText = childAge;
-            document.getElementById('report-date').innerText = new Date().toLocaleDateString('bn-BD');
-            document.getElementById('result-score').innerText = score;
+            // ফলাফল পেজে প্রদর্শন
+            document.getElementById('screening-box').classList.add('hidden');
+            const resultBox = document.getElementById('result-box');
+            resultBox.classList.remove('hidden');
 
-            const title = document.getElementById('result-title');
-            const adviceBox = document.getElementById('result-advice-box');
-            title.innerText = riskTitle;
-            title.className = riskClass;
-            adviceBox.className = adviceClass;
-            adviceBox.innerHTML = adviceHtml;
+            const badge = document.getElementById('result-badge');
+            badge.className = `inline-block text-xs font-black px-4 py-1.5 rounded-full border ${badgeClass}`;
+            badge.innerText = riskLevel;
+
+            document.getElementById('result-title').innerText = title;
+            document.getElementById('result-score').innerText = `শিশুর বয়স: ${childAge} মাস | অভিভাবক মোবাইল: ${parentPhone}`;
+            document.getElementById('result-desc').innerHTML = descHtml;
 
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        function downloadPDF() {
-            const element = document.getElementById('pdf-content');
-            const childName = document.getElementById('child-name').value.trim() || 'Child';
-            const opt = {
-                margin:       10,
-                filename:     `M-CHAT_Report_${childName}.pdf`,
-                image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { scale: 2 },
-                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
-            };
-            html2pdf().set(opt).from(element).save();
+        function resetScreening() {
+            document.getElementById('child-name').value = '';
+            document.getElementById('child-age').value = '';
+            document.getElementById('parent-phone').value = '';
+            document.querySelectorAll('input[type="radio"]').forEach(r => r.checked = false);
+            document.getElementById('result-box').classList.add('hidden');
+            document.getElementById('screening-box').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     </script>
 </body>
