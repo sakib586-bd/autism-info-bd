@@ -5,10 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>বিশেষ শিক্ষাবিদ ও এডুকেটর ডিরেক্টরি | Autism.info.bd</title>
 
+    <!-- ফ্লিকারিং বন্ধ করতে সিএসএস ও ফন্ট শুরুতেই লোড -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.maateen.me/solaiman-lipi/font.css" rel="stylesheet">
+
+    <!-- গ্লোবাল লেআউট ফাইল (হেডেই লোড হবে) -->
+    <script src="layout.js" defer></script>
+
     <!-- Supabase JS Client CDN -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
-<body>
+<body class="bg-[#f8fafc] text-slate-800 flex flex-col min-h-screen relative overflow-x-hidden">
 
     <!-- এডুকেটর পেজের মূল কনটেন্ট এরিয়া -->
     <main class="relative z-10 flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full">
@@ -162,8 +169,5 @@
             renderEducators(filtered);
         }
     </script>
-
-    <!-- আপনার গ্লোবাল লেআউট ফাইল (হেডার, ফুটার, অ্যানিমেশন অটো লোড করবে) -->
-    <script src="layout.js"></script>
 </body>
 </html>
